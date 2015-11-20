@@ -1,14 +1,22 @@
+/*
+ * Copyright (c) 2015. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
+ *
+ *
+ */
+
 package haw_dating.haw_landshut.de.sealedbottle;
 
-import java.text.CharacterIterator;
-import java.text.Normalizer;
-import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 
 /**
- * Created by Georg on 20.11.2015.
+ * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
+ * Supervising professor: Prof. Andreas Siebert, Ph.D
+ * <p/>
+ * 11/20/15 by s-gheldd
  */
-public class BottledProfile {
+
+public class Bottle {
+    private final Bottlable bottlable;
 
     private final ArrayList<String> necessaryAttributes = new ArrayList<>();
     private final ArrayList<char[]> hashedNecessaryAttributes = new ArrayList<>();
@@ -23,25 +31,29 @@ public class BottledProfile {
     private int recievedNeccessaryAttributes = 0;
     private int recievedOptionalAttributes = 0;
 
-    BottledProfile(int numberOfNecessaryAttributes, int numberOfOptionalAttributes, int similarilyThreshold) throws IllegalArgumentException {
-        if (numberOfOptionalAttributes <= similarilyThreshold)
-            throw new IllegalArgumentException("numberOfOptionalAttributes = "
-                    + numberOfOptionalAttributes + ", needs to be at least: " + (similarilyThreshold + 1));
-        else {
-            this.similarilyThreshold = similarilyThreshold;
+
+    Bottle(Bottlable bottlable) {
+        final int numberOfNecessaryAttributes, numberOfOptionalAttributes, similarityThreshold;
+
+        numberOfNecessaryAttributes = bottlable.getNumberOfNecessaryAttributes();
+        numberOfOptionalAttributes = bottlable.getNumberOfOptionalAttributes();
+        similarityThreshold = bottlable.getSimilarityThreshold();
+
+        this.bottlable = bottlable;
+
+        if (similarityThreshold >= numberOfOptionalAttributes) {
+            throw new IllegalArgumentException("getNumberOfOptionalAttributes() returned: " + numberOfOptionalAttributes
+                    + ", must be at least: " + (similarityThreshold + 1));
+        } else {
             this.numberOfNecessaryAttributes = numberOfNecessaryAttributes;
             this.numberOfOptionalAttributes = numberOfOptionalAttributes;
+            this.similarilyThreshold = similarityThreshold;
         }
     }
 
-    public boolean addNecessaryAttribute(String attribute) {
-        if (recievedNeccessaryAttributes < numberOfNecessaryAttributes) {
-        }
-        return true;
-    }
 
 
-    private String normaliseString(String input) {
+/*    private String normaliseString(String input) {
         StringCharacterIterator iterator = new StringCharacterIterator(input);
         StringBuilder builder = new StringBuilder();
         for (char c = iterator.first(); c != CharacterIterator.DONE; c = iterator.next()) {
@@ -82,10 +94,9 @@ public class BottledProfile {
                     default:
                         continue;
                 }
-                continue;
             } else if (Character.isLetter(c));
         }
         return null;
-    }
+    }*/
 
 }
