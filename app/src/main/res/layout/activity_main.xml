@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Create by Daniel -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    tools:context=".MainActivity"
+    >
+
+    <TextView
+        android:paddingTop="20dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/welcome"
+        android:text="@string/welcome"
+        android:textSize="50dp"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+
+        />
+
+    <ImageView
+        android:paddingTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/logo"
+        android:src="@drawable/logo2"
+
+        />
+
+    <TextView
+        android:paddingTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/find_your_love"
+        android:text="Find your Love!"
+        android:textSize="50dp"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+        />
+
+</LinearLayout>
