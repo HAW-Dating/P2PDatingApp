@@ -1,7 +1,3 @@
 <component name="CopyrightManager">
-  <settings default="FH-Tinder">
-    <module2copyright>
-      <element module="All" copyright="FH-Tinder" />
-    </module2copyright>
-  </settings>
+  <settings default="" />
 </component>
