@@ -16,7 +16,7 @@ import java.text.StringCharacterIterator;
  * <p/>
  * 12/15/15 by s-gheldd
  */
-public class StringNormalizer {
+public class BottleUtil {
 
     public static String normalize(String input) {
         final StringCharacterIterator iterator = new StringCharacterIterator(Normalizer.normalize(input, Normalizer.Form.NFKC));
@@ -70,4 +70,27 @@ public class StringNormalizer {
         return builder.toString();
     }
 
+    public static byte calculateReminderSeven(final byte[] hash) {
+        byte erg = 0;
+        //System.out.println(Arrays.toString(hash) + ":");
+        for (int i = 1; hash.length - i >= 0; i++) {
+            final int remainder;
+            switch (i % 3) {
+                case 1:
+                    remainder = 1;
+                    break;
+                case 2:
+                    remainder = 4;
+                    break;
+                case 0:
+                    remainder = 2;
+                    break;
+                default:
+                    remainder = 0;
+            }
+            erg = (byte)(((hash[hash.length - i] & 0xFF) * remainder + erg) % 7);
+            //System.out.println(erg);
+        }
+        return erg;
+    }
 }

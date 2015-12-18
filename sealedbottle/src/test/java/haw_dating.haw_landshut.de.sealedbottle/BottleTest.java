@@ -6,8 +6,6 @@
 
 package haw_dating.haw_landshut.de.sealedbottle;
 
-import android.support.annotation.NonNull;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,54 +66,5 @@ public class BottleTest {
         assertEquals("d3751d33f9cd5049c4af2b462735457e4d3baf130bcbb87f389e349fbaeb20b9", builder.toString());
     }
 
-    @Test
-    public void calculateRemainderTest() throws Exception {
-        this.bottle = new Bottle(this.bottlable);
-        this.bottle.fill();
-        this.bottle.seal();
-        Field necessaryHash = this.bottle.getClass().getDeclaredField("hashedNecessaryAttributes");
-        necessaryHash.setAccessible(true);
-        byte[] bytes = ((ArrayList<byte[]>) necessaryHash.get(this.bottle)).get(0);
 
-        assertEquals(1, Bottle.calculateReminderSeven(new byte[]{1}));
-        //129
-        assertEquals(3, Bottle.calculateReminderSeven(new byte[]{-127}));
-        //1 * 256 + 0
-        assertEquals(4, Bottle.calculateReminderSeven(new byte[]{1, 0}));
-        //255 * 256^2 + 18 * 256 + 5
-        assertEquals(6, Bottle.calculateReminderSeven(new byte[]{-1, 18, 5}));
-        // 0xd3751d33f9cd5049c4af2b462735457e4d3baf130bcbb87f389e349fbaeb20b9 mod 7 == 5
-        assertEquals(5, Bottle.calculateReminderSeven(bytes));
-    }
-
-
-    private class BottlableTest implements Bottlable {
-
-        @Override
-        public int getNumberOfNecessaryAttributes() {
-            return 1;
-        }
-
-        @Override
-        public int getNumberOfOptionalAttributes() {
-            return 1;
-        }
-
-        @Override
-        public int getSimilarityThreshold() {
-            return 1;
-        }
-
-        @NonNull
-        @Override
-        public String getNecessaryAttribute() {
-            return "hallo";
-        }
-
-        @NonNull
-        @Override
-        public String getOptionalAttribute() {
-            return "hallo";
-        }
-    }
 }

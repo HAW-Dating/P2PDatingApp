@@ -27,8 +27,8 @@ public class Bottle {
     private final ArrayList<String> optionalAttributes = new ArrayList<>();
     private final ArrayList<byte[]> hashedOptionalAttributes = new ArrayList<>();
 
-    private final int[] reminderVectorNecessary;
-    private final int[] reminderVectorOptional;
+    private final byte[] reminderVectorNecessary;
+    private final byte[] reminderVectorOptional;
 
     private final int similarilyThreshold;
     private final int numberOfNecessaryAttributes;
@@ -69,8 +69,8 @@ public class Bottle {
             this.numberOfNecessaryAttributes = numberOfNecessaryAttributes;
             this.numberOfOptionalAttributes = numberOfOptionalAttributes;
             this.similarilyThreshold = similarityThreshold;
-            this.reminderVectorNecessary = new int[numberOfNecessaryAttributes];
-            this.reminderVectorOptional = new int[numberOfOptionalAttributes];
+            this.reminderVectorNecessary = new byte[numberOfNecessaryAttributes];
+            this.reminderVectorOptional = new byte[numberOfOptionalAttributes];
         }
 
     }
@@ -82,12 +82,12 @@ public class Bottle {
         if (!filled) {
             for (recievedNeccessaryAttributes = 0; recievedNeccessaryAttributes < numberOfNecessaryAttributes;
                  recievedNeccessaryAttributes++) {
-                necessaryAttributes.add(StringNormalizer.normalize(bottlable.getNecessaryAttribute()));
+                necessaryAttributes.add(BottleUtil.normalize(bottlable.getNecessaryAttribute()));
             }
 
             for (recievedOptionalAttributes = 0; recievedOptionalAttributes < numberOfOptionalAttributes;
                  recievedOptionalAttributes++) {
-                optionalAttributes.add(StringNormalizer.normalize(bottlable.getOptionalAttribute()));
+                optionalAttributes.add(BottleUtil.normalize(bottlable.getOptionalAttribute()));
             }
             filled = true;
         }
@@ -113,38 +113,12 @@ public class Bottle {
 
     public void cork() {
         for (int i = 0; i < numberOfNecessaryAttributes; i++) {
-            reminderVectorNecessary[i] = calculateReminderSeven(hashedNecessaryAttributes.get(i));
+            reminderVectorNecessary[i] = BottleUtil.calculateReminderSeven(hashedNecessaryAttributes.get(i));
         }
 
         for (int i = 0; i < numberOfOptionalAttributes; i++) {
-            reminderVectorOptional[i] = calculateReminderSeven(hashedOptionalAttributes.get(i));
+            reminderVectorOptional[i] = BottleUtil.calculateReminderSeven(hashedOptionalAttributes.get(i));
         }
-
-
-    }
-
-    public static int calculateReminderSeven(final byte[] hash) {
-        int erg = 0;
-        //System.out.println(Arrays.toString(hash) + ":");
-        for (int i = 1; hash.length - i >= 0; i++) {
-            final int remainder;
-            switch (i % 3) {
-                case 1:
-                    remainder = 1;
-                    break;
-                case 2:
-                    remainder = 4;
-                    break;
-                case 0:
-                    remainder = 2;
-                    break;
-                default:
-                    remainder = 0;
-            }
-            erg = (((hash[hash.length - i] & 0xFF) % 7) * remainder + erg) % 7;
-            //System.out.println(erg);
-        }
-        return erg;
     }
 
 }
