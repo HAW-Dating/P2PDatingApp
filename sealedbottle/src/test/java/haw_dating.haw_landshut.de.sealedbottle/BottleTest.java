@@ -54,10 +54,10 @@ public class BottleTest {
         Field optionalHash = this.bottle.getClass().getDeclaredField("hashedOptionalAttributes");
         optionalHash.setAccessible(true);
         necessaryHash.setAccessible(true);
-        assertArrayEquals(((ArrayList<byte[]>) optionalHash.get(this.bottle)).get(0),
+        assertArrayEquals(((((ArrayList<ArrayList<byte[]>>) optionalHash.get(this.bottle)).get(0))).get(0),
                 ((ArrayList<byte[]>) necessaryHash.get(this.bottle)).get(0));
 
-        byte[] bytes = ((ArrayList<byte[]>) necessaryHash.get(this.bottle)).get(0);
+        byte[] bytes = (  (ArrayList<byte[]>) necessaryHash.get(this.bottle)).get(0);
         StringBuilder builder = new StringBuilder();
         for (byte x : bytes) {
             builder.append(String.format("%02x", x));

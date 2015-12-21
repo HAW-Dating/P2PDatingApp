@@ -16,18 +16,24 @@ import android.support.annotation.NonNull;
  */
 public class BottlableTest implements Bottlable {
 
+
+    @Override
+    public int getNumberOfOptionalAttributeFields() {
+        return 1;
+    }
+
     @Override
     public int getNumberOfNecessaryAttributes() {
         return 1;
     }
 
     @Override
-    public int getNumberOfOptionalAttributes() {
+    public int getNumberOfOptionalAttributes(int field) {
         return 1;
     }
 
     @Override
-    public int getSimilarityThreshold() {
+    public int getSimilarityThreshold(int field) {
         return 1;
     }
 
@@ -39,7 +45,7 @@ public class BottlableTest implements Bottlable {
 
     @NonNull
     @Override
-    public String getOptionalAttribute() {
+    public String getOptionalAttribute(int field) {
         return "hallo";
     }
 }
