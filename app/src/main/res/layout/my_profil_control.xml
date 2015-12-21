@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <!-- wurde ersetzt!
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="20dp"
+    -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/myprofilcontrol"
+
+    android:padding="18dp"
+    >
+
+    <!---create by Alisa-->
+    <ImageView
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/logo"
+        android:src="@drawable/my_profil_image" />
+
+    <!-- Funktioniert nicht immer gleich!
+    android:background="@drawable/border_background_white"
+    -->
+    <TableLayout
+        style="@style/profile_control_table_layout"
+    >
+<!-- Zeile 1  -->
+
+        <TableRow
+            style="@style/profile_control_table_row">
+
+            <TextView
+                android:text="@string/name"
+                style="@style/profile_control_textviews"
+                />
+
+            <TextView
+                android:text="Platzhalter"
+                style="@style/profile_control_editcontrol"
+                />
+
+        </TableRow>
+
+<!---Zeile 2-->
+
+        <TableRow
+            style="@style/profile_control_table_row">
+
+            <TextView
+                android:text="@string/age"
+                style="@style/profile_control_textviews"
+                />
+
+            <TextView
+                android:text="Platzhalter"
+                style="@style/profile_control_editcontrol"
+                />
+        </TableRow>
+
+<!---Zeile 3-->
+
+        <TableRow
+            style="@style/profile_control_table_row">
+
+            <TextView
+                android:text="@string/gender"
+                style="@style/profile_control_textviews"
+                />
+
+            <TextView
+                android:text="Platzhalter"
+                style="@style/profile_control_editcontrol"
+                />
+            </TableRow>
+
+<!-- Zeile 4  -->
+
+        <TableRow
+            style="@style/profile_control_table_row">
+
+            <TextView
+                android:text="@string/studie"
+                style="@style/profile_control_textviews"
+                />
+
+            <TextView
+                android:text="Platzhalter"
+                style="@style/profile_control_editcontrol"
+                />
+        </TableRow>
+
+<!---Zeile 5-->
+
+        <TableRow
+            style="@style/profile_control_table_row">
+
+            <TextView
+                android:text="@string/university"
+                style="@style/profile_control_textviews"
+                />
+
+            <TextView
+                android:text="Platzhalter"
+                style="@style/profile_control_editcontrol"
+                />
+        </TableRow>
+
+<!-- Zeile 6  -->
+
+        <TableRow
+            style="@style/profile_control_table_row">
+
+            <TextView
+                android:text="@string/interests"
+                style="@style/profile_control_textviews"
+                />
+
+            <TextView
+                android:text="Platzhalter"
+                style="@style/profile_control_editcontrol"
+                />
+        </TableRow>
+
+<!-- Zeile 7  -->
+
+        <TableRow
+            style="@style/profile_control_table_row">
+
+            <TextView
+                android:text="@string/hometown"
+                style="@style/profile_control_textviews"
+                />
+
+            <TextView
+                android:text="Platzhalter"
+                style="@style/profile_control_editcontrol"
+                />
+        </TableRow>
+
+<!-- Zeile 8  -->
+
+        <TableRow
+            style="@style/profile_control_table_row">
+
+            <TextView
+                android:text="@string/postal_code"
+                style="@style/profile_control_textviews"
+                />
+
+            <TextView
+                android:text="Platzhalter"
+                style="@style/profile_control_editcontrol"
+                />
+        </TableRow>
+
+<!-- Zeile 9  -->
+        <TableRow
+            style="@style/profile_control_table_row">
+
+            <TextView
+                android:text="@string/sexual_preference"
+                style="@style/profile_control_textviews"
+                />
+
+            <TextView
+                android:text="Platzhalter"
+                style="@style/profile_control_editcontrol"
+                />
+        </TableRow>
+    </TableLayout>
+
+            <Button
+                android:text="@string/control_next"
+                style="@style/profile_control_button"
+                />
+
+            <Button
+                android:text="@string/control_back"
+                style="@style/profile_control_button"
+                />
+
+</LinearLayout>
+</ScrollView>

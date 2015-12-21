@@ -13,36 +13,21 @@
     >
 
     <TextView
-        android:paddingTop="20dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        style="@style/main_textviews"
         android:id="@+id/welcome"
         android:text="@string/welcome"
-        android:textSize="50dp"
-        android:textColor="@color/black"
-        android:gravity="center_horizontal"
-
         />
 
     <ImageView
-        android:paddingTop="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        style="@style/main_image"
         android:id="@+id/logo"
-        android:src="@drawable/logo2"
-
+        android:src="@drawable/logo_main"
         />
 
     <TextView
-        android:paddingTop="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/main_textviews"
         android:id="@+id/find_your_love"
-        android:text="Find your Love!"
-        android:textSize="50dp"
-        android:textColor="@color/black"
-        android:gravity="center_horizontal"
+        android:text="@string/find_your"
         />
 
 </LinearLayout>

@@ -2,275 +2,180 @@
 
 <!-- Create by Daniel -->
 
-<LinearLayout
+<!-- Anmerkungen! -->
+<!-- TextSize und TextColer werden ueber Styles geaendert -> Wiederverwendbarkeit der Styles -->
+
+<!-- TextSize ist auf 18-40dp gesetzt! geht dies auch dynamisch?   -->
+<!-- TableRow 2 Alter .. Eingabe in Gruppen einfügen   -->
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingBottom="20dp"
     >
 
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/myprofil"
-        android:textSize="40dp"
-        android:textColor="@color/black"
-
-        />
-
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-
-        android:background="@drawable/border_background_white"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="18dp"
         >
-        <!-- Zeile 1  -->
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="7dp"
+
+        <TextView
+            android:text="@string/myprofil"
+            style="@style/profile_headings"
+            />
+
+        <TableLayout
+            style="@style/profile_table_layout"
             >
+            <!-- Zeile 1  -->
+            <TableRow
+                style="@style/profile_table_row">
 
-            <TextView
-                android:width="150dp"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/name"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                />
+                <TextView
+                    android:text="@string/name"
+                    style="@style/profile_textviews"
+                    />
 
-            <EditText
-                android:width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:id="@+id/name"
-                android:textSize="18dp"
-                android:inputType="text"
-                android:background="@drawable/border" />
-        </TableRow>
-        <!-- Zeile 2  -->
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="7dp">
+                <EditText
+                    android:id="@+id/name"
+                    style="@style/profile_edittext"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/age"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                />
+            </TableRow>
+            <!-- Zeile 2  -->
+            <TableRow
+                style="@style/profile_table_row">
 
+                <TextView
+                    android:text="@string/age"
+                    style="@style/profile_textviews"
+                    />
 
+            </TableRow>
+            <!-- Zeile 3  -->
+            <TableRow
+                style="@style/profile_table_row">
 
-        </TableRow>
-        <!-- Zeile 3  -->
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="7dp"
-            >
+                <TextView
+                    android:text="@string/gender"
+                    style="@style/profile_textviews"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/gender"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                />
+                <Spinner
+                    style="@style/profile_spinner_sexual"
+                    android:id="@+id/gender"
+                    />
 
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/gender"
-                />
+            </TableRow>
+            <!-- Zeile 4  -->
+            <TableRow
+                style="@style/profile_table_row">
 
-        </TableRow>
-        <!-- Zeile 4  -->
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="7dp"
-            >
+                <TextView
+                    android:text="@string/studie"
+                    style="@style/profile_textviews"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/studie"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                />
+                <EditText
+                    android:id="@+id/studie"
+                    style="@style/profile_edittext"
+                    />
 
-            <EditText
-                android:width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:id="@+id/studie"
-                android:textSize="18dp"
-                android:inputType="text"
-                android:background="@drawable/border" />
-        </TableRow>
-        <!-- Zeile 5  -->
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="7dp"
-            >
+            </TableRow>
+            <!-- Zeile 5  -->
+            <TableRow
+                style="@style/profile_table_row">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/university"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                />
+                <TextView
+                    android:text="@string/university"
+                    style="@style/profile_textviews"
+                    />
 
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/university"
-                />
+                <Spinner
+                    style="@style/profile_spinner_university"
+                    android:id="@+id/university"
+                    />
 
-        </TableRow>
-        <!-- Zeile 6  -->
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="7dp"
-            >
+            </TableRow>
+            <!-- Zeile 6  -->
+            <TableRow
+                style="@style/profile_table_row">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/interests"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                />
+                <TextView
+                    android:text="@string/interests"
+                    style="@style/profile_textviews"
+                    />
 
-            <EditText
-                android:width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:id="@+id/interests"
-                android:textSize="18dp"
-                android:inputType="text"
-                android:background="@drawable/border" />
-        </TableRow>
-        <!-- Zeile 7  -->
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="7dp"
-            >
+                <EditText
+                    android:id="@+id/interests"
+                    style="@style/profile_edittext"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/hometown"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                />
+            </TableRow>
+            <!-- Zeile 7  -->
+            <TableRow
+                style="@style/profile_table_row">
 
-            <EditText
-                android:width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:id="@+id/hometown"
-                android:textSize="18dp"
-                android:inputType="text"
-                android:background="@drawable/border" />
-        </TableRow>
-        <!-- Zeile 8  -->
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="7dp"
-            >
+                <TextView
+                    android:text="@string/hometown"
+                    style="@style/profile_textviews"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/postal_code"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                />
+                <EditText
+                    android:id="@+id/hometown"
+                    style="@style/profile_edittext"
+                    />
 
-            <!-- Maximal 5 integer INPUT -->
-            <EditText
-                android:width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:id="@+id/postal_code"
-                android:textSize="18dp"
-                android:inputType="numberSigned"
-                android:background="@drawable/border" />
+            </TableRow>
+            <!-- Zeile 8  -->
+            <TableRow
+                style="@style/profile_table_row">
 
-        </TableRow>
-        <!-- Zeile 9  -->
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="7dp"
-            >
+                <TextView
+                    android:text="@string/postal_code"
+                    style="@style/profile_textviews"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/sexual_preference"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                />
+                <EditText
+                    android:id="@+id/postal_code"
+                    style="@style/profile_edit_plz"
+                    />
 
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/sexual_preference"
-                />
+            </TableRow>
+            <!-- Zeile 9  -->
+            <TableRow
+                style="@style/profile_table_row">
 
+                <TextView
+                    android:text="@string/sexual_preference"
+                    style="@style/profile_textviews"
+                    />
 
-        </TableRow>
-        <!-- Zeile 10  -->
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="7dp"
-            >
+                <Spinner
+                    style="@style/profile_spinner_sexual"
+                    android:id="@+id/sexual_preference"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="@string/profil_photo"
-                android:textSize="20dp"
-                android:textColor="@color/black"
-                />
-        </TableRow>
-    </TableLayout>
-</LinearLayout>
+            </TableRow>
+            <!-- Zeile 10  -->
+            <TableRow
+                style="@style/profile_table_row">
+
+                <TextView
+                    android:text="@string/profil_photo"
+                    style="@style/profile_textviews"
+                    />
+
+            </TableRow>
+        </TableLayout>
+
+        <Button
+            android:text="@string/confirm_button"
+            style="@style/profile_button_confirm"
+            />
+    </LinearLayout>
+
+</ScrollView>

@@ -14,4 +14,267 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- Selbstdefinierte Styles Daniel -->
+    <!--
+        BEGIN
+        Main-ProfilActivity Style Daniel
+    -->
+    <!--
+        wird wohl nicht benötigt!
+        android:layout_width="fill_parent"
+    -->
+    <style name="main_textviews">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">45dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingTop">25dp</item>
+    </style>
+
+    <style name="main_image">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">25dp</item>
+    </style>
+    <!--
+        END
+        Main-ProfilActivity Style Daniel
+    -->
+
+    <!--
+        BEGIN
+        Login-ProfilActivity Style Daniel
+     -->
+    <style name="login_image">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">25dp</item>
+    </style>
+
+    <style name="login_table_layout">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingBottom">25dp</item>
+    </style>
+
+    <style name="login_textviews">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="login_edittext">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:width">130dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:background">@drawable/border</item>
+    </style>
+
+    <style name="login_button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <!--
+        END
+        Login-ProfilActivity Style Daniel
+    -->
+
+    <!--
+        BEGIN
+        My- und Search-ProfilActivity Style Daniel
+    -->
+    <style name="profile_headings">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">35dp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="profile_textviews">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingRight">10dp</item>
+        <!-- Benoetigten wir die zwei ueberhaupt??? -->
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="profile_table_layout">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">7dp</item>
+        <!--
+        <item name="android:background">@drawable/border_background_white</item>
+        -->
+    </style>
+
+    <style name="profile_table_row">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingLeft">7dp</item>
+        <item name="android:paddingRight">7dp</item>
+    </style>
+
+    <style name="profile_edittext">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/border</item>
+        <item name="android:gravity">right</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textSize">16dp</item>
+        <!-- width=150dp hat "glaub ich" keine Auswirkung! deswegen geloescht -->
+    </style>
+
+    <style name="profile_edit_plz">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/border</item>
+        <item name="android:gravity">right</item>
+        <item name="android:inputType">numberSigned</item>
+        <item name="android:maxLength">5</item>
+        <item name="android:textSize">16dp</item>
+        <!-- width=150dp hat "glaub ich" keine Auswirkung! deswegen geloescht -->
+    </style>
+
+    <style name="profile_spinner_sexual">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="profile_spinner_university">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="profile_button_confirm">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:padding">7dp</item>
+    </style>
+    <!--
+        END
+        My- und Search-ProfilActivity Style
+     -->
+    <!--
+        BEGIN
+        Control-ProfilActivity Style Daniel
+        Activity Alisa
+    -->
+
+    <style name="profile_control_textviews">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingRight">10dp</item>
+        <!-- Benoetigten wir die zwei ueberhaupt??? -->
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="profile_control_editcontrol">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:gravity">left</item>
+        <!-- Benoetigten wir die zwei ueberhaupt??? -->
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="profile_control_table_layout">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">7dp</item>
+    </style>
+
+    <style name="profile_control_table_row">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingLeft">7dp</item>
+        <item name="android:paddingRight">7dp</item>
+    </style>
+
+    <style name="profile_control_button">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:padding">7dp</item>
+    </style>
+    <!--
+        END
+        Control-ProfilActivity Style Daniel
+        Activity Alisa
+    -->
+
+    <!--
+        BEGIN
+        Find-Your-Love-Activity Style Daniel
+        Activity Alisa
+    -->
+    <style name="find_heading_textview">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">50dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="find_logo_image">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">25dp</item>
+    </style>
+
+    <style name="find_match_textview">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">32dp</item>
+        <item name="android:paddingTop">25dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="find_match_image">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">18dp</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+    <!--
+        END
+        Find-Your-Love-Activity Style Daniel
+        Activity Alisa
+    -->
+
 </resources>

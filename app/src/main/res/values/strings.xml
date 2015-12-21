@@ -2,26 +2,52 @@
     <string name="app_name">P2PDatingApp</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Create by Daniel -->
     <!-- Daniel Strings -->
+    <!-- Strings Text -->
     <string name="welcome">Willkommen \nbei \nFH-Tinder!</string>
+    <string name="find_your">Find your Love!</string>
     <string name="password">Password: </string>
     <string name="login">Login</string>
     <string name="myprofil">Meine \nProfildaten</string>
     <string name="name">Name: </string>
     <string name="age">Alter: </string>
     <string name="gender">Geschlecht: </string>
-    <string name="maennlich"> m </string>
-    <string name="weiblich"> w </string>
-    <string name="bisexual"> m / w </string>
     <string name="studie">Studiengang: </string>
     <string name="university">Universität/FH: </string>
-    <string name="landshut">Landshut </string>
-    <string name="regensburg">Regensburg </string>
     <string name="interests">Interessen: </string>
     <string name="hometown">Heimatort: </string>
     <string name="postal_code">PLZ : </string>
     <string name="sexual_preference">Suche nach: </string>
     <string name="profil_photo">Profilfoto: </string>
+    <string name="search_profil">Suchprofil</string>
+    <string name="matching">Matchinggrad</string>
+
+    <!-- Strings Button -->
+    <string name="confirm_button">Bestätigen</string>
+    <string name="search_button">Suche</string>
+    <string name="control_next">Weiter</string>
+    <string name="control_back">Zurück</string>
+
+    <!-- Strings Spinner -->
+    <string-array name="sexual_spinner">
+        <item>w</item>
+        <item>m</item>
+        <item>w/m</item>
+    </string-array>
+
+    <string-array name="university_spinner">
+        <item>HAW-Landshut</item>
+        <item>Regensburg</item>
+    </string-array>
+
+
+    <!-- Durch spinner ersetzt. Evtl nochmal beim profilcheck benötigt? -->
+    <string name="landshut">Landshut </string>
+    <string name="regensburg">Regensburg </string>
+    <string name="maennlich"> m </string>
+    <string name="weiblich"> w </string>
+    <string name="bisexual"> m / w </string>
+
+
 
 </resources>

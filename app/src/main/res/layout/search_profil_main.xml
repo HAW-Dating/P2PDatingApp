@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Create by Daniel -->
+<!-- Größeneinstellung der EditTexts!!!! -->
+<!-- TextView : SearchProfil :textSize 30dp!!! ändern auf dynamisch -->
+
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="18dp"
+    >
+
+    <TextView
+        android:text="@string/search_profil"
+        style="@style/profile_headings"
+        />
+
+    <TableLayout
+        style="@style/profile_table_layout"
+        >
+
+<!-- Zeile 1  -->
+        <TableRow
+            style="@style/profile_table_row">
+
+            <TextView
+                android:text="@string/age"
+                style="@style/profile_textviews"
+                />
+
+            <TextView
+                style="@style/profile_textviews"
+                android:text="   "
+                />
+        </TableRow>
+<!-- Zeile 2 -->
+        <TableRow
+            style="@style/profile_table_row">
+
+            <TextView
+                android:text="@string/gender"
+                style="@style/profile_textviews"
+                />
+
+            <Spinner
+                style="@style/profile_spinner_sexual"
+                android:id="@+id/search_gender"
+                />
+        </TableRow>
+<!-- Zeile 3 -->
+        <TableRow
+            style="@style/profile_table_row">
+
+            <TextView
+                android:text="@string/studie"
+                style="@style/profile_textviews"
+                />
+
+            <EditText
+                android:id="@+id/search_studie"
+                style="@style/profile_edittext"
+                />
+        </TableRow>
+
+<!-- Zeile 4 -->
+        <TableRow
+            style="@style/profile_table_row">
+
+            <TextView
+                android:text="@string/university"
+                style="@style/profile_textviews"
+                />
+
+            <Spinner
+                style="@style/profile_spinner_university"
+                android:id="@+id/search_university"
+                />
+        </TableRow>
+<!-- Zeile 5 -->
+        <TableRow
+            style="@style/profile_table_row">
+
+            <TextView
+                android:text="@string/sexual_preference"
+                style="@style/profile_textviews"
+                />
+
+            <Spinner
+                style="@style/profile_spinner_sexual"
+                android:id="@+id/search_sexual_preference"
+                />
+        </TableRow>
+<!-- Zeile 6  -->
+        <TableRow
+            style="@style/profile_table_row">
+
+            <TextView
+                android:text="@string/hometown"
+                style="@style/profile_textviews"
+                />
+
+            <EditText
+                android:id="@+id/search_hometown"
+                style="@style/profile_edittext"
+                />
+        </TableRow>
+
+ <!-- Zeile 7  -->
+        <TableRow
+            style="@style/profile_table_row">
+
+        <TextView
+            android:text="@string/postal_code"
+            style="@style/profile_textviews"
+            />
+
+        <EditText
+            android:id="@+id/search_postal_code"
+            style="@style/profile_edit_plz"
+                />
+
+        </TableRow>
+ <!-- Zeile 8  -->
+        <TableRow
+            style="@style/profile_table_row">
+
+            <TextView
+                android:text="@string/interests"
+                style="@style/profile_textviews"
+                />
+
+            <EditText
+                android:id="@+id/search_interests"
+                style="@style/profile_edittext"
+                />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:text="@string/search_button"
+        style="@style/profile_button_confirm"
+        />
+
+</LinearLayout>
+
+
+
+ </ScrollView>

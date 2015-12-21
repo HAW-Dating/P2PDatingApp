@@ -7,64 +7,37 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:gravity="center"
     >
 
     <ImageView
-        android:paddingTop="100dp"
-        android:paddingBottom="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        style="@style/login_image"
         android:id="@+id/logo"
-        android:src="@drawable/logo2"
+        android:src="@drawable/logo_main"
         />
 
         <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:paddingBottom="25dp"
+            style="@style/login_table_layout"
             >
 
-            <TableRow >
+            <TableRow
+                android:paddingTop="15dp">
+
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="3dp"
-                    android:paddingTop="3dp"
+                    style="@style/login_textviews"
                     android:id="@+id/passwordtext"
                     android:text="@string/password"
-                    android:textSize="18dp"
-                    android:textColor="@color/black"
                     />
 
                 <EditText
-                    android:width="170dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="3dp"
-                    android:paddingTop="3dp"
-                    android:layout_gravity="center"
+                    style="@style/login_edittext"
                     android:id="@+id/password"
-                    android:textSize="18dp"
-                    android:inputType="textPassword"
-                    android:background="@drawable/border"
                     />
             </TableRow>
         </TableLayout>
-
-
-
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-
+        style="@style/login_button"
         android:id="@+id/login"
         android:text="@string/login"
-        android:textColor="@color/black"
         />
-
-
 </LinearLayout>
