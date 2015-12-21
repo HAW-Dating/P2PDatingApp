@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Create by Daniel -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    tools:context=".MainActivity"
+    >
+
+    <TextView
+        style="@style/main_textviews"
+        android:id="@+id/welcome"
+        android:text="@string/welcome"
+        />
+
+    <ImageView
+        style="@style/main_image"
+        android:id="@+id/logo"
+        android:src="@drawable/logo_main"
+        />
+
+    <TextView
+        style="@style/main_textviews"
+        android:id="@+id/find_your_love"
+        android:text="@string/find_your"
+        />
+
+</LinearLayout>

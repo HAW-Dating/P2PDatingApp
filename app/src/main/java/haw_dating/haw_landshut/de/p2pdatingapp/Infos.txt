@@ -1,0 +1,37 @@
+Hallo Zusammen,
+
+also ich habe "fast" alles was Layout betrifft in der Styles.xml definiert.
+Dies macht es uns einfacher in z.B. MyProfilA. mehrere gleiche Views an einer Stelle zu bearbeiten.
+z.B. die Schriftgröße, da alle textviews in der MyProfilA. und sogar in der SearchProfilA.
+dann diese Schriftgröße annehmen!
+Das selbe natürlich auch mit den anderen Elementen mit dem selben Style.
+
+Wird angesprochen durch:
+-> style="@style/profile_textviews"
+
+
+Hin und wieder habe ich zusätzliche Buttons eingefügt um Eingaben zu bestätigen oder zurück zu kommen.
+
+Des weiteren ist momentan alles auf ein
+3,7-Zoll_Nexus_One_API_18
+abgestimmt. Was natürlich mehr mit der Bildergröße zu tun hat.
+
+
+Alisa, Derya sollen noch:
+
+- Bildgrößen auf Displaygrößen anpassen und in den Ordnern drawable-dpi, hdpi, ... einfügen
+  Hier bitte mit den entsprechenden Handy-Emulatoren testen.
+  (Android nimmt automatisch die entsprechenden Ordner falls ein Bild vorhanden ist, wenn nicht wird
+  der nächst kleiner Ordner verwendet! Bildname muss in jedem Ordner gleich sein!)
+
+- Hintergrundfarbe (View, Table, etc), Schriftart, Schriftfarbe, etc. anpassen
+
+
+Um die gesamten Ordner (leeren Drawable-Ordner) zu sehen muss an dem Linken Rand
+(in der 4ten Zeile-Combobox) Project auswählen.
+
+Daniel:
+
+- Activitys in der AndroidMainfest eintragen
+- Setting-Sidebar erstellen und einfügen
+- Activity wechseln programmieren
