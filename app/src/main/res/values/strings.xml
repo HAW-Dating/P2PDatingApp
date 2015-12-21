@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">P2PDatingApp</string>
     <string name="action_settings">Settings</string>
-<<<<<<< HEAD
+
 
     <!-- Daniel Strings -->
     <!-- Strings Text -->
@@ -51,6 +51,4 @@
 
 
 
-=======
->>>>>>> 6838a2d4237e307f0c801a4250360d37ba09ad92
 </resources>
