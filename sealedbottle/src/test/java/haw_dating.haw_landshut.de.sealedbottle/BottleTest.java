@@ -49,7 +49,7 @@ public class BottleTest {
     public void testSeal() throws Exception {
         this.bottle = new Bottle(this.bottlable);
         this.bottle.fill();
-        this.bottle.seal();
+        this.bottle.cork();
         Field necessaryHash = this.bottle.getClass().getDeclaredField("hashedNecessaryAttributes");
         Field optionalHash = this.bottle.getClass().getDeclaredField("hashedOptionalAttributes");
         optionalHash.setAccessible(true);

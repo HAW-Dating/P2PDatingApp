@@ -51,7 +51,7 @@ public class BottleUtilTest {
     public void calculateRemainderTest() throws Exception {
         Bottle bottle = new Bottle(new BottlableTest());
         bottle.fill();
-        bottle.seal();
+        bottle.cork();
         Field necessaryHash = bottle.getClass().getDeclaredField("hashedNecessaryAttributes");
         necessaryHash.setAccessible(true);
         byte[] bytes = ((ArrayList<byte[]>) necessaryHash.get(bottle)).get(0);
