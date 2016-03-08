@@ -6,8 +6,13 @@
 
 package haw_dating.haw_landshut.de.sealedbottle;
 
+import org.apache.commons.math3.fraction.BigFraction;
+import org.apache.commons.math3.linear.AbstractFieldMatrix;
+import org.apache.commons.math3.linear.BlockFieldMatrix;
+
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -38,6 +43,9 @@ public class Bottle {
     private int recievedNeccessaryAttributes = 0;
     private Bottle.State state;
     private byte[] hashOfBottle;
+    private final ArrayList<BigFraction[][]> constraintMatrixArrays;
+    private final ArrayList<AbstractFieldMatrix<BigFraction>> constraintMatixes;
+    private final ArrayList<BigFraction[][]> bMatrixes;
 
     /**
      * Creates a new Bottle fom a Bottlable interface. Checks if the metadata of the Bottlable object
@@ -55,14 +63,20 @@ public class Bottle {
         this.reminderVectorNecessary = new byte[bottlable.getNumberOfNecessaryAttributes()];
         this.reminderVectorOptional = new byte[bottlable.getNumberOfOptionalAttributeFields()][];
         this.recievedOptionalAttributes = new int[bottlable.getNumberOfOptionalAttributeFields()];
+        this.constraintMatrixArrays = new ArrayList<>();
+        this.constraintMatixes = new ArrayList<>();
+        this.bMatrixes = new ArrayList<>();
 
         for (int i = 0; i < this.numberOfOptionalAttributeFields; i++) {
-            this.numberOfOptionalAttributes[i] = bottlable.getNumberOfOptionalAttributes(i);
-            this.similarilyThreshold[i] = bottlable.getSimilarityThreshold(i);
+            final int numberOfOptionalAttributes =  bottlable.getNumberOfOptionalAttributes(i);
+            final int similarityThreshold = bottlable.getSimilarityThreshold(i);
+            this.numberOfOptionalAttributes[i] = numberOfOptionalAttributes;
+            this.similarilyThreshold[i] = similarityThreshold;
             if (this.similarilyThreshold[i] > this.numberOfOptionalAttributes[i]) {
                 throw new IllegalArgumentException("Each number of optional attributes must be greater or" +
-                        "equal to the corresponding similarityt hreshold, discrepancy at fieldnumber: " + i);
+                        "equal to the corresponding similarity threshold, discrepancy at field number: " + i);
             }
+            constraintMatrixArrays.add(new BigFraction[numberOfOptionalAttributes - similarityThreshold][numberOfOptionalAttributes]);
         }
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
@@ -79,6 +93,7 @@ public class Bottle {
      */
     public void fill() {
         if (State.OPEN.equals(this.state)) {
+            final Random random = new Random(System.currentTimeMillis());
             for (recievedNeccessaryAttributes = 0; recievedNeccessaryAttributes < numberOfNecessaryAttributes;
                  recievedNeccessaryAttributes++) {
                 necessaryAttributes.add(BottleUtil.normalize(bottlable.getNecessaryAttribute()));
@@ -92,8 +107,28 @@ public class Bottle {
                      recievedOptionalAttributes[recievedOptionalAttributeFields]++) {
                     optionalAttributes.get(recievedOptionalAttributeFields).add(bottlable.getOptionalAttribute(recievedOptionalAttributeFields));
                 }
+                final BigFraction[][] constraintMatrixArray = constraintMatrixArrays.get(recievedOptionalAttributeFields);
+                final int optionals = this.numberOfOptionalAttributes[recievedOptionalAttributeFields]
+                        - this.similarilyThreshold[recievedOptionalAttributeFields];
+                for (int row = 0; row < optionals; row++){
+                    for (int column =0; column < optionals; column++){
+                        constraintMatrixArray[row][column] = (row == column) ? new BigFraction(1) : new BigFraction(1) ;
+                    }
+                }
 
+                for (int row = 0; row < optionals; row++) {
+                    for (int column = optionals; column < this.numberOfOptionalAttributes[recievedOptionalAttributeFields]; column++){
+                        int ran = random.nextInt();
+                        while (ran == 0){
+                            ran = random.nextInt();
+                        }
+                        constraintMatrixArray[row][column] = new BigFraction(ran);
+                    }
+                }
+                constraintMatixes.add(new BlockFieldMatrix<>(constraintMatrixArray));
+                constraintMatrixArrays.set(recievedOptionalAttributeFields,null);
             }
+
             this.state = State.FILLED;
         }
     }
