@@ -7,7 +7,6 @@
 package haw_dating.haw_landshut.de.sealedbottle;
 
 import org.apache.commons.math3.fraction.BigFraction;
-import org.apache.commons.math3.linear.AbstractFieldMatrix;
 import org.apache.commons.math3.linear.BlockFieldMatrix;
 import org.apache.commons.math3.linear.FieldMatrix;
 
@@ -151,7 +150,7 @@ public class Bottle {
             }
 
             for (int i = 0; i < numberOfOptionalAttributeFields; i++) {
-                final ArrayList<String>  optionalAttributes = optionalAttributeFields.get(i);
+                final ArrayList<String> optionalAttributes = optionalAttributeFields.get(i);
                 final int fieldSize = optionalAttributes.size();
                 final BigFraction[][] fractionArray = new BigFraction[fieldSize][1];
                 hashedOptionalAttributeFields.add(new ArrayList<byte[]>());
@@ -160,10 +159,13 @@ public class Bottle {
                     messageDigest.update(attribute.getBytes());
                     final byte[] hash = messageDigest.digest();
                     hashedOptionalAttributeFields.get(i).add(hash);
-                    fractionArray[j][0] = new BigFraction(new BigInteger(1,hash));
+                    fractionArray[j][0] = new BigFraction(new BigInteger(hash));
                 }
-                final BlockFieldMatrix<BigFraction> attributeVector = new BlockFieldMatrix<BigFraction>(fractionArray);
-                bMatrixes.add(constraintMatixes.get(i).multiply(attributeVector));
+                if (this.numberOfOptionalAttributes[i]
+                        - this.similarilyThreshold[i] > 0) {
+                    final BlockFieldMatrix<BigFraction> attributeVector = new BlockFieldMatrix<BigFraction>(fractionArray);
+                    bMatrixes.add(constraintMatixes.get(i).multiply(attributeVector));
+                }
             }
             this.state = State.CORKED;
         } else if (State.OPEN.equals(this.state)) {
@@ -215,12 +217,6 @@ public class Bottle {
         }
     }
 
-    public void getHintMatrix(){
-
-
-
-    }
-
     /**
      * Returns the generated key as an SecretKey of type "AES".
      *
@@ -234,6 +230,45 @@ public class Bottle {
             throw new IllegalStateException("Bottle needs to be in State.SEALED");
         }
     }
+
+    /**
+     * Creates and returns the Hintmatrix to the corresponding optional attribute set.
+     *
+     * @param numberOfOptionalAttributeField int containing the number of the optional attribute set
+     * @return a Hintmatrix of the form M = {C|b} as a 2D BigFraction array, null if for the given field no
+     * Hintmatrix can be created (100% attribute matching)
+     * @throws IllegalStateException if Bottle is not in State.SEALED at time of invocation.
+     */
+    public BigFraction[][] getHintMatrix(final int numberOfOptionalAttributeField) throws IllegalStateException {
+
+        if (!State.SEALED.equals(this.state)) {
+            throw new IllegalStateException("Bottle needs to be in State.SEALED");
+        } else if (numberOfOptionalAttributeField > this.numberOfOptionalAttributeFields - 1) {
+            throw new IllegalArgumentException("no corresponding optional argument field exists");
+        } else if (constraintMatixes.size() == 0) {
+            return null;
+        } else {
+            try {
+                final FieldMatrix<BigFraction> constraintMatrix = this.constraintMatixes.get(numberOfOptionalAttributeField);
+                final FieldMatrix<BigFraction> bMatrix = this.bMatrixes.get(numberOfOptionalAttributeField);
+                final int rows = constraintMatrix.getRowDimension();
+                final int columns = constraintMatrix.getColumnDimension();
+                final BigFraction[][] hintMatrix = new BigFraction[rows][columns + 1];
+                for (int row = 0; row < rows; row++) {
+                    int column;
+                    final BigFraction[] rowArray = constraintMatrix.getRow(row);
+                    for (column = 0; column < columns; column++) {
+                        hintMatrix[row][column] = rowArray[column];
+                    }
+                    hintMatrix[row][column] = bMatrix.getRow(row)[0];
+                }
+                return hintMatrix;
+            } catch (IndexOutOfBoundsException ex) {
+                return null;
+            }
+        }
+    }
+
 
     /**
      * Returns the current Bottle.State.

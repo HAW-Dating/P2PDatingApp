@@ -67,4 +67,14 @@ public class BottleTest {
     }
 
 
+    @Test
+    public void testGetHintMatrix(){
+        this.bottle = new Bottle(this.bottlable);
+        this.bottle.fill();
+        this.bottle.cork();
+        this.bottle.seal();
+        this.bottle.getHintMatrix(0);
+
+    }
+
 }
