@@ -51,7 +51,7 @@ public class BottleTest {
         this.bottle.fill();
         this.bottle.cork();
         Field necessaryHash = this.bottle.getClass().getDeclaredField("hashedNecessaryAttributes");
-        Field optionalHash = this.bottle.getClass().getDeclaredField("hashedOptionalAttributes");
+        Field optionalHash = this.bottle.getClass().getDeclaredField("hashedOptionalAttributeFields");
         optionalHash.setAccessible(true);
         necessaryHash.setAccessible(true);
         assertArrayEquals(((((ArrayList<ArrayList<byte[]>>) optionalHash.get(this.bottle)).get(0))).get(0),

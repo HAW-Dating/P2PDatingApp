@@ -29,12 +29,12 @@ public class BottlableTest implements Bottlable {
 
     @Override
     public int getNumberOfOptionalAttributes(final int field) {
-        return 1;
+        return 4;
     }
 
     @Override
     public int getSimilarityThreshold(final int field) {
-        return 1;
+        return 2;
     }
 
     @NonNull
