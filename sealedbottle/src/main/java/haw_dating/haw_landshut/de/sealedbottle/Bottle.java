@@ -39,14 +39,14 @@ public class Bottle {
     private final int numberOfOptionalAttributeFields;
     private final int[] numberOfOptionalAttributes;
     private final int recievedOptionalAttributes[];
+    private final ArrayList<BigFraction[][]> constraintMatrixArrays;
+    private final ArrayList<FieldMatrix<BigFraction>> constraintMatixes;
+    private final ArrayList<FieldMatrix<BigFraction>> bMatrixes;
     private MessageDigest messageDigest;
     private int recievedOptionalAttributeFields = 0;
     private int recievedNeccessaryAttributes = 0;
     private Bottle.State state;
     private byte[] hashOfBottle;
-    private final ArrayList<BigFraction[][]> constraintMatrixArrays;
-    private final ArrayList<FieldMatrix<BigFraction>> constraintMatixes;
-    private final ArrayList<FieldMatrix<BigFraction>> bMatrixes;
 
     /**
      * Creates a new Bottle fom a Bottlable interface. Checks if the metadata of the Bottlable object
@@ -238,6 +238,7 @@ public class Bottle {
      * @return a Hintmatrix of the form M = {C|b} as a 2D BigFraction array, null if for the given field no
      * Hintmatrix can be created (100% attribute matching)
      * @throws IllegalStateException if Bottle is not in State.SEALED at time of invocation.
+     *                               IllegalArgumetException if no corresponding field exists.
      */
     public BigFraction[][] getHintMatrix(final int numberOfOptionalAttributeField) throws IllegalStateException {
 
@@ -269,6 +270,43 @@ public class Bottle {
         }
     }
 
+    /**
+     * Get the Remaindervector (mod 7) of the hashed necessary attributes.
+     *
+     * @return the Remaindervector of the necessary attributes, where Remaindervector_i = hash(attribute_i) mod 7
+     * @throws IllegalStateException if Bottle is not in State.SEALED at time of invocation.
+     */
+    public byte[] getReminderVectorNecessary() throws IllegalStateException {
+        if (State.SEALED.equals(this.state)) {
+            final int length = reminderVectorNecessary.length;
+            final byte[] returnVector = new byte[length];
+            System.arraycopy(this.reminderVectorNecessary, 0, returnVector, 0, length);
+            return returnVector;
+        } else {
+            throw new IllegalStateException("Bottle needs to be in State.SEALED");
+        }
+    }
+
+    /**
+     * Get the Remaindervector (mod 7) of the hashed optional attributes.
+     *
+     * @param numberOfOptionalAttributeField int containing the number of the optional attribute set
+     * @return the Remaindervector of the corresponding optional attribute field, where Remaindervector_i = hash(attribute_i) mod 7
+     * @throws IllegalStateException if Bottle is not in State.SEALED at time of invocation.
+     *                               IllegalArgumetException if no corresponding field exists.
+     */
+    public byte[] getReminderVectorOptional(final int numberOfOptionalAttributeField) throws IllegalStateException {
+        if (!State.SEALED.equals(this.state)) {
+            throw new IllegalStateException("Bottle needs to be in State.SEALED");
+        } else if (numberOfOptionalAttributeField > this.numberOfOptionalAttributeFields - 1) {
+            throw new IllegalArgumentException("no corresponding optional argument field exists");
+        } else {
+            final int length = reminderVectorOptional[numberOfOptionalAttributeField].length;
+            final byte[] returnVector = new byte[length];
+            System.arraycopy(this.reminderVectorOptional[numberOfOptionalAttributeField], 0, returnVector, 0, length);
+            return returnVector;
+        }
+    }
 
     /**
      * Returns the current Bottle.State.
