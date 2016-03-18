@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 package="haw_dating.haw_landshut.de.p2pdatingapp" >
 
+
+<!--
+Revision by Altrichter Daniel on 15.03.16.
+Eintragung der Activitys nach reihenfolge von Erstaufruf der App!
+-->
+
+
 <application
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
@@ -9,17 +16,26 @@ package="haw_dating.haw_landshut.de.p2pdatingapp" >
     android:supportsRtl="true"
     android:theme="@style/AppTheme" >
 
-
     <activity
-        android:name=".SearchProfilActivity"
+        android:name=".MainActivity"
         android:label="@string/app_name"
         android:theme="@style/AppTheme.NoActionBar" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-</application>
 
+    <activity android:name=".LoginActivity"></activity>
+
+    <activity android:name=".MyProfilActivity"></activity>
+
+    <activity android:name=".MyProfilControlActivity"></activity>
+
+    <activity android:name=".SearchProfilActivity"></activity>
+
+    <activity android:name=".FindYourLoveActivity"></activity>
+
+
+</application>
 </manifest>

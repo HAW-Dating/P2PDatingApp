@@ -7,6 +7,12 @@
 
 <!-- TextSize ist auf 18-40dp gesetzt! geht dies auch dynamisch?   -->
 <!-- TableRow 2 Alter .. Eingabe in Gruppen einfügen   -->
+
+<!--
+Revision by Altrichter Daniel on 15.03.16.
+
+LinearLayout ID gegeben um Wischfunktionen zu implementieren
+-->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -20,6 +26,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:padding="18dp"
+        android:id="@+id/my_profile_activity_linear_layout"
         >
 
         <TextView

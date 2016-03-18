@@ -4,7 +4,11 @@
 <!-- Größeneinstellung der EditTexts!!!! -->
 <!-- TextView : SearchProfil :textSize 30dp!!! ändern auf dynamisch -->
 
+<!--
+Revision by Altrichter Daniel on 15.03.16.
 
+LinearLayout ID gegeben um Wischfunktionen zu implementieren
+-->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -18,6 +22,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:padding="18dp"
+    android:id="@+id/search_profil_activity_linear_layout"
     >
 
     <TextView

@@ -9,13 +9,19 @@
     android:paddingRight="20dp"
     android:paddingBottom="20dp"
     -->
+
+<!--
+Revision by Altrichter Daniel on 15.03.16.
+
+LinearLayout ID gegeben um Wischfunktionen zu implementieren
+Button am ende Entfernt
+-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/myprofilcontrol"
-
+    android:id="@+id/my_profil_control_linear_layout"
     android:padding="18dp"
     >
 
@@ -178,7 +184,7 @@
                 />
         </TableRow>
     </TableLayout>
-
+<!--
             <Button
                 android:text="@string/control_next"
                 style="@style/profile_control_button"
@@ -188,6 +194,6 @@
                 android:text="@string/control_back"
                 style="@style/profile_control_button"
                 />
-
+-->
 </LinearLayout>
 </ScrollView>

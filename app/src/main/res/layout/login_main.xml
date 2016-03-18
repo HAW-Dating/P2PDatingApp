@@ -2,12 +2,19 @@
 
 <!-- Create by Daniel -->
 
+<!--
+Revision by Altrichter Daniel on 15.03.16.
+
+LinearLayout ID gegeben um Wischfunktionen zu implementieren
+-->
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:id="@+id/login_activity_linear_layout"
     >
 
     <ImageView

@@ -4,11 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<!--
+Revision by Altrichter Daniel on 15.03.16.
+
+LinearLayout ID gegeben um Wischfunktionen zu implementieren
+-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/find_your_love_linear_layout"
+    >
 
     <TextView
         style="@style/find_heading_textview"

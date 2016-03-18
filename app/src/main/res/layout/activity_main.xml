@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- Create by Daniel -->
+    <!--
+    Revision by Altrichter Daniel on 15.03.16.
+
+    LinearLayout ID gegeben um Wischfunktionen zu implementieren
+    -->
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,6 +14,7 @@
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
     tools:context=".MainActivity"
+    android:id="@+id/activity_main_linear_layout"
     >
 
     <TextView
