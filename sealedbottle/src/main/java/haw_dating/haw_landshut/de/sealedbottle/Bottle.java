@@ -92,7 +92,7 @@ public class Bottle {
     /**
      * Fills the Bottle. All attributes get normalized in the process. Needs to be invoked before Bottle.cork().
      */
-    public void fill() {
+    public Bottle fill() {
         if (State.OPEN.equals(this.state)) {
             final Random random = new Random(System.currentTimeMillis());
             for (recievedNeccessaryAttributes = 0; recievedNeccessaryAttributes < numberOfNecessaryAttributes;
@@ -134,6 +134,7 @@ public class Bottle {
 
             this.state = State.FILLED;
         }
+        return this;
     }
 
     /**
@@ -141,7 +142,7 @@ public class Bottle {
      *
      * @throws IllegalStateException if Bottle.fill() was not invoked prior.
      */
-    public void cork() throws IllegalStateException {
+    public Bottle cork() throws IllegalStateException {
         if (State.FILLED.equals(this.state)) {
             for (final String attribute :
                     necessaryAttributes) {
@@ -171,6 +172,7 @@ public class Bottle {
         } else if (State.OPEN.equals(this.state)) {
             throw new IllegalStateException("Bottle needs to invoke fill(), before cork()");
         }
+        return this;
     }
 
     /**
@@ -178,7 +180,7 @@ public class Bottle {
      *
      * @throws IllegalStateException if Bottle.fill() was not invoked prior.
      */
-    public void seal() throws IllegalStateException {
+    public Bottle seal() throws IllegalStateException {
         if (State.CORKED.equals(this.state)) {
             for (int i = 0; i < numberOfNecessaryAttributes; i++) {
                 final byte[] attribute = hashedNecessaryAttributes.get(i);
@@ -199,6 +201,7 @@ public class Bottle {
         } else if (State.OPEN.equals(this.state) || State.FILLED.equals(this.state)) {
             throw new IllegalStateException("Bottle needs to invoke cork(), before cork()");
         }
+        return this;
     }
 
     /**

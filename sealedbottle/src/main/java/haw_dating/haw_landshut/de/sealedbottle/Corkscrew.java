@@ -13,24 +13,41 @@ import java.util.NoSuchElementException;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p/>
+ * <p>
  * 3/17/16 by s-gheldd
  */
 public class Corkscrew {
 
-    public boolean probeSeal(final byte[] foreignRemainderVektor, final byte[] ownRemainderVector) {
-        if (foreignRemainderVektor == null
+    public final static int NO_MATCHING_ATTRIBUTES = 0;
+
+
+
+
+
+    /**
+     * Tests two remainder vectors on their degree of similarity.
+     *
+     * @param foreignRemainderVector the to be tested ordered foreign remainder vector
+     * @param ownRemainderVector the the ordered remainder vector the foreign vector is to be tested
+     *                           against
+     * @return the degree of matching 0 <= matches <= foreignRemainderVector.length
+     */
+    public int probeSeal(final byte[] foreignRemainderVector, final byte[] ownRemainderVector) {
+        int matches = 0;
+        if (foreignRemainderVector == null
                 || ownRemainderVector == null
-                || foreignRemainderVektor.length != ownRemainderVector.length) {
-            return false;
+                || foreignRemainderVector.length != ownRemainderVector.length) {
+            matches = NO_MATCHING_ATTRIBUTES;
         } else {
-
+            final int length = foreignRemainderVector.length;
+            for (int i = 0; i < length; i++) {
+                if ((foreignRemainderVector[i] - ownRemainderVector[i]) == 0) {
+                    matches++;
+                }
+            }
         }
-
-
-        return false;
+        return matches;
     }
-
 
     /*
     adapted from http://stackoverflow.com/questions/2799078/permutation-algorithm-without-recursion-java
@@ -45,7 +62,7 @@ public class Corkscrew {
             this(vector, vector.length);
         }
 
-        private PermutationIterator(final T[] vector,final int size) {
+        private PermutationIterator(final T[] vector, final int size) {
             this.vector = vector.clone();
             this.swaps = new int[size];
             for (int i = 0; i < swaps.length; i++)
@@ -69,8 +86,7 @@ public class Corkscrew {
 
             if (i < 0) {
                 this.vector = null;
-            }
-            else {
+            } else {
                 int prev = this.swaps[i];
                 swap(i, prev);
                 int next = prev + 1;
@@ -81,7 +97,7 @@ public class Corkscrew {
             return res;
         }
 
-        final private void swap(final int i,final int j) {
+        final private void swap(final int i, final int j) {
             final T temp = this.vector[i];
             this.vector[i] = this.vector[j];
             this.vector[j] = temp;

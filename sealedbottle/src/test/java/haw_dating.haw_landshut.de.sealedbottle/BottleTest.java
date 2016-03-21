@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p/>
+ * <p>
  * 12/16/15 by s-gheldd
  */
 public class BottleTest {
@@ -27,7 +27,7 @@ public class BottleTest {
 
     @Before
     public void setup() {
-        this.bottlable = new BottlableTest();
+        this.bottlable = BottleableTest.SIMPLE_BOTTLEABLE;
     }
 
 
@@ -57,7 +57,7 @@ public class BottleTest {
         assertArrayEquals(((((ArrayList<ArrayList<byte[]>>) optionalHash.get(this.bottle)).get(0))).get(0),
                 ((ArrayList<byte[]>) necessaryHash.get(this.bottle)).get(0));
 
-        byte[] bytes = (  (ArrayList<byte[]>) necessaryHash.get(this.bottle)).get(0);
+        byte[] bytes = ((ArrayList<byte[]>) necessaryHash.get(this.bottle)).get(0);
         StringBuilder builder = new StringBuilder();
         for (byte x : bytes) {
             builder.append(String.format("%02x", x));
@@ -68,7 +68,7 @@ public class BottleTest {
 
 
     @Test
-    public void testGetHintMatrix(){
+    public void testGetHintMatrix() {
         this.bottle = new Bottle(this.bottlable);
         this.bottle.fill();
         this.bottle.cork();
