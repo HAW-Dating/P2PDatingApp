@@ -6,8 +6,13 @@
 
 package haw_dating.haw_landshut.de.sealedbottle;
 
+import org.apache.commons.math3.fraction.BigFraction;
+import org.apache.commons.math3.linear.FieldMatrix;
+
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -22,7 +27,13 @@ public class Corkscrew {
 
 
 
-
+    public Map<Integer, byte[]> findMissingHashes (final FieldMatrix<BigFraction> hintMatrix,
+                                                   final List<byte[]> hashedAttributes,
+                                                   final byte[] foreignRemainderVector,
+                                                   final byte[] ownRemainderVector,
+                                                   int similarityThreshold ) {
+        return null;
+    }
 
     /**
      * Tests two remainder vectors on their degree of similarity.
