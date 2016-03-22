@@ -7,9 +7,10 @@
 package haw_dating.haw_landshut.de.sealedbottle;
 
 import org.apache.commons.math3.fraction.BigFraction;
-import org.apache.commons.math3.linear.AbstractFieldMatrix;
 import org.apache.commons.math3.linear.BlockFieldMatrix;
+import org.apache.commons.math3.linear.FieldMatrix;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,7 +21,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p>
+ * <p/>
  * 11/20/15 by s-gheldd
  */
 
@@ -29,8 +30,8 @@ public class Bottle {
     private final Bottlable bottlable;
     private final ArrayList<String> necessaryAttributes = new ArrayList<>();
     private final ArrayList<byte[]> hashedNecessaryAttributes = new ArrayList<>();
-    private final ArrayList<ArrayList<String>> optionalAttributes = new ArrayList<>();
-    private final ArrayList<ArrayList<byte[]>> hashedOptionalAttributes = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> optionalAttributeFields = new ArrayList<>();
+    private final ArrayList<ArrayList<byte[]>> hashedOptionalAttributeFields = new ArrayList<>();
     private final byte[] reminderVectorNecessary;
     private final byte[][] reminderVectorOptional;
     private final int[] similarilyThreshold;
@@ -38,14 +39,14 @@ public class Bottle {
     private final int numberOfOptionalAttributeFields;
     private final int[] numberOfOptionalAttributes;
     private final int recievedOptionalAttributes[];
+    private final ArrayList<BigFraction[][]> constraintMatrixArrays;
+    private final ArrayList<FieldMatrix<BigFraction>> constraintMatixes;
+    private final ArrayList<FieldMatrix<BigFraction>> bMatrixes;
     private MessageDigest messageDigest;
     private int recievedOptionalAttributeFields = 0;
     private int recievedNeccessaryAttributes = 0;
     private Bottle.State state;
     private byte[] hashOfBottle;
-    private final ArrayList<BigFraction[][]> constraintMatrixArrays;
-    private final ArrayList<AbstractFieldMatrix<BigFraction>> constraintMatixes;
-    private final ArrayList<BigFraction[][]> bMatrixes;
 
     /**
      * Creates a new Bottle fom a Bottlable interface. Checks if the metadata of the Bottlable object
@@ -68,7 +69,7 @@ public class Bottle {
         this.bMatrixes = new ArrayList<>();
 
         for (int i = 0; i < this.numberOfOptionalAttributeFields; i++) {
-            final int numberOfOptionalAttributes =  bottlable.getNumberOfOptionalAttributes(i);
+            final int numberOfOptionalAttributes = bottlable.getNumberOfOptionalAttributes(i);
             final int similarityThreshold = bottlable.getSimilarityThreshold(i);
             this.numberOfOptionalAttributes[i] = numberOfOptionalAttributes;
             this.similarilyThreshold[i] = similarityThreshold;
@@ -91,7 +92,7 @@ public class Bottle {
     /**
      * Fills the Bottle. All attributes get normalized in the process. Needs to be invoked before Bottle.cork().
      */
-    public void fill() {
+    public Bottle fill() {
         if (State.OPEN.equals(this.state)) {
             final Random random = new Random(System.currentTimeMillis());
             for (recievedNeccessaryAttributes = 0; recievedNeccessaryAttributes < numberOfNecessaryAttributes;
@@ -101,36 +102,39 @@ public class Bottle {
 
             for (recievedOptionalAttributeFields = 0; recievedOptionalAttributeFields < numberOfOptionalAttributeFields;
                  recievedOptionalAttributeFields++) {
-                optionalAttributes.add(new ArrayList<String>());
+                optionalAttributeFields.add(new ArrayList<String>());
                 for (recievedOptionalAttributes[recievedOptionalAttributeFields] = 0;
                      recievedOptionalAttributes[recievedOptionalAttributeFields] < numberOfOptionalAttributes[recievedOptionalAttributeFields];
                      recievedOptionalAttributes[recievedOptionalAttributeFields]++) {
-                    optionalAttributes.get(recievedOptionalAttributeFields).add(bottlable.getOptionalAttribute(recievedOptionalAttributeFields));
+                    optionalAttributeFields.get(recievedOptionalAttributeFields).add(bottlable.getOptionalAttribute(recievedOptionalAttributeFields));
                 }
                 final BigFraction[][] constraintMatrixArray = constraintMatrixArrays.get(recievedOptionalAttributeFields);
                 final int optionals = this.numberOfOptionalAttributes[recievedOptionalAttributeFields]
                         - this.similarilyThreshold[recievedOptionalAttributeFields];
-                for (int row = 0; row < optionals; row++){
-                    for (int column =0; column < optionals; column++){
-                        constraintMatrixArray[row][column] = (row == column) ? new BigFraction(1) : new BigFraction(1) ;
-                    }
-                }
-
-                for (int row = 0; row < optionals; row++) {
-                    for (int column = optionals; column < this.numberOfOptionalAttributes[recievedOptionalAttributeFields]; column++){
-                        int ran = random.nextInt();
-                        while (ran == 0){
-                            ran = random.nextInt();
+                if (optionals > 0) {
+                    for (int row = 0; row < optionals; row++) {
+                        for (int column = 0; column < optionals; column++) {
+                            constraintMatrixArray[row][column] = (row == column) ? new BigFraction(1) : new BigFraction(0);
                         }
-                        constraintMatrixArray[row][column] = new BigFraction(ran);
                     }
+
+                    for (int row = 0; row < optionals; row++) {
+                        for (int column = optionals; column < this.numberOfOptionalAttributes[recievedOptionalAttributeFields]; column++) {
+                            int ran = random.nextInt();
+                            while (ran == 0) {
+                                ran = random.nextInt();
+                            }
+                            constraintMatrixArray[row][column] = new BigFraction(ran);
+                        }
+                    }
+                    constraintMatixes.add(new BlockFieldMatrix<>(constraintMatrixArray));
+                    constraintMatrixArrays.set(recievedOptionalAttributeFields, null);
                 }
-                constraintMatixes.add(new BlockFieldMatrix<>(constraintMatrixArray));
-                constraintMatrixArrays.set(recievedOptionalAttributeFields,null);
             }
 
             this.state = State.FILLED;
         }
+        return this;
     }
 
     /**
@@ -138,7 +142,7 @@ public class Bottle {
      *
      * @throws IllegalStateException if Bottle.fill() was not invoked prior.
      */
-    public void cork() throws IllegalStateException {
+    public Bottle cork() throws IllegalStateException {
         if (State.FILLED.equals(this.state)) {
             for (final String attribute :
                     necessaryAttributes) {
@@ -147,16 +151,28 @@ public class Bottle {
             }
 
             for (int i = 0; i < numberOfOptionalAttributeFields; i++) {
-                hashedOptionalAttributes.add(new ArrayList<byte[]>());
-                for (final String attribute : optionalAttributes.get(i)) {
+                final ArrayList<String> optionalAttributes = optionalAttributeFields.get(i);
+                final int fieldSize = optionalAttributes.size();
+                final BigFraction[][] fractionArray = new BigFraction[fieldSize][1];
+                hashedOptionalAttributeFields.add(new ArrayList<byte[]>());
+                for (int j = 0; j < fieldSize; j++) {
+                    final String attribute = optionalAttributes.get(j);
                     messageDigest.update(attribute.getBytes());
-                    hashedOptionalAttributes.get(i).add(messageDigest.digest());
+                    final byte[] hash = messageDigest.digest();
+                    hashedOptionalAttributeFields.get(i).add(hash);
+                    fractionArray[j][0] = new BigFraction(new BigInteger(hash));
+                }
+                if (this.numberOfOptionalAttributes[i]
+                        - this.similarilyThreshold[i] > 0) {
+                    final BlockFieldMatrix<BigFraction> attributeVector = new BlockFieldMatrix<BigFraction>(fractionArray);
+                    bMatrixes.add(constraintMatixes.get(i).multiply(attributeVector));
                 }
             }
             this.state = State.CORKED;
         } else if (State.OPEN.equals(this.state)) {
             throw new IllegalStateException("Bottle needs to invoke fill(), before cork()");
         }
+        return this;
     }
 
     /**
@@ -164,7 +180,7 @@ public class Bottle {
      *
      * @throws IllegalStateException if Bottle.fill() was not invoked prior.
      */
-    public void seal() throws IllegalStateException {
+    public Bottle seal() throws IllegalStateException {
         if (State.CORKED.equals(this.state)) {
             for (int i = 0; i < numberOfNecessaryAttributes; i++) {
                 final byte[] attribute = hashedNecessaryAttributes.get(i);
@@ -175,7 +191,7 @@ public class Bottle {
             for (int i = 0; i < numberOfOptionalAttributeFields; i++) {
                 reminderVectorOptional[i] = new byte[numberOfOptionalAttributes[i]];
                 for (int j = 0; j < numberOfOptionalAttributes[i]; j++) {
-                    final byte[] attribute = hashedOptionalAttributes.get(i).get(j);
+                    final byte[] attribute = hashedOptionalAttributeFields.get(i).get(j);
                     reminderVectorOptional[i][j] = BottleUtil.calculateReminderSeven(attribute);
                     messageDigest.update(attribute);
                 }
@@ -185,6 +201,7 @@ public class Bottle {
         } else if (State.OPEN.equals(this.state) || State.FILLED.equals(this.state)) {
             throw new IllegalStateException("Bottle needs to invoke cork(), before cork()");
         }
+        return this;
     }
 
     /**
@@ -193,7 +210,7 @@ public class Bottle {
      * @return a byte[] of length 256 representing the key.
      * @throws IllegalStateException if Bottle is not in State.SEALED at time of invocation.
      */
-    public byte[] getKeyAsByteArray() throws IllegalStateException{
+    public byte[] getKeyAsByteArray() throws IllegalStateException {
         if (State.SEALED.equals(this.state)) {
             final byte[] key = new byte[hashOfBottle.length];
             System.arraycopy(hashOfBottle, 0, key, 0, hashOfBottle.length);
@@ -214,6 +231,83 @@ public class Bottle {
             return new SecretKeySpec(hashOfBottle, "AES");
         } else {
             throw new IllegalStateException("Bottle needs to be in State.SEALED");
+        }
+    }
+
+    /**
+     * Creates and returns the Hintmatrix to the corresponding optional attribute set.
+     *
+     * @param numberOfOptionalAttributeField int containing the number of the optional attribute set
+     * @return a Hintmatrix of the form M = {C|b} as a 2D BigFraction array, null if for the given field no
+     * Hintmatrix can be created (100% attribute matching)
+     * @throws IllegalStateException if Bottle is not in State.SEALED at time of invocation.
+     *                               IllegalArgumetException if no corresponding field exists.
+     */
+    public BigFraction[][] getHintMatrix(final int numberOfOptionalAttributeField) throws IllegalStateException {
+
+        if (!State.SEALED.equals(this.state)) {
+            throw new IllegalStateException("Bottle needs to be in State.SEALED");
+        } else if (numberOfOptionalAttributeField > this.numberOfOptionalAttributeFields - 1) {
+            throw new IllegalArgumentException("no corresponding optional argument field exists");
+        } else if (constraintMatixes.size() == 0) {
+            return null;
+        } else {
+            try {
+                final FieldMatrix<BigFraction> constraintMatrix = this.constraintMatixes.get(numberOfOptionalAttributeField);
+                final FieldMatrix<BigFraction> bMatrix = this.bMatrixes.get(numberOfOptionalAttributeField);
+                final int rows = constraintMatrix.getRowDimension();
+                final int columns = constraintMatrix.getColumnDimension();
+                final BigFraction[][] hintMatrix = new BigFraction[rows][columns + 1];
+                for (int row = 0; row < rows; row++) {
+                    int column;
+                    final BigFraction[] rowArray = constraintMatrix.getRow(row);
+                    for (column = 0; column < columns; column++) {
+                        hintMatrix[row][column] = rowArray[column];
+                    }
+                    hintMatrix[row][column] = bMatrix.getRow(row)[0];
+                }
+                return hintMatrix;
+            } catch (IndexOutOfBoundsException ex) {
+                return null;
+            }
+        }
+    }
+
+    /**
+     * Get the Remaindervector (mod 7) of the hashed necessary attributes.
+     *
+     * @return the Remaindervector of the necessary attributes, where Remaindervector_i = hash(attribute_i) mod 7
+     * @throws IllegalStateException if Bottle is not in State.SEALED at time of invocation.
+     */
+    public byte[] getReminderVectorNecessary() throws IllegalStateException {
+        if (State.SEALED.equals(this.state)) {
+            final int length = reminderVectorNecessary.length;
+            final byte[] returnVector = new byte[length];
+            System.arraycopy(this.reminderVectorNecessary, 0, returnVector, 0, length);
+            return returnVector;
+        } else {
+            throw new IllegalStateException("Bottle needs to be in State.SEALED");
+        }
+    }
+
+    /**
+     * Get the Remaindervector (mod 7) of the hashed optional attributes.
+     *
+     * @param numberOfOptionalAttributeField int containing the number of the optional attribute set
+     * @return the Remaindervector of the corresponding optional attribute field, where Remaindervector_i = hash(attribute_i) mod 7
+     * @throws IllegalStateException if Bottle is not in State.SEALED at time of invocation.
+     *                               IllegalArgumetException if no corresponding field exists.
+     */
+    public byte[] getReminderVectorOptional(final int numberOfOptionalAttributeField) throws IllegalStateException {
+        if (!State.SEALED.equals(this.state)) {
+            throw new IllegalStateException("Bottle needs to be in State.SEALED");
+        } else if (numberOfOptionalAttributeField > this.numberOfOptionalAttributeFields - 1) {
+            throw new IllegalArgumentException("no corresponding optional argument field exists");
+        } else {
+            final int length = reminderVectorOptional[numberOfOptionalAttributeField].length;
+            final byte[] returnVector = new byte[length];
+            System.arraycopy(this.reminderVectorOptional[numberOfOptionalAttributeField], 0, returnVector, 0, length);
+            return returnVector;
         }
     }
 
