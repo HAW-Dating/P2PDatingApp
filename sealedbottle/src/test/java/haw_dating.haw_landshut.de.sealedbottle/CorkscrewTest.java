@@ -36,5 +36,6 @@ public class CorkscrewTest extends TestCase {
         thirdBottle.fill().cork().seal();
         assertEquals(3, new Corkscrew().probeSeal(firstBottle.getReminderVectorOptional(0), secondBottle.getReminderVectorOptional(0)));
         assertEquals(0, new Corkscrew().probeSeal(secondBottle.getReminderVectorNecessary(),thirdBottle.getReminderVectorNecessary()));
+        assertEquals(2,new Corkscrew().probeSeal(firstBottle.getReminderVectorNecessary(),secondBottle.getReminderVectorNecessary()));
     }
 }
