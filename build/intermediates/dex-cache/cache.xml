@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/daniel/Studienprojekt/P2PDatingApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/home/daniel/Studienprojekt/P2PDatingApp/app/build/intermediates/pre-dexed/debug/classes-a77bf46ed8ed8fa4f915c96881ff15c7be36babb.jar" />
+    </item>
+    <item
+        jar="/home/daniel/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/home/daniel/Studienprojekt/P2PDatingApp/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-550bdeadff2b5bca853e4953fd3525e292fb7966.jar" />
+    </item>
+    <item
+        jar="/home/daniel/Studienprojekt/P2PDatingApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/home/daniel/Studienprojekt/P2PDatingApp/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-fe99cdd1bc3d0b5249078be872d19a4609282c9c.jar" />
+    </item>
+    <item
+        jar="/home/daniel/Studienprojekt/P2PDatingApp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/home/daniel/Studienprojekt/P2PDatingApp/app/build/intermediates/pre-dexed/debug/classes-fcf713d2c11ffe04b79e643bda9d90eebe5a64c4.jar" />
+    </item>
+    <item
+        jar="/home/daniel/Studienprojekt/P2PDatingApp/app/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="/home/daniel/Studienprojekt/P2PDatingApp/app/build/intermediates/pre-dexed/debug/classes-50bb4126871ff8176554c9005c736b3558346af7.jar" />
+    </item>
+
+</items>
