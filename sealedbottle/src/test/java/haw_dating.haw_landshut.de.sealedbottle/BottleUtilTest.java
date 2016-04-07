@@ -49,7 +49,7 @@ public class BottleUtilTest {
 
     @Test
     public void calculateRemainderTest() throws Exception {
-        Bottle bottle = new Bottle(new BottlableTest());
+        Bottle bottle = new Bottle(BottleableTest.SIMPLE_BOTTLEABLE);
         bottle.fill();
         bottle.cork();
         Field necessaryHash = bottle.getClass().getDeclaredField("hashedNecessaryAttributes");
