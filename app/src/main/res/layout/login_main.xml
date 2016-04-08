@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--
+    Revision by Altrichter Daniel on 4.04.16.
+    Einfügen eines Drawers.
+    -->
+
 <!-- Create by Daniel -->
+
+<!--
+Revision by Altrichter Daniel on 15.03.16.
+
+LinearLayout ID gegeben um Wischfunktionen zu implementieren
+-->
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -8,6 +25,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:id="@+id/login_activity_linear_layout"
     >
 
     <ImageView
@@ -41,3 +59,36 @@
         android:text="@string/login"
         />
 </LinearLayout>
+    <ListView
+        android:id="@+id/main_lv_menu"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|start"
+        android:background="@color/white"
+        >
+        <!--
+                <TextView
+                    style="@style/nv_drawer_style"
+                    android:text="@string/dr_eigenes_profil"
+                    />
+                <TextView
+                    style="@style/nv_drawer_style"
+                    android:text="@string/dr_nachrichten"
+                    />
+                <TextView
+                    style="@style/nv_drawer_style"
+                    android:text="@string/dr_matchings"
+                    />
+                <TextView
+                    style="@style/nv_drawer_style"
+                    android:text="@string/dr_suchprofil"
+                    />
+                <TextView
+                    style="@style/nv_drawer_style"
+                    android:text="@string/dr_infos"
+                    />
+        -->
+    </ListView>
+
+
+</android.support.v4.widget.DrawerLayout>

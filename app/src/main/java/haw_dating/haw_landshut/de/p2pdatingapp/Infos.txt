@@ -31,7 +31,13 @@ Um die gesamten Ordner (leeren Drawable-Ordner) zu sehen muss an dem Linken Rand
 (in der 4ten Zeile-Combobox) Project auswählen.
 
 Daniel:
-
-- Activitys in der AndroidMainfest eintragen
 - Setting-Sidebar erstellen und einfügen
-- Activity wechseln programmieren
+- Match Activity erstellen
+
+
+
+
+Erledigt
+Daniel:
+- Activitys in der AndroidMainfest eintragen!   15.03.16
+- Activity wechseln programmieren               15.03.16
