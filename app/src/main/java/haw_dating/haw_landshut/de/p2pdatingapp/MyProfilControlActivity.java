@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 /**
@@ -14,8 +17,15 @@ import android.widget.Toast;
  * Revision by Altrichter Daniel on 15.03.16.
  * Implements OnTouchListener
  * wird gebraucht für die Wischfunktionen.
+ *
+ * Revision by Altrichter Daniel on 4.04.16.
+ * einfügen eines Navigation Drawers.
+ *
  */
 public class MyProfilControlActivity extends Activity implements View.OnTouchListener{
+
+    private ListView drawerList;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +34,59 @@ public class MyProfilControlActivity extends Activity implements View.OnTouchLis
 
         LinearLayout bildschirm = (LinearLayout) findViewById(R.id.my_profil_control_linear_layout);
         bildschirm.setOnTouchListener(this);
+
+
+
+
+        // Navigations Drawer
+        drawerList = (ListView) findViewById(R.id.main_lv_menu);
+        addDrawerItems();
+
+        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    // MyProfilActivity
+                    case 0:  Toast.makeText(MyProfilControlActivity.this, "Eigenes Profil", Toast.LENGTH_SHORT).show();
+                        myProfil();
+                        break;
+                    //
+                    case 1:  Toast.makeText(MyProfilControlActivity.this, "Nachrichten", Toast.LENGTH_SHORT).show();
+                        break;
+                    // wer ein treffer ist.
+                    case 2:  Toast.makeText(MyProfilControlActivity.this, "Matchings", Toast.LENGTH_SHORT).show();
+                        findYourLove();
+                        break;
+                    // SearchProfilActivity
+                    case 3:  Toast.makeText(MyProfilControlActivity.this, "Suchprofil", Toast.LENGTH_SHORT).show();
+                        searchProfil();
+                        break;
+                    // rausschmeißen da es das selbe wie Eigenes Profil ist.
+                    case 4:  Toast.makeText(MyProfilControlActivity.this, "Infos bearbeiten", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    // Wenn noch Zeit dann Einstellungen hinzufügen!!!
+                    default:  Toast.makeText(MyProfilControlActivity.this, "So a schmarn", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+    }
+    private void addDrawerItems(){
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, (getResources().getStringArray(R.array.drawer_list_menu_array)));
+        drawerList.setAdapter(adapter);
+    }
+    private void myProfil(){
+        Intent intent = new Intent(this, MyProfilActivity.class);
+        startActivity(intent);
+    }
+    private void searchProfil(){
+        Intent intent = new Intent(this, SearchProfilActivity.class);
+        startActivity(intent);
+    }
+    private void findYourLove(){
+        Intent intent = new Intent(this, FindYourLoveActivity.class);
+        startActivity(intent);
     }
 
     /** Created by daniel on 15.03.16.
