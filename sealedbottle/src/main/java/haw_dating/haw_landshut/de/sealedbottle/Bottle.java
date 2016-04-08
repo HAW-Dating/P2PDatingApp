@@ -21,7 +21,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p/>
+ * <p>
  * 11/20/15 by s-gheldd
  */
 
@@ -318,6 +318,14 @@ public class Bottle {
      */
     public Bottle.State getState() {
         return this.state;
+    }
+
+    public int getSimilarityThreshold(final int optionalFieldNumber) {
+        return similarilyThreshold[optionalFieldNumber];
+    }
+
+    public ArrayList<byte[]> getHashedOptionalAttributeField(final int optionalFieldNumber) {
+        return new ArrayList<>(hashedOptionalAttributeFields.get(optionalFieldNumber));
     }
 
     /**

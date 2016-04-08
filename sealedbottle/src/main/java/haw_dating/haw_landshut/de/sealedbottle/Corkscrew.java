@@ -7,7 +7,6 @@
 package haw_dating.haw_landshut.de.sealedbottle;
 
 import org.apache.commons.math3.fraction.BigFraction;
-import org.apache.commons.math3.linear.FieldMatrix;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -26,12 +25,25 @@ public class Corkscrew {
     public final static int NO_MATCHING_ATTRIBUTES = 0;
 
 
+    public Map<Integer, byte[]> findMissingHashes(final BigFraction[][] hintMatrix,
+                                                  final List<byte[]> hashedAttributes,
+                                                  final byte[] foreignRemainderVector,
+                                                  final byte[] ownRemainderVector,
+                                                  int similarityThreshold) {
+        final BigFraction[][] mMatrix = new BigFraction[hintMatrix.length][hintMatrix[0].length - 1];
+        final BigFraction[] bVector = new BigFraction[hintMatrix.length];
 
-    public Map<Integer, byte[]> findMissingHashes (final FieldMatrix<BigFraction> hintMatrix,
-                                                   final List<byte[]> hashedAttributes,
-                                                   final byte[] foreignRemainderVector,
-                                                   final byte[] ownRemainderVector,
-                                                   int similarityThreshold ) {
+        for (int row = 0; row < hintMatrix.length; row++) {
+            final int columns = hintMatrix[0].length-1;
+            for (int column = 0; column < columns; column ++) {
+                mMatrix[row][column] = hintMatrix[row][column];
+            }
+            bVector[row] = hintMatrix[row][hintMatrix[0].length-1];
+        }
+        System.out.println(Arrays.deepToString(hintMatrix));
+        System.out.println(Arrays.deepToString(mMatrix));
+        System.out.println(Arrays.deepToString(bVector));
+
         return null;
     }
 
@@ -39,8 +51,8 @@ public class Corkscrew {
      * Tests two remainder vectors on their degree of similarity.
      *
      * @param foreignRemainderVector the to be tested ordered foreign remainder vector
-     * @param ownRemainderVector the the ordered remainder vector the foreign vector is to be tested
-     *                           against
+     * @param ownRemainderVector     the the ordered remainder vector the foreign vector is to be tested
+     *                               against
      * @return the degree of matching 0 <= matches <= foreignRemainderVector.length
      */
     public int probeSeal(final byte[] foreignRemainderVector, final byte[] ownRemainderVector) {
