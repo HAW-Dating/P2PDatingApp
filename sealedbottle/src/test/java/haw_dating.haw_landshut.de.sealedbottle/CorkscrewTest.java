@@ -6,17 +6,18 @@
 
 package haw_dating.haw_landshut.de.sealedbottle;
 
-import junit.framework.TestCase;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p>
+ * <p/>
  * 3/21/16 by s-gheldd
  */
-public class CorkscrewTest extends TestCase {
+public class CorkscrewTest {
     private final Bottlable firstThree = new BottleableTest.ThreeOptionalDifferentAttributesBottleable();
     private final Bottlable secondThree = new BottleableTest.ThreeOptionalDifferentAttributesBottleable();
     private final Bottlable simple = BottleableTest.SIMPLE_BOTTLEABLE;
@@ -38,6 +39,8 @@ public class CorkscrewTest extends TestCase {
         assertEquals(2, new Corkscrew().probeSeal(firstBottle.getReminderVectorNecessary(), secondBottle.getReminderVectorNecessary()));
     }
 
+
+    @Test(timeout = 500)
     public void testFindMissingHashes() throws Exception {
         firstBottle = new Bottle(firstThree);
         firstBottle.fill().cork().seal();

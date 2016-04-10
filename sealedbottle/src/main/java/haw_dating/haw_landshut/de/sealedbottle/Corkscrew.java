@@ -8,41 +8,93 @@ package haw_dating.haw_landshut.de.sealedbottle;
 
 import org.apache.commons.math3.fraction.BigFraction;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p>
+ * <p/>
  * 3/17/16 by s-gheldd
  */
 public class Corkscrew {
 
     public final static int NO_MATCHING_ATTRIBUTES = 0;
 
+    private static List<PermutationPossibility> findPermutationPossibilities(
+            final byte[] foreignRemainderVector,
+            final byte[] ownRemainderVector,
+            final int similarityThreshold) {
+        if (foreignRemainderVector == null
+                || ownRemainderVector == null
+                || foreignRemainderVector.length != ownRemainderVector.length) {
+            return null;
+        }
+        final Byte[] bigByteRemainderVector = new Byte[ownRemainderVector.length];
+        for (int i = 0; i < ownRemainderVector.length; i++) {
+            bigByteRemainderVector[i] = Byte.valueOf(ownRemainderVector[i]);
+        }
+        final ArrayList<PermutationPossibility> permutationPossibilities = new ArrayList<>();
+        final CorkscrewUtil.CorkscrewPermutationIterator<Integer> corkscrewPermutationIterator
+                = new CorkscrewUtil.CorkscrewPermutationIterator<>(CorkscrewUtil.createIntegerRange(ownRemainderVector.length));
+        while (corkscrewPermutationIterator.hasNext()) {
+            permutationPossibilities.addAll(findPermutationPossibilitiesForPermutationVector(
+                    corkscrewPermutationIterator.next(),
+                    foreignRemainderVector,
+                    ownRemainderVector,
+                    similarityThreshold));
+        }
+        return permutationPossibilities;
+    }
+
+    private static List<PermutationPossibility> findPermutationPossibilitiesForPermutationVector(final Integer[] permutationVector,
+                                                                                                 final byte[] foreignRemainderVector,
+                                                                                                 final byte[] ownRemainderVector,
+                                                                                                 final int similarityThreshold) {
+
+        final ArrayList<PermutationPossibility> permutationPossibilities = new ArrayList<>();
+        final int length = ownRemainderVector.length;
+        final byte[] swappedVector = new byte[length];
+        for (int i = 0; i < length; i++) {
+            swappedVector[i] = ownRemainderVector[permutationVector[i].intValue()];
+        }
+
+
+        final ArrayList<Integer> possibleFixPoints = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            if (swappedVector[i] == foreignRemainderVector[i]) {
+                possibleFixPoints.add(Integer.valueOf(i));
+            }
+        }
+
+        while (possibleFixPoints.size() >= similarityThreshold) {
+
+        }
+        return permutationPossibilities;
+
+    }
 
     public Map<Integer, byte[]> findMissingHashes(final BigFraction[][] hintMatrix,
                                                   final List<byte[]> hashedAttributes,
                                                   final byte[] foreignRemainderVector,
                                                   final byte[] ownRemainderVector,
-                                                  int similarityThreshold) {
+                                                  final int similarityThreshold) {
         final BigFraction[][] mMatrix = new BigFraction[hintMatrix.length][hintMatrix[0].length - 1];
         final BigFraction[] bVector = new BigFraction[hintMatrix.length];
 
         for (int row = 0; row < hintMatrix.length; row++) {
-            final int columns = hintMatrix[0].length-1;
-            for (int column = 0; column < columns; column ++) {
+            final int columns = hintMatrix[0].length - 1;
+            for (int column = 0; column < columns; column++) {
                 mMatrix[row][column] = hintMatrix[row][column];
             }
-            bVector[row] = hintMatrix[row][hintMatrix[0].length-1];
+            bVector[row] = hintMatrix[row][hintMatrix[0].length - 1];
         }
-        System.out.println(Arrays.deepToString(hintMatrix));
-        System.out.println(Arrays.deepToString(mMatrix));
-        System.out.println(Arrays.deepToString(bVector));
+        System.out.println("hint" + Arrays.deepToString(hintMatrix));
+        System.out.println("m" + Arrays.deepToString(mMatrix));
+        System.out.println("b" + Arrays.deepToString(bVector));
+        findPermutationPossibilities(foreignRemainderVector, ownRemainderVector, similarityThreshold);
 
         return null;
     }
@@ -72,68 +124,21 @@ public class Corkscrew {
         return matches;
     }
 
-    /*
-    adapted from http://stackoverflow.com/questions/2799078/permutation-algorithm-without-recursion-java
-     */
-    public static class PermutationIterator<T> implements Iterator<T[]> {
-        private T[] vector;
+    public static final class PermutationPossibility {
+        final int[] permutations;
+        final int[] possibleFixPoints;
 
-        private int[] swaps;
-
-
-        PermutationIterator(final T[] vector) {
-            this(vector, vector.length);
+        public PermutationPossibility(final int[] permutations, final int[] possibleFixPoints) {
+            this.permutations = permutations.clone();
+            this.possibleFixPoints = possibleFixPoints.clone();
         }
 
-        private PermutationIterator(final T[] vector, final int size) {
-            this.vector = vector.clone();
-            this.swaps = new int[size];
-            for (int i = 0; i < swaps.length; i++)
-                swaps[i] = i;
+        public int[] getPermutations() {
+            return permutations.clone();
         }
 
-        @Override
-        public T[] next() {
-            if (this.vector == null) {
-                throw new NoSuchElementException();
-            }
-
-            T[] res = Arrays.copyOf(this.vector, this.swaps.length);
-
-            int i = this.swaps.length - 1;
-            while (i >= 0 && this.swaps[i] == this.vector.length - 1) {
-                swap(i, this.swaps[i]); // Undo the swap
-                this.swaps[i] = i;
-                i--;
-            }
-
-            if (i < 0) {
-                this.vector = null;
-            } else {
-                int prev = this.swaps[i];
-                swap(i, prev);
-                int next = prev + 1;
-                this.swaps[i] = next;
-                swap(i, next);
-            }
-
-            return res;
-        }
-
-        final private void swap(final int i, final int j) {
-            final T temp = this.vector[i];
-            this.vector[i] = this.vector[j];
-            this.vector[j] = temp;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return this.vector == null ? false : true;
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
+        public int[] getPossibleFixPoints() {
+            return possibleFixPoints.clone();
         }
     }
 
