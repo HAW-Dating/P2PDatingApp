@@ -6,12 +6,18 @@
 
 package haw_dating.haw_landshut.de.sealedbottle;
 
+import org.apache.commons.collections4.iterators.PermutationIterator;
 import org.apache.commons.math3.fraction.BigFraction;
+import org.apache.commons.math3.util.Combinations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
@@ -37,11 +43,12 @@ public class Corkscrew {
             bigByteRemainderVector[i] = Byte.valueOf(ownRemainderVector[i]);
         }
         final ArrayList<PermutationPossibility> permutationPossibilities = new ArrayList<>();
-        final CorkscrewUtil.CorkscrewPermutationIterator<Integer> corkscrewPermutationIterator
-                = new CorkscrewUtil.CorkscrewPermutationIterator<>(CorkscrewUtil.createIntegerRange(ownRemainderVector.length));
-        while (corkscrewPermutationIterator.hasNext()) {
+
+        final PermutationIterator<Integer> permutationIterator = new PermutationIterator<>(CorkscrewUtil.createIntegerRangeList(ownRemainderVector.length));
+
+        while (permutationIterator.hasNext()) {
             permutationPossibilities.addAll(findPermutationPossibilitiesForPermutationVector(
-                    corkscrewPermutationIterator.next(),
+                    permutationIterator.next(),
                     foreignRemainderVector,
                     ownRemainderVector,
                     similarityThreshold));
@@ -49,7 +56,7 @@ public class Corkscrew {
         return permutationPossibilities;
     }
 
-    private static List<PermutationPossibility> findPermutationPossibilitiesForPermutationVector(final Integer[] permutationVector,
+    private static List<PermutationPossibility> findPermutationPossibilitiesForPermutationVector(final List<Integer> permutationVector,
                                                                                                  final byte[] foreignRemainderVector,
                                                                                                  final byte[] ownRemainderVector,
                                                                                                  final int similarityThreshold) {
@@ -58,7 +65,7 @@ public class Corkscrew {
         final int length = ownRemainderVector.length;
         final byte[] swappedVector = new byte[length];
         for (int i = 0; i < length; i++) {
-            swappedVector[i] = ownRemainderVector[permutationVector[i].intValue()];
+            swappedVector[i] = ownRemainderVector[permutationVector.get(i).intValue()];
         }
 
 
@@ -69,11 +76,33 @@ public class Corkscrew {
             }
         }
 
-        while (possibleFixPoints.size() >= similarityThreshold) {
+        if (possibleFixPoints.size() >= similarityThreshold) {
+            final Iterator<int[]> combinationIterator = new Combinations(possibleFixPoints.size(), similarityThreshold).iterator();
+            int[] permutationArray = new int[permutationVector.size()];
 
+            for (int i = 0; i < permutationArray.length; i++) {
+                permutationArray[i] = permutationVector.get(i);
+            }
+
+
+            while (combinationIterator.hasNext()) {
+                final int[] combination = combinationIterator.next();
+                final int[] fixPoints = new int[combination.length];
+                for (int i = 0; i < combination.length; i++) {
+                    fixPoints[i] = possibleFixPoints.get(combination[i]);
+                }
+
+                permutationPossibilities.add(new PermutationPossibility(permutationArray, fixPoints));
+            }
         }
-        return permutationPossibilities;
+        return filterSemanticDuplicatePermutations(permutationPossibilities);
 
+    }
+
+    private static List<PermutationPossibility> filterSemanticDuplicatePermutations(ArrayList<PermutationPossibility> permutationPossibilities) {
+
+
+        return permutationPossibilities;
     }
 
     public Map<Integer, byte[]> findMissingHashes(final BigFraction[][] hintMatrix,
@@ -91,10 +120,12 @@ public class Corkscrew {
             }
             bVector[row] = hintMatrix[row][hintMatrix[0].length - 1];
         }
-        System.out.println("hint" + Arrays.deepToString(hintMatrix));
-        System.out.println("m" + Arrays.deepToString(mMatrix));
-        System.out.println("b" + Arrays.deepToString(bVector));
-        findPermutationPossibilities(foreignRemainderVector, ownRemainderVector, similarityThreshold);
+
+        System.out.println(Arrays.toString(foreignRemainderVector));
+        System.out.println(Arrays.toString(ownRemainderVector));
+        System.out.println(findPermutationPossibilities(foreignRemainderVector, ownRemainderVector, similarityThreshold));
+        final List<PermutationPossibility> permutationPossibilities = findPermutationPossibilities(foreignRemainderVector, ownRemainderVector, similarityThreshold);
+
 
         return null;
     }
@@ -125,21 +156,51 @@ public class Corkscrew {
     }
 
     public static final class PermutationPossibility {
-        final int[] permutations;
+        final int[] permutationVector;
         final int[] possibleFixPoints;
 
-        public PermutationPossibility(final int[] permutations, final int[] possibleFixPoints) {
-            this.permutations = permutations.clone();
+        public PermutationPossibility(final int[] permutationVector, final int[] possibleFixPoints) {
+            this.permutationVector = permutationVector.clone();
             this.possibleFixPoints = possibleFixPoints.clone();
         }
 
-        public int[] getPermutations() {
-            return permutations.clone();
+        public int[] getPermutationVector() {
+            return permutationVector.clone();
         }
 
         public int[] getPossibleFixPoints() {
             return possibleFixPoints.clone();
         }
+
+        @Override
+        public String toString() {
+            return "PermutationPossibility{" +
+                    "permutationVector=" + Arrays.toString(permutationVector) +
+                    ", possibleFixPoints=" + Arrays.toString(possibleFixPoints) +
+                    '}';
+        }
+
+        public boolean semanticEquals(final PermutationPossibility that) {
+            final int length = this.possibleFixPoints.length;
+            if (this.permutationVector.length != that.permutationVector.length
+                    || length != that.possibleFixPoints.length) {
+                return false;
+            } else {
+
+
+                final Set<Integer> fixPermutation = new HashSet<>();
+                for (int i = 0; i < length; i++) {
+                    fixPermutation.add(this.permutationVector[this.possibleFixPoints[i]]);
+                }
+                for (int i = 0; i < length; i++) {
+                    if (!fixPermutation.remove(that.permutationVector[that.possibleFixPoints[i]])) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
     }
+
 
 }

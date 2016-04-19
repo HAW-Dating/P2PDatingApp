@@ -8,6 +8,7 @@ package haw_dating.haw_landshut.de.sealedbottle;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -29,6 +30,10 @@ public class CorkscrewUtil {
             range[i] = Integer.valueOf(i);
         }
         return range;
+    }
+
+    public static List<Integer> createIntegerRangeList(final int n){
+        return Arrays.asList(createIntegerRange(n));
     }
 
     /*

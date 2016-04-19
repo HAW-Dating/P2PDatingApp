@@ -7,6 +7,7 @@
 package haw_dating.haw_landshut.de.sealedbottle;
 
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -24,6 +25,13 @@ public class CorkscrewTest {
     private Bottle firstBottle;
     private Bottle secondBottle;
     private Bottle thirdBottle;
+
+    @Test
+    public void testSemanticEquals(){
+        final Corkscrew.PermutationPossibility possibility1 = new Corkscrew.PermutationPossibility(new int[]{0,1,2},new int[]{0,2});
+        final Corkscrew.PermutationPossibility possibility2 = new Corkscrew.PermutationPossibility(new int[]{1,2,0}, new int[]{2,1});
+        Assert.assertTrue(possibility1.semanticEquals(possibility2));
+    }
 
 
     @Test
