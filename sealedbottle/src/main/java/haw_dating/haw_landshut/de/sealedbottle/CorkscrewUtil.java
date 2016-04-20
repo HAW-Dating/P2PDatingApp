@@ -6,6 +6,11 @@
 
 package haw_dating.haw_landshut.de.sealedbottle;
 
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.fraction.BigFraction;
+import org.apache.commons.math3.linear.FieldMatrix;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -18,12 +23,26 @@ import java.util.NoSuchElementException;
  * 4/8/16 by s-gheldd
  */
 public class CorkscrewUtil {
+    /**
+     * Swaps the ath and the bth element in an Array.
+     *
+     * @param vector the array
+     * @param a      number of the first element
+     * @param b      number of the second element
+     * @param <T>    the type of the array
+     */
     public static <T> void swap(final T[] vector, final int a, final int b) {
         final T tmp = vector[a];
         vector[a] = vector[b];
         vector[b] = tmp;
     }
 
+    /**
+     * Creates an integer range 0,1,2,...,n-1.
+     *
+     * @param n the length of the range
+     * @return the range
+     */
     public static Integer[] createIntegerRange(final int n) {
         final Integer[] range = new Integer[n];
         for (int i = 0; i < n; i++) {
@@ -32,7 +51,37 @@ public class CorkscrewUtil {
         return range;
     }
 
-    public static List<Integer> createIntegerRangeList(final int n){
+    /**
+     * Removes one row from a two dimensional array.
+     *
+     * @param matrix the to be trimmed array
+     * @param i      the row number, that gets removed
+     * @return the new array
+     */
+    public static BigFraction[][] removeColumn(final BigFraction[][] matrix, final int i) {
+        final int rows = matrix.length;
+        final int columns = matrix[0].length;
+        final BigFraction[][] erg = new BigFraction[rows][columns - 1];
+
+        for (int row = 0; row < rows; row++) {
+            int ergColumn = 0;
+            for (int column = 0; column < columns; column++) {
+                if (column != i) {
+                    erg[row][ergColumn] = matrix[row][column];
+                    ergColumn++;
+                }
+            }
+        }
+        return erg;
+    }
+
+    /**
+     * Creates an integer range 0,1,2,...,n-1.
+     *
+     * @param n the length of the range
+     * @return the range
+     */
+    public static List<Integer> createIntegerRangeList(final int n) {
         return Arrays.asList(createIntegerRange(n));
     }
 

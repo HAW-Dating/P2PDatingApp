@@ -8,6 +8,8 @@ package haw_dating.haw_landshut.de.sealedbottle;
 
 import org.apache.commons.collections4.iterators.PermutationIterator;
 import org.apache.commons.math3.fraction.BigFraction;
+import org.apache.commons.math3.linear.BlockFieldMatrix;
+import org.apache.commons.math3.linear.FieldMatrix;
 import org.apache.commons.math3.util.Combinations;
 
 import java.util.ArrayList;
@@ -116,19 +118,20 @@ public class Corkscrew {
                                                   final byte[] foreignRemainderVector,
                                                   final byte[] ownRemainderVector,
                                                   final int similarityThreshold) {
-        final BigFraction[][] mMatrix = new BigFraction[hintMatrix.length][hintMatrix[0].length - 1];
-        final BigFraction[] bVector = new BigFraction[hintMatrix.length];
+        final BigFraction[][] mMatrixArray = new BigFraction[hintMatrix.length][hintMatrix[0].length - 1];
+        final BigFraction[] bVectorArray = new BigFraction[hintMatrix.length];
 
         for (int row = 0; row < hintMatrix.length; row++) {
             final int columns = hintMatrix[0].length - 1;
             for (int column = 0; column < columns; column++) {
-                mMatrix[row][column] = hintMatrix[row][column];
+                mMatrixArray[row][column] = hintMatrix[row][column];
             }
-            bVector[row] = hintMatrix[row][hintMatrix[0].length - 1];
+            bVectorArray[row] = hintMatrix[row][hintMatrix[0].length - 1];
         }
         final List<PermutationPossibility> permutationPossibilities = findPermutationPossibilities(foreignRemainderVector, ownRemainderVector, similarityThreshold);
-
-        
+        System.out.println(Arrays.deepToString(hintMatrix));
+        System.out.println(""+ mMatrixArray.length+ " " + mMatrixArray[0].length);
+        FieldMatrix<BigFraction> mMatrix = new BlockFieldMatrix<>(mMatrixArray);
 
 
         return null;
