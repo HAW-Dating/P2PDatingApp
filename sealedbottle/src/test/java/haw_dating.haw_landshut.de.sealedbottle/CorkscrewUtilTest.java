@@ -6,11 +6,15 @@
 
 package haw_dating.haw_landshut.de.sealedbottle;
 
+import org.apache.commons.collections4.iterators.PermutationIterator;
 import org.apache.commons.math3.fraction.BigFraction;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
@@ -28,9 +32,9 @@ public class CorkscrewUtilTest {
         final BigFraction[][] matrix2 = new BigFraction[][]{{new BigFraction(1),
                 new BigFraction(3)}, {new BigFraction(4), new BigFraction(6)}};
 
-        final BigFraction[][] matrixShrunk = CorkscrewUtil.removeColumn(matrix1,1);
+        final BigFraction[][] matrixShrunk = CorkscrewUtil.removeColumn(matrix1, 1);
 
-        Assert.assertFalse(Arrays.deepEquals(matrix1,matrix2));
-        Assert.assertTrue(Arrays.deepEquals(CorkscrewUtil.removeColumn(matrix1,1),matrix2));
+        Assert.assertFalse(Arrays.deepEquals(matrix1, matrix2));
+        Assert.assertTrue(Arrays.deepEquals(CorkscrewUtil.removeColumn(matrix1, 1), matrix2));
     }
 }

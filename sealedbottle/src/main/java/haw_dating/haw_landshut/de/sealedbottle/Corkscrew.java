@@ -95,7 +95,10 @@ public class Corkscrew {
                     fixPoints[i] = possibleFixPoints.get(combination[i]);
                 }
 
-                permutationPossibilities.add(new PermutationPossibility(permutationArray, fixPoints));
+                final PermutationPossibility permutationPossibility = new PermutationPossibility(permutationArray, fixPoints);
+                if (!permutationPossibility.semanticEqualsToAny(permutationPossibilities)) {
+                    permutationPossibilities.add(new PermutationPossibility(permutationArray, fixPoints));
+                }
             }
         }
         return permutationPossibilities;
@@ -130,7 +133,7 @@ public class Corkscrew {
         }
         final List<PermutationPossibility> permutationPossibilities = findPermutationPossibilities(foreignRemainderVector, ownRemainderVector, similarityThreshold);
         System.out.println(Arrays.deepToString(hintMatrix));
-        System.out.println(""+ mMatrixArray.length+ " " + mMatrixArray[0].length);
+        System.out.println("" + mMatrixArray.length + " " + mMatrixArray[0].length);
         FieldMatrix<BigFraction> mMatrix = new BlockFieldMatrix<>(mMatrixArray);
 
 

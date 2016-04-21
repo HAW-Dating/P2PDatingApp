@@ -63,11 +63,14 @@ public class CorkscrewTest {
     public void testFindMissingHashes() throws Exception {
         firstBottle = new Bottle(firstThree);
         firstBottle.fill().cork().seal();
+        secondBottle = new Bottle(simple);
+        secondBottle.fill().cork().seal();
         final Corkscrew corkscrew = new Corkscrew();
         corkscrew.findMissingHashes(firstBottle.getHintMatrix(0),
                 firstBottle.getHashedOptionalAttributeField(0),
                 firstBottle.getReminderVectorOptional(0),
                 firstBottle.getReminderVectorOptional(0),
                 firstBottle.getSimilarityThreshold(0));
+
     }
 }
