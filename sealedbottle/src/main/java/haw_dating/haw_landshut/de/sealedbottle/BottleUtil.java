@@ -6,6 +6,9 @@
 
 package haw_dating.haw_landshut.de.sealedbottle;
 
+import org.apache.commons.math3.fraction.BigFraction;
+
+import java.math.BigInteger;
 import java.text.CharacterIterator;
 import java.text.Normalizer;
 import java.text.StringCharacterIterator;
@@ -92,5 +95,9 @@ public class BottleUtil {
             //System.out.println(erg);
         }
         return erg;
+    }
+
+    public static BigFraction makeBigFractionFromByteArray(final byte[] bytes){
+        return new BigFraction(new BigInteger(bytes));
     }
 }

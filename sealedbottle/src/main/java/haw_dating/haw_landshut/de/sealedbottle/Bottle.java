@@ -160,7 +160,7 @@ public class Bottle {
                     messageDigest.update(attribute.getBytes());
                     final byte[] hash = messageDigest.digest();
                     hashedOptionalAttributeFields.get(i).add(hash);
-                    fractionArray[j][0] = new BigFraction(new BigInteger(hash));
+                    fractionArray[j][0] = BottleUtil.makeBigFractionFromByteArray(hash);
                 }
                 if (this.numberOfOptionalAttributes[i]
                         - this.similarilyThreshold[i] > 0) {

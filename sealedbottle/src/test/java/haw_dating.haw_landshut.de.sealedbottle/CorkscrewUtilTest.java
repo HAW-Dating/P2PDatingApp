@@ -37,4 +37,5 @@ public class CorkscrewUtilTest {
         Assert.assertFalse(Arrays.deepEquals(matrix1, matrix2));
         Assert.assertTrue(Arrays.deepEquals(CorkscrewUtil.removeColumn(matrix1, 1), matrix2));
     }
+
 }

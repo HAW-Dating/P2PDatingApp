@@ -1,15 +1,17 @@
 /*
- * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
+ * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David
+ * Manhart, Georg Held
  *
  *
  */
 
 package haw_dating.haw_landshut.de.sealedbottle;
 
-import org.apache.commons.math3.Field;
-import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.fraction.BigFraction;
+import org.apache.commons.math3.linear.ArrayFieldVector;
+import org.apache.commons.math3.linear.BlockFieldMatrix;
 import org.apache.commons.math3.linear.FieldMatrix;
+import org.apache.commons.math3.linear.FieldVector;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -24,7 +26,7 @@ import java.util.NoSuchElementException;
  */
 public class CorkscrewUtil {
     /**
-     * Swaps the ath and the bth element in an Array.
+     * Swaps the a-th and the b-th element in an Array.
      *
      * @param vector the array
      * @param a      number of the first element
@@ -61,18 +63,63 @@ public class CorkscrewUtil {
     public static BigFraction[][] removeColumn(final BigFraction[][] matrix, final int i) {
         final int rows = matrix.length;
         final int columns = matrix[0].length;
-        final BigFraction[][] erg = new BigFraction[rows][columns - 1];
+        final BigFraction[][] result = new BigFraction[rows][columns - 1];
 
         for (int row = 0; row < rows; row++) {
             int ergColumn = 0;
             for (int column = 0; column < columns; column++) {
                 if (column != i) {
-                    erg[row][ergColumn] = matrix[row][column];
+                    result[row][ergColumn] = matrix[row][column];
                     ergColumn++;
                 }
             }
         }
-        return erg;
+        return result;
+    }
+
+    /**
+     * Generates one linear equation system, for calculating the missing hashes.
+     *
+     * @param mMatrixArray           the mMatrix part of the hint matrix of the encryption profile
+     * @param bVectorArray           the bVector part of the hint matrix of the encryption profile
+     * @param permutationPossibility a PermutationPossibility calculated by comparing remainder
+     *                               vectors
+     * @param hashedAttributes       the hashed attributes of the decrypting profile
+     * @return A system of linear equations, which solution should correspond to the missing hashes
+     */
+    public static LinearEquation prepareLinearEquation(
+            final BigFraction[][] mMatrixArray,
+            final BigFraction[] bVectorArray,
+            final Corkscrew.PermutationPossibility permutationPossibility,
+            final List<byte[]> hashedAttributes) {
+        final int[] permutation = permutationPossibility.getPermutationVector();
+        final int[] fixPoints = permutationPossibility.getPossibleFixPoints();
+        final BigFraction[] reducingVectorArray = new BigFraction[hashedAttributes.size()];
+
+        for (final int fixPoint : fixPoints) {
+            reducingVectorArray[fixPoint] = BottleUtil.makeBigFractionFromByteArray(hashedAttributes
+                    .get(permutation[fixPoint]));
+        }
+
+        for (int i = 0; i < reducingVectorArray.length; i++) {
+            if (reducingVectorArray[i] == null) {
+                reducingVectorArray[i] = new BigFraction(0);
+            }
+        }
+
+        final FieldVector<BigFraction> reducingVector = new ArrayFieldVector<>(reducingVectorArray);
+        final FieldMatrix<BigFraction> mMatrix = new BlockFieldMatrix<>(mMatrixArray);
+        final FieldVector<BigFraction> resultVector = new ArrayFieldVector<>(bVectorArray)
+                .subtract(mMatrix.operate(reducingVector));
+        BigFraction[][] resultMatrixArray = mMatrixArray;
+        for (final int fixPoint : fixPoints) {
+            resultMatrixArray = removeColumn(resultMatrixArray, fixPoint);
+        }
+
+        return new LinearEquation(new BlockFieldMatrix<BigFraction>(resultMatrixArray),
+                resultVector,
+                permutationPossibility,
+                hashedAttributes);
     }
 
     /**
@@ -86,7 +133,8 @@ public class CorkscrewUtil {
     }
 
     /*
-        adapted from http://stackoverflow.com/questions/2799078/permutation-algorithm-without-recursion-java
+        adapted from http://stackoverflow
+        .com/questions/2799078/permutation-algorithm-without-recursion-java
          */
     public static class CorkscrewPermutationIterator<T> implements Iterator<T[]> {
         private T[] vector;
