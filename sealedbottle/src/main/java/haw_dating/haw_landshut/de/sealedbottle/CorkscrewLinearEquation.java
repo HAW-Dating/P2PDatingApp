@@ -14,7 +14,9 @@ import org.apache.commons.math3.linear.FieldVector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
@@ -44,6 +46,19 @@ public class CorkscrewLinearEquation {
         final int resultSize = bVector.getDimension() + permutationPossibility.getPossibleFixPoints().length;
         final byte[][] calculatedHashArray = new byte[resultSize][];
 
+        final Set<Integer> fixPoints = new HashSet<>();
+        for(int x :permutationPossibility.getPossibleFixPoints()){
+            fixPoints.add(x);
+        }
+        int pos = 0;
+        final BigFraction[] solutionVectorArray = solutionVector.toArray();
+        for (int i = 0; i < resultSize; i++) {
+            if (fixPoints.contains(i)){
+                calculatedHashArray[i] = hashedAttributes.get(permutationPossibility.getPermutationVector()[i]);
+            } else {
+                calculatedHashArray[i] = solutionVectorArray[pos++].getNumerator().toByteArray();
+            }
+        }
         return Arrays.asList(calculatedHashArray);
     }
 }

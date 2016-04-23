@@ -62,7 +62,7 @@ public class CorkscrewTest {
     }
 
 
-    @Test(timeout = 500)
+    @Test
     public void testFindMissingHashes() throws Exception {
         firstBottle = new Bottle(firstThree);
         firstBottle.fill().cork().seal();
@@ -72,13 +72,25 @@ public class CorkscrewTest {
                 firstBottle.getHintMatrix(0),
                 firstBottle.getHashedOptionalAttributeField(0),
                 firstBottle.getReminderVectorOptional(0),
-                secondBottle.getReminderVectorOptional(0),
+                firstBottle.getReminderVectorOptional(0),
                 firstBottle.getSimilarityThreshold(0));
 
+        boolean onesWasEqual = false;
         for (CorkscrewLinearEquation equation :
                 corkscrew) {
-            equation.solve();
+            int numberOfEquals = 0;
+            List<byte[]> attributes = firstBottle.getHashedOptionalAttributeField(0);
+            List<byte[]> solution = equation.solve();
+            for (int i = 0; i < attributes.size(); i++) {
+                if (Arrays.equals(attributes.get(i),solution.get(i))) {
+                    numberOfEquals++;
+                }
+            }
+            onesWasEqual = attributes.size() == numberOfEquals;
+            if (onesWasEqual) {
+                break;
+            }
         }
-
+        Assert.assertTrue(onesWasEqual);
     }
 }

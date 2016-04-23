@@ -201,8 +201,8 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
      * A class representing a combination of permutations and fix points.
      */
     public static final class PermutationPossibility {
-        final int[] permutationVector;
-        final int[] possibleFixPoints;
+        private final int[] permutationVector;
+        private final int[] possibleFixPoints;
 
         public PermutationPossibility(final int[] permutationVector, final int[]
                 possibleFixPoints) {
