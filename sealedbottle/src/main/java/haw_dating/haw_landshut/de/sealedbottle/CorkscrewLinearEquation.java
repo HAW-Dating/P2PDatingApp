@@ -13,6 +13,7 @@ import org.apache.commons.math3.linear.FieldMatrix;
 import org.apache.commons.math3.linear.FieldVector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,11 +39,11 @@ public class CorkscrewLinearEquation {
     }
 
 
-    public ArrayList<byte[]> solve(){
+    public List<byte[]> solve(){
         final FieldVector<BigFraction> solutionVector =  new FieldLUDecomposition<>(matrix).getSolver().solve(bVector);
         final int resultSize = bVector.getDimension() + permutationPossibility.getPossibleFixPoints().length;
         final byte[][] calculatedHashArray = new byte[resultSize][];
 
-        return null;
+        return Arrays.asList(calculatedHashArray);
     }
 }
