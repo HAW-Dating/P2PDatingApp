@@ -22,7 +22,7 @@ import static org.junit.Assert.assertFalse;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p/>
+ * <p>
  * 3/21/16 by s-gheldd
  */
 public class CorkscrewTest {
@@ -34,15 +34,15 @@ public class CorkscrewTest {
     private Bottle thirdBottle;
 
     @Test
-    public void testSemanticEquals(){
-        final Corkscrew.PermutationPossibility possibility1 = new Corkscrew.PermutationPossibility(new int[]{0,1,2},new int[]{0,2});
-        final Corkscrew.PermutationPossibility possibility2 = new Corkscrew.PermutationPossibility(new int[]{1,2,0}, new int[]{2,1});
-        final Corkscrew.PermutationPossibility possibility3 = new Corkscrew.PermutationPossibility(new int []{0,1,2}, new int[]{2,1});
+    public void testSemanticEquals() {
+        final Corkscrew.PermutationPossibility possibility1 = new Corkscrew.PermutationPossibility(new int[]{0, 1, 2}, new int[]{0, 2});
+        final Corkscrew.PermutationPossibility possibility2 = new Corkscrew.PermutationPossibility(new int[]{1, 2, 0}, new int[]{2, 1});
+        final Corkscrew.PermutationPossibility possibility3 = new Corkscrew.PermutationPossibility(new int[]{0, 1, 2}, new int[]{2, 1});
         Assert.assertTrue(possibility1.semanticEquals(possibility2));
         Assert.assertTrue(possibility2.semanticEquals(possibility1));
         Assert.assertFalse(possibility1.semanticEquals(possibility3));
         Assert.assertFalse(possibility3.semanticEquals(possibility2));
-        List<Corkscrew.PermutationPossibility> list1 = Arrays.asList(new Corkscrew.PermutationPossibility[]{possibility1,possibility2});
+        List<Corkscrew.PermutationPossibility> list1 = Arrays.asList(possibility1, possibility2);
         Assert.assertTrue(possibility1.semanticEqualsToAny(list1));
         Assert.assertFalse(possibility3.semanticEqualsToAny(list1));
     }
@@ -77,7 +77,7 @@ public class CorkscrewTest {
 
         for (CorkscrewLinearEquation equation :
                 corkscrew) {
-            FieldVector<BigFraction> solution = equation.solve();
+            equation.solve();
         }
 
     }
