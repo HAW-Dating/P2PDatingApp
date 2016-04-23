@@ -87,7 +87,7 @@ public class CorkscrewUtil {
      * @param hashedAttributes       the hashed attributes of the decrypting profile
      * @return A system of linear equations, which solution should correspond to the missing hashes
      */
-    public static LinearEquation prepareLinearEquation(
+    public static CorkscrewLinearEquation prepareLinearEquation(
             final BigFraction[][] mMatrixArray,
             final BigFraction[] bVectorArray,
             final Corkscrew.PermutationPossibility permutationPossibility,
@@ -116,7 +116,7 @@ public class CorkscrewUtil {
             resultMatrixArray = removeColumn(resultMatrixArray, fixPoint);
         }
 
-        return new LinearEquation(new BlockFieldMatrix<BigFraction>(resultMatrixArray),
+        return new CorkscrewLinearEquation(new BlockFieldMatrix<>(resultMatrixArray),
                 resultVector,
                 permutationPossibility,
                 hashedAttributes);

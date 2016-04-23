@@ -7,10 +7,13 @@
 package haw_dating.haw_landshut.de.sealedbottle;
 
 
+import org.apache.commons.math3.fraction.BigFraction;
+import org.apache.commons.math3.linear.FieldVector;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -53,9 +56,9 @@ public class CorkscrewTest {
         firstBottle.fill().cork().seal();
         secondBottle.fill().cork().seal();
         thirdBottle.fill().cork().seal();
-        assertEquals(3, new Corkscrew().probeSeal(firstBottle.getReminderVectorOptional(0), secondBottle.getReminderVectorOptional(0)));
-        assertEquals(0, new Corkscrew().probeSeal(secondBottle.getReminderVectorNecessary(), thirdBottle.getReminderVectorNecessary()));
-        assertEquals(2, new Corkscrew().probeSeal(firstBottle.getReminderVectorNecessary(), secondBottle.getReminderVectorNecessary()));
+        assertEquals(3, Corkscrew.probeSeal(firstBottle.getReminderVectorOptional(0), secondBottle.getReminderVectorOptional(0)));
+        assertEquals(0, Corkscrew.probeSeal(secondBottle.getReminderVectorNecessary(), thirdBottle.getReminderVectorNecessary()));
+        assertEquals(2, Corkscrew.probeSeal(firstBottle.getReminderVectorNecessary(), secondBottle.getReminderVectorNecessary()));
     }
 
 
@@ -65,12 +68,17 @@ public class CorkscrewTest {
         firstBottle.fill().cork().seal();
         secondBottle = new Bottle(simple);
         secondBottle.fill().cork().seal();
-        final Corkscrew corkscrew = new Corkscrew();
-        corkscrew.findMissingHashes(firstBottle.getHintMatrix(0),
+        final Corkscrew corkscrew = new Corkscrew(
+                firstBottle.getHintMatrix(0),
                 firstBottle.getHashedOptionalAttributeField(0),
                 firstBottle.getReminderVectorOptional(0),
-                firstBottle.getReminderVectorOptional(0),
+                secondBottle.getReminderVectorOptional(0),
                 firstBottle.getSimilarityThreshold(0));
+
+        for (CorkscrewLinearEquation equation :
+                corkscrew) {
+            FieldVector<BigFraction> solution = equation.solve();
+        }
 
     }
 }
