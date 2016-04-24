@@ -24,7 +24,7 @@ import java.util.Set;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p>
+ * <p/>
  * 3/17/16 by s-gheldd
  */
 public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
@@ -38,7 +38,8 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
     private final byte[] ownRemainderVector;
     private final int similarityThreshold;
 
-    public Corkscrew(BigFraction[][] hintMatrix, List<byte[]> hashedAttributes, byte[] foreignRemainderVector, byte[] ownRemainderVector, int similarityThreshold) {
+    public Corkscrew(BigFraction[][] hintMatrix, List<byte[]> hashedAttributes, byte[]
+            foreignRemainderVector, byte[] ownRemainderVector, int similarityThreshold) {
         this.hashedAttributes = hashedAttributes;
         this.foreignRemainderVector = foreignRemainderVector;
         this.ownRemainderVector = ownRemainderVector;
@@ -57,70 +58,6 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
         }
     }
 
-    @Override
-    public Iterator<CorkscrewLinearEquation> iterator() {
-        return new CorkscrewIterator(
-                mMatrixArray,
-                bVectorArray,
-                hashedAttributes,
-                foreignRemainderVector,
-                ownRemainderVector,
-                similarityThreshold);
-    }
-
-    private class CorkscrewIterator implements Iterator<CorkscrewLinearEquation> {
-        private final BigFraction[][] mMatrixArray;
-        private final BigFraction[] bVectorArray;
-        private final List<byte[]> hashedAttributes;
-        private final byte[] foreignRemainderVector;
-        private final byte[] ownRemainderVector;
-        private final int similarityThreshold;
-
-        private final PermutationIterator<Integer> permutationIterator;
-        private Queue<PermutationPossibility> semanticUniqueQueue;
-
-
-        private CorkscrewIterator(BigFraction[][] mMatrixArray, BigFraction[] bVectorArray, List<byte[]> hashedAttributes, byte[] foreignRemainderVector, byte[] ownRemainderVector, int similarityThreshold) {
-            this.mMatrixArray = mMatrixArray;
-            this.bVectorArray = bVectorArray;
-            this.hashedAttributes = hashedAttributes;
-            this.foreignRemainderVector = foreignRemainderVector;
-            this.ownRemainderVector = ownRemainderVector;
-            this.similarityThreshold = similarityThreshold;
-
-            this.permutationIterator = new PermutationIterator<>(CorkscrewUtil.createIntegerRangeList(ownRemainderVector.length));
-            this.semanticUniqueQueue = new LinkedList<>();
-        }
-
-        @Override
-        public boolean hasNext() {
-            while (semanticUniqueQueue.isEmpty() && permutationIterator.hasNext()) {
-                semanticUniqueQueue = PermutationPossibility.mergeAndRemoveSemanticEuals(
-                        semanticUniqueQueue,
-                        findPermutationPossibilitiesForPermutationVector(
-                                permutationIterator.next(),
-                                foreignRemainderVector,
-                                ownRemainderVector,
-                                similarityThreshold));
-            }
-            return !semanticUniqueQueue.isEmpty();
-        }
-
-        @Override
-        public CorkscrewLinearEquation next() {
-            return CorkscrewUtil.prepareLinearEquation(
-                    mMatrixArray,
-                    bVectorArray,
-                    semanticUniqueQueue.remove(),
-                    hashedAttributes);
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
-    }
-
     private static List<PermutationPossibility> findPermutationPossibilitiesForPermutationVector
             (final List<Integer> permutationVector,
              final byte[] foreignRemainderVector,
@@ -128,6 +65,7 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
              final int similarityThreshold) {
 
         final ArrayList<PermutationPossibility> permutationPossibilities = new ArrayList<>();
+        final HashSet<PermutationPossibility> semanticUniques = new HashSet<>();
         final int length = ownRemainderVector.length;
         final byte[] swappedVector = new byte[length];
         for (int i = 0; i < length; i++) {
@@ -159,11 +97,10 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
                     fixPoints[i] = possibleFixPoints.get(combination[i]);
                 }
 
-                final PermutationPossibility permutationPossibility = new PermutationPossibility
-                        (permutationArray, fixPoints);
-                if (!permutationPossibility.semanticEqualsToAny(permutationPossibilities)) {
-                    permutationPossibilities.add(new PermutationPossibility(permutationArray,
-                            fixPoints));
+                final PermutationPossibility permutationPossibility =
+                        new PermutationPossibility(permutationArray, fixPoints);
+                if (!semanticUniques.contains(permutationPossibility)) {
+                    permutationPossibilities.add(permutationPossibility);
                 }
             }
         }
@@ -180,7 +117,8 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
      *                               against
      * @return the degree of matching 0 <= matches <= foreignRemainderVector.length
      */
-    public static int probeSeal(final byte[] foreignRemainderVector, final byte[] ownRemainderVector) {
+    public static int probeSeal(final byte[] foreignRemainderVector, final byte[]
+            ownRemainderVector) {
         int matches = 0;
         if (foreignRemainderVector == null
                 || ownRemainderVector == null
@@ -197,44 +135,35 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
         return matches;
     }
 
+    @Override
+    public Iterator<CorkscrewLinearEquation> iterator() {
+        return new CorkscrewIterator(
+                mMatrixArray,
+                bVectorArray,
+                hashedAttributes,
+                foreignRemainderVector,
+                ownRemainderVector,
+                similarityThreshold);
+    }
+
     /**
      * A class representing a combination of permutations and fix points.
      */
-    public static final class PermutationPossibility {
+    public static final class PermutationPossibility implements Comparable<PermutationPossibility> {
         private final int[] permutationVector;
         private final int[] possibleFixPoints;
+        private final int[] orderingVector;
 
         public PermutationPossibility(final int[] permutationVector, final int[]
                 possibleFixPoints) {
             this.permutationVector = permutationVector.clone();
             this.possibleFixPoints = possibleFixPoints.clone();
-        }
-
-        /**
-         * Merges two collections of PermutationPossibility, filters out any semantic duplicates
-         * from the second collection.
-         *
-         * @param semanticUniqueCollection Collection of semantic unique PermutationPossibility
-         * @param permutationPossibilities To be merged collection
-         * @return new List of semantic unique PermutationPossibility
-         */
-        //TODO: needs better implementation, perhaps with binary search?
-        public static LinkedList<PermutationPossibility> mergeAndRemoveSemanticEuals(
-                final Collection<PermutationPossibility> semanticUniqueCollection,
-                final Collection<PermutationPossibility> permutationPossibilities) {
-
-            final LinkedList<PermutationPossibility> result = new LinkedList<>();
-            if (semanticUniqueCollection != null) {
-                result.addAll(semanticUniqueCollection);
+            final int fixPoints = this.possibleFixPoints.length;
+            this.orderingVector = new int[fixPoints];
+            for (int i = 0; i < fixPoints; i++) {
+                orderingVector[i] = permutationVector[possibleFixPoints[i]];
             }
-
-
-            for (final PermutationPossibility permutationPossibility : permutationPossibilities) {
-                if (!permutationPossibility.semanticEqualsToAny(result)) {
-                    result.add(permutationPossibility);
-                }
-            }
-            return result;
+            Arrays.sort(orderingVector);
         }
 
         public int[] getPermutationVector() {
@@ -254,45 +183,119 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
         }
 
         /**
-         * Returns true if this is semantic equal to any in that.
-         *
-         * @param that a collection of PermutationPossibilities
-         * @return true if semantic equal to any in that
-         */
-        public boolean semanticEqualsToAny(final Collection<PermutationPossibility> that) {
-            for (PermutationPossibility possibility : that) {
-                if (this.semanticEquals(possibility)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
          * Returns true if this and that are semantic equal e.g.
          * PermutationPossibility{permutationVector=[0, 1, 2], possibleFixPoints=[0, 2]} and
          * PermutationPossibility{permutationVector=[2, 0, 1], possibleFixPoints=[0, 1]}.
          *
-         * @param that a second PermutationPossibility
-         * @return true if this.semanticEquals(that)
+         * @param o a second PermutationPossibility
+         * @return true if this.equals(that)
          */
-        public boolean semanticEquals(final PermutationPossibility that) {
-            final int length = this.possibleFixPoints.length;
-            if (this.permutationVector.length != that.permutationVector.length
-                    || length != that.possibleFixPoints.length) {
-                return false;
-            } else {
-                final Set<Integer> fixPermutation = new HashSet<>();
-                for (int i = 0; i < length; i++) {
-                    fixPermutation.add(this.permutationVector[this.possibleFixPoints[i]]);
-                }
-                for (int i = 0; i < length; i++) {
-                    if (!fixPermutation.remove(that.permutationVector[that.possibleFixPoints[i]])) {
-                        return false;
-                    }
-                }
-                return true;
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            PermutationPossibility that = (PermutationPossibility) o;
+
+            return Arrays.equals(orderingVector, that.orderingVector);
+
+        }
+
+        @Override
+        public int hashCode() {
+            return Arrays.hashCode(orderingVector);
+        }
+
+        @Override
+        public int compareTo(PermutationPossibility another) {
+            if (this == another) {
+                return 0;
             }
+            final int comparableLength = this.orderingVector.length <= another.orderingVector
+                    .length ? this.orderingVector.length : another.orderingVector.length;
+
+            for (int i = 0; i < comparableLength; i++) {
+                final int difference = this.orderingVector[i] - another.orderingVector[i];
+                if (difference != 0) {
+                    return difference;
+                }
+            }
+            if (this.orderingVector.length < another.orderingVector.length) {
+                return -1;
+            } else if (this.orderingVector.length == another.orderingVector.length) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+    }
+
+    public class CorkscrewIterator implements Iterator<CorkscrewLinearEquation> {
+        private final BigFraction[][] mMatrixArray;
+        private final BigFraction[] bVectorArray;
+        private final List<byte[]> hashedAttributes;
+        private final byte[] foreignRemainderVector;
+        private final byte[] ownRemainderVector;
+        private final int similarityThreshold;
+
+        private final PermutationIterator<Integer> permutationIterator;
+        final private Queue<PermutationPossibility> permutationQueue;
+        private final Set<PermutationPossibility> semanticUniqueSet;
+
+
+        private CorkscrewIterator(BigFraction[][] mMatrixArray, BigFraction[] bVectorArray,
+                                  List<byte[]> hashedAttributes, byte[] foreignRemainderVector,
+                                  byte[] ownRemainderVector, int similarityThreshold) {
+            this.mMatrixArray = mMatrixArray;
+            this.bVectorArray = bVectorArray;
+            this.hashedAttributes = hashedAttributes;
+            this.foreignRemainderVector = foreignRemainderVector;
+            this.ownRemainderVector = ownRemainderVector;
+            this.similarityThreshold = similarityThreshold;
+
+            this.permutationIterator = new PermutationIterator<>(CorkscrewUtil
+                    .createIntegerRangeList(ownRemainderVector.length));
+            this.permutationQueue = new LinkedList<>();
+            this.semanticUniqueSet = new HashSet<>();
+        }
+
+        private Queue<PermutationPossibility> filterSemanticDuplicates(final
+                                                                       Collection<PermutationPossibility> permutationPossibilities) {
+            final LinkedList<PermutationPossibility> resultList = new LinkedList<>();
+            for (final PermutationPossibility permutationPossibility : permutationPossibilities) {
+                if (!semanticUniqueSet.contains(permutationPossibility)) {
+                    resultList.add(permutationPossibility);
+                    semanticUniqueSet.add(permutationPossibility);
+                }
+            }
+            return resultList;
+        }
+
+        @Override
+        public boolean hasNext() {
+            while (permutationQueue.isEmpty() && permutationIterator.hasNext()) {
+                permutationQueue.addAll(filterSemanticDuplicates(
+                        findPermutationPossibilitiesForPermutationVector(
+                                permutationIterator.next(),
+                                foreignRemainderVector,
+                                ownRemainderVector,
+                                similarityThreshold)));
+            }
+            return !permutationQueue.isEmpty();
+        }
+
+        @Override
+        public CorkscrewLinearEquation next() {
+            return CorkscrewUtil.prepareLinearEquation(
+                    mMatrixArray,
+                    bVectorArray,
+                    permutationQueue.remove(),
+                    hashedAttributes);
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
         }
     }
 

@@ -34,17 +34,23 @@ public class CorkscrewTest {
     private Bottle thirdBottle;
 
     @Test
-    public void testSemanticEquals() {
+    public void testEquals() {
         final Corkscrew.PermutationPossibility possibility1 = new Corkscrew.PermutationPossibility(new int[]{0, 1, 2}, new int[]{0, 2});
         final Corkscrew.PermutationPossibility possibility2 = new Corkscrew.PermutationPossibility(new int[]{1, 2, 0}, new int[]{2, 1});
         final Corkscrew.PermutationPossibility possibility3 = new Corkscrew.PermutationPossibility(new int[]{0, 1, 2}, new int[]{2, 1});
-        Assert.assertTrue(possibility1.semanticEquals(possibility2));
-        Assert.assertTrue(possibility2.semanticEquals(possibility1));
-        Assert.assertFalse(possibility1.semanticEquals(possibility3));
-        Assert.assertFalse(possibility3.semanticEquals(possibility2));
-        List<Corkscrew.PermutationPossibility> list1 = Arrays.asList(possibility1, possibility2);
-        Assert.assertTrue(possibility1.semanticEqualsToAny(list1));
-        Assert.assertFalse(possibility3.semanticEqualsToAny(list1));
+        Assert.assertTrue(possibility1.equals(possibility2));
+        Assert.assertTrue(possibility2.equals(possibility1));
+        Assert.assertFalse(possibility1.equals(possibility3));
+        Assert.assertFalse(possibility3.equals(possibility2));
+    }
+
+    @Test
+    public void testHashCode() {
+        final Corkscrew.PermutationPossibility possibility1 = new Corkscrew.PermutationPossibility(new int[]{0, 1, 2}, new int[]{0, 2});
+        final Corkscrew.PermutationPossibility possibility2 = new Corkscrew.PermutationPossibility(new int[]{1, 2, 0}, new int[]{2, 1});
+        final Corkscrew.PermutationPossibility possibility3 = new Corkscrew.PermutationPossibility(new int[]{0, 1, 2}, new int[]{2, 1});
+        Assert.assertEquals(possibility1.hashCode(),possibility2.hashCode());
+        Assert.assertNotEquals(possibility1.hashCode(),possibility3.hashCode());
     }
 
 
