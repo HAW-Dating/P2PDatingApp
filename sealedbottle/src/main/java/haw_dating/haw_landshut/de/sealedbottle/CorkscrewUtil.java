@@ -21,7 +21,7 @@ import java.util.NoSuchElementException;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p/>
+ * <p>
  * 4/8/16 by s-gheldd
  */
 public class CorkscrewUtil {

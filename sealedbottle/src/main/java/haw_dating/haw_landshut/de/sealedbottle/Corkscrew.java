@@ -24,9 +24,10 @@ import java.util.Set;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p/>
+ * <p>
  * 3/17/16 by s-gheldd
  */
+
 public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
 
     public final static int NO_MATCHING_ATTRIBUTES = 0;
@@ -38,6 +39,16 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
     private final byte[] ownRemainderVector;
     private final int similarityThreshold;
 
+    /**
+     * Generates an Corkscrew object that allows to compute the missing hashes for a given set of
+     * optional attributes.
+     *
+     * @param hintMatrix             the hint matrix of the foreign optional attribute field
+     * @param hashedAttributes       the hashed attributes of your own optional attribute field
+     * @param foreignRemainderVector the remainder vector of the foreign optional attribute field
+     * @param ownRemainderVector     the remainder vector of your own optional attribute field
+     * @param similarityThreshold    the similarity threshold, that applies to the attribute field
+     */
     public Corkscrew(BigFraction[][] hintMatrix, List<byte[]> hashedAttributes, byte[]
             foreignRemainderVector, byte[] ownRemainderVector, int similarityThreshold) {
         this.hashedAttributes = hashedAttributes;
@@ -113,8 +124,7 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
      *
      * @param foreignRemainderVector the to be tested ordered foreign remainder vector
      * @param ownRemainderVector     the the ordered remainder vector the foreign vector is to be
-     *                               tested
-     *                               against
+     *                               tested against
      * @return the degree of matching 0 <= matches <= foreignRemainderVector.length
      */
     public static int probeSeal(final byte[] foreignRemainderVector, final byte[]
@@ -135,6 +145,14 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
         return matches;
     }
 
+    /**
+     * Creates an iterator for all systems of linear equations, that can be generated from a
+     * Corkscrew object.
+     * The iterator works just in time, e.g. no precomputation apart from generating the
+     * iteration logic itself is required.
+     *
+     * @return an iterator over all possible sets of linear equation matching the Corkscew object.
+     */
     @Override
     public Iterator<CorkscrewLinearEquation> iterator() {
         return new CorkscrewIterator(
@@ -230,7 +248,7 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
         }
     }
 
-    public class CorkscrewIterator implements Iterator<CorkscrewLinearEquation> {
+    private class CorkscrewIterator implements Iterator<CorkscrewLinearEquation> {
         private final BigFraction[][] mMatrixArray;
         private final BigFraction[] bVectorArray;
         private final List<byte[]> hashedAttributes;
