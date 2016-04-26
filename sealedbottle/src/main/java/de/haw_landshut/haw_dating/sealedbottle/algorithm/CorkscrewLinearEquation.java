@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David
- * Manhart, Georg Held
+ * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
  *
  *
  */
 
-package de.haw_landshut.haw_dating.sealedbottle;
+package de.haw_landshut.haw_dating.sealedbottle.algorithm;
 
 import org.apache.commons.math3.fraction.BigFraction;
 import org.apache.commons.math3.linear.FieldLUDecomposition;

@@ -8,6 +8,8 @@ package de.haw_landshut.haw_dating.sealedbottle;
 
 import android.support.annotation.NonNull;
 
+import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
+
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D

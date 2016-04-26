@@ -10,6 +10,9 @@ package de.haw_landshut.haw_dating.sealedbottle;
 import org.junit.Assert;
 import org.junit.Test;
 
+import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
+import de.haw_landshut.haw_dating.sealedbottle.algorithm.Corkscrew;
+
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D

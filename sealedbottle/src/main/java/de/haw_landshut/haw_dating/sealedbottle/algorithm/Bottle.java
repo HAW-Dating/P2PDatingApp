@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2015. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David
- * Manhart, Georg Held
+ * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
  *
  *
  */
 
-package de.haw_landshut.haw_dating.sealedbottle;
+package de.haw_landshut.haw_dating.sealedbottle.algorithm;
 
 import org.apache.commons.math3.fraction.BigFraction;
 import org.apache.commons.math3.linear.BlockFieldMatrix;
@@ -17,6 +16,8 @@ import java.util.Random;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
+import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
@@ -56,7 +57,7 @@ public class Bottle {
      * @param bottlable A valid Bottlable object.
      * @throws IllegalArgumentException if metadata of bottlable is not specification conform.
      */
-    Bottle(final Bottlable bottlable) {
+    public Bottle(final Bottlable bottlable) {
         this.bottlable = bottlable;
         this.numberOfOptionalAttributeFields = bottlable.getNumberOfOptionalAttributeFields();
         this.numberOfNecessaryAttributes = bottlable.getNumberOfNecessaryAttributes();

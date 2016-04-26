@@ -1,4 +1,10 @@
-package de.haw_landshut.haw_dating.sealedbottle;
+/*
+ * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
+ *
+ *
+ */
+
+package de.haw_landshut.haw_dating.sealedbottle.api;
 
 import android.support.annotation.NonNull;
 /**

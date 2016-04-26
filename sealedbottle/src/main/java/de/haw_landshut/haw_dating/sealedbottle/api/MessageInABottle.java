@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 
 import org.apache.commons.math3.fraction.BigFraction;
 
-import de.haw_landshut.haw_dating.sealedbottle.Bottle;
+import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.

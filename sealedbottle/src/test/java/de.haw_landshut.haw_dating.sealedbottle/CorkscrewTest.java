@@ -14,6 +14,11 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
+import de.haw_landshut.haw_dating.sealedbottle.algorithm.Corkscrew;
+import de.haw_landshut.haw_dating.sealedbottle.algorithm.CorkscrewLinearEquation;
+import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
+
 import static org.junit.Assert.assertEquals;
 
 /**
