@@ -45,8 +45,6 @@ public class CorkscrewLinearEquationTest {
         Assert.assertTrue(CorkscrewTest.isOnesWasEqual(searchBottle, corkscrewMatchOne, 0));
         Assert.assertTrue(CorkscrewTest.isOnesWasEqual(searchBottle, corkscrewMatchTwo, 1));
         Assert.assertFalse(CorkscrewTest.isOnesWasEqual(searchBottle,corkscrewNoMatchOne,0));
-
-
     }
 }
 
