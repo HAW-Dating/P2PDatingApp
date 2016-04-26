@@ -16,7 +16,7 @@ import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p>
+ * <p/>
  * 4/26/16 by s-gheldd
  */
 
@@ -29,20 +29,25 @@ public class MessageInABottle {
     private static final String NOT_ENOUGH_HINT_WORDS = "for all optional arguments a hint word " +
             "must be supplied";
     private static final String NO_NULL_PARAMETERS = "all parameters must not be null";
+private static final String BOTTLE_NOT_SEALED = "bottle is not in state sealed";
 
     private final int versionNumber;
-    private final String safeword;
+    private final String safeWord;
     private final String[] hintWords;
 
     private final byte[] remainderVectorNecessary;
     private final byte[][] remainderVectorOptional;
     private final BigFraction[][][] hintMatrixes;
 
-    public MessageInABottle(final Bottle bottle, final String safeword, final String[] hintWords,
+    public MessageInABottle(final Bottle bottle, final String safeWord, final String[] hintWords,
                             final int versionNumber) throws IllegalArgumentException {
 
-        if (bottle == null || safeword == null || hintWords == null) {
+        if (bottle == null || safeWord == null || hintWords == null ) {
             throw new IllegalArgumentException(NO_NULL_PARAMETERS);
+        }
+
+        if ( !Bottle.State.SEALED.equals(bottle.getState())){
+            throw new IllegalArgumentException(BOTTLE_NOT_SEALED);
         }
 
         final int optionalFields = bottle.getNumberOfOptionalAttributeFields();
@@ -58,7 +63,7 @@ public class MessageInABottle {
 
         this.hintWords = hintWords.clone();
         this.versionNumber = versionNumber;
-        this.safeword = safeword;
+        this.safeWord = safeWord;
         this.remainderVectorNecessary = bottle.getReminderVectorNecessary().clone();
         this.remainderVectorOptional = new byte[optionalFields][];
         for (int i = 0; i < optionalFields; i++) {
@@ -87,12 +92,28 @@ public class MessageInABottle {
         return versionNumber;
     }
 
-    public String getSafeword() {
-        return safeword;
+    public String getSafeWord() {
+        return safeWord;
+    }
+
+    public String getHintWord(final int i) {
+        if (i >= this.hintWords.length) {
+            return null;
+        } else {
+            return this.hintWords[i];
+        }
     }
 
     public byte[] getRemainderVectorNecessary() {
         return remainderVectorNecessary.clone();
+    }
+
+    public byte[] getRemainderVectorOptional(final int i) {
+        if (i >= this.remainderVectorOptional.length) {
+            return null;
+        } else {
+            return this.remainderVectorOptional[i].clone();
+        }
     }
 
     public BigFraction[][] getHintMatrix(final int i) {
@@ -107,4 +128,6 @@ public class MessageInABottle {
             return result;
         }
     }
+
+
 }
