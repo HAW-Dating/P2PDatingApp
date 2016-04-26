@@ -335,6 +335,13 @@ public class Bottle {
     }
 
     /**
+     * @return The number of optional attribute fields in this bottle.
+     */
+    public int getNumberOfOptionalAttributeFields() {
+        return numberOfOptionalAttributeFields;
+    }
+
+    /**
      * Returns the current Bottle.State.
      *
      * @return the current Bottle.State
