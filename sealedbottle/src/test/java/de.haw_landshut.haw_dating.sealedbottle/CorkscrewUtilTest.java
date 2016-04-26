@@ -11,6 +11,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
@@ -28,10 +30,11 @@ public class CorkscrewUtilTest {
         final BigFraction[][] matrix2 = new BigFraction[][]{{new BigFraction(1),
                 new BigFraction(3)}, {new BigFraction(4), new BigFraction(6)}};
 
-        final BigFraction[][] matrixShrunk = CorkscrewUtil.removeColumn(matrix1, 1);
+        final Set<Integer> removers = new HashSet<>(Arrays.asList(1));
+        final BigFraction[][] matrixShrunk = CorkscrewUtil.removeColumns(matrix1, removers);
 
         Assert.assertFalse(Arrays.deepEquals(matrix1, matrix2));
-        Assert.assertTrue(Arrays.deepEquals(CorkscrewUtil.removeColumn(matrix1, 1), matrix2));
+        Assert.assertTrue(Arrays.deepEquals(CorkscrewUtil.removeColumns(matrix1, removers), matrix2));
     }
 
 }

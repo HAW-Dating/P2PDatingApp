@@ -14,14 +14,16 @@ import org.apache.commons.math3.linear.FieldMatrix;
 import org.apache.commons.math3.linear.FieldVector;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p>
+ * <p/>
  * 4/8/16 by s-gheldd
  */
 public class CorkscrewUtil {
@@ -56,24 +58,27 @@ public class CorkscrewUtil {
     /**
      * Removes one row from a two dimensional array.
      *
-     * @param matrix the to be trimmed array
-     * @param i      the row number, that gets removed
+     * @param matrix      the to be trimmed array
+     * @param toBeRemoved row numbers, that get removed
      * @return the new array
      */
-    public static BigFraction[][] removeColumn(final BigFraction[][] matrix, final int i) {
+    public static BigFraction[][] removeColumns(final BigFraction[][] matrix, final Set<Integer>
+            toBeRemoved) {
         final int rows = matrix.length;
         final int columns = matrix[0].length;
-        final BigFraction[][] result = new BigFraction[rows][columns - 1];
+        final BigFraction[][] result = new BigFraction[rows][columns - toBeRemoved.size()];
 
         for (int row = 0; row < rows; row++) {
             int ergColumn = 0;
             for (int column = 0; column < columns; column++) {
-                if (column != i) {
+                if (!toBeRemoved.contains(column)) {
                     result[row][ergColumn] = matrix[row][column];
                     ergColumn++;
                 }
             }
         }
+
+
         return result;
     }
 
@@ -111,10 +116,14 @@ public class CorkscrewUtil {
         final FieldMatrix<BigFraction> mMatrix = new BlockFieldMatrix<>(mMatrixArray);
         final FieldVector<BigFraction> resultVector = new ArrayFieldVector<>(bVectorArray)
                 .subtract(mMatrix.operate(reducingVector));
-        BigFraction[][] resultMatrixArray = mMatrixArray;
-        for (final int fixPoint : fixPoints) {
-            resultMatrixArray = removeColumn(resultMatrixArray, fixPoint);
+
+        final Set<Integer> fixPointSet = new HashSet<>();
+        for (int fixPoint : fixPoints) {
+            fixPointSet.add(fixPoint);
         }
+
+        final BigFraction[][] resultMatrixArray = removeColumns(mMatrixArray, fixPointSet);
+
 
         return new CorkscrewLinearEquation(new BlockFieldMatrix<>(resultMatrixArray),
                 resultVector,
