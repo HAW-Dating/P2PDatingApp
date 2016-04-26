@@ -7,6 +7,8 @@
 
 package de.haw_landshut.haw_dating.sealedbottle.api;
 
+import com.google.gson.Gson;
+
 import org.apache.commons.math3.fraction.BigFraction;
 
 import de.haw_landshut.haw_dating.sealedbottle.Bottle;
@@ -22,6 +24,8 @@ import de.haw_landshut.haw_dating.sealedbottle.Bottle;
  * MessageInABottle is the serializable class (Gson), that can be send over the network.
  */
 public class MessageInABottle {
+    private final static Gson gson = new Gson();
+
     private static final String NOT_ENOUGH_HINT_WORDS = "for all optional arguments a hint word " +
             "must be supplied";
     private static final String NO_NULL_PARAMETERS = "all parameters must not be null";
@@ -71,4 +75,36 @@ public class MessageInABottle {
         }
     }
 
+    public static String serialize(final MessageInABottle messageInABottle) {
+        return gson.toJson(messageInABottle);
+    }
+
+    public static MessageInABottle deSerialize(final String jsonMessage) {
+        return gson.fromJson(jsonMessage, MessageInABottle.class);
+    }
+
+    public int getVersionNumber() {
+        return versionNumber;
+    }
+
+    public String getSafeword() {
+        return safeword;
+    }
+
+    public byte[] getRemainderVectorNecessary() {
+        return remainderVectorNecessary.clone();
+    }
+
+    public BigFraction[][] getHintMatrix(final int i) {
+        if (i >= hintMatrixes.length) {
+            return null;
+        } else {
+            final int rows = this.hintMatrixes[i].length;
+            final BigFraction[][] result = new BigFraction[rows][];
+            for (int row = 0; row < rows; row++) {
+                result[row] = this.hintMatrixes[i][row].clone();
+            }
+            return result;
+        }
+    }
 }
