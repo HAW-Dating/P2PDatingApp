@@ -180,7 +180,6 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
             for (int i = 0; i < fixPoints; i++) {
                 orderingVector[i] = permutationVector[possibleFixPoints[i]];
             }
-            Arrays.sort(orderingVector);
         }
 
         public int[] getPermutationVector() {

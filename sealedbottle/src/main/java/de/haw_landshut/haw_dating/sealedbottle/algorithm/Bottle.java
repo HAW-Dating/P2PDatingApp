@@ -209,11 +209,13 @@ public class Bottle {
                     bMatrixes.add(constraintMatixes.get(i).multiply(attributeVector));
                 }
             }
-//            Collections.sort(hashedNecessaryAttributes, byteArrayComparator);
-//            for (List<byte[]> hashedAttributes :
-//                    hashedOptionalAttributeFields) {
-//                Collections.sort(hashedAttributes, byteArrayComparator);
-//            }
+/*
+            Collections.sort(hashedNecessaryAttributes, byteArrayComparator);
+            for (List<byte[]> hashedAttributes :
+                    hashedOptionalAttributeFields) {
+                Collections.sort(hashedAttributes, byteArrayComparator);
+            }
+*/
             this.state = State.CORKED;
         } else if (State.OPEN.equals(this.state)) {
             throw new IllegalStateException("Bottle needs to invoke fill(), before cork()");
