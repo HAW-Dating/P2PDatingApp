@@ -4,10 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.haw_landshut.haw_dating.sealedbottle.MockProfiles;
+import de.haw_landshut.haw_dating.sealedbottle.algorithm.MockProfiles;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Georg on 30.04.2016.

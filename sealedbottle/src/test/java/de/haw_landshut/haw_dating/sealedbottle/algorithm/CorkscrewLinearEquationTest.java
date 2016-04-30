@@ -1,17 +1,13 @@
 /*
- * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David
- * Manhart, Georg Held
+ * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
  *
  *
  */
 
-package de.haw_landshut.haw_dating.sealedbottle;
+package de.haw_landshut.haw_dating.sealedbottle.algorithm;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
-import de.haw_landshut.haw_dating.sealedbottle.algorithm.Corkscrew;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.

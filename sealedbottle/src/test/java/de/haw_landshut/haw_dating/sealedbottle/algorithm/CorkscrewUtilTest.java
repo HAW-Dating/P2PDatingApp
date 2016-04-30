@@ -4,7 +4,7 @@
  *
  */
 
-package de.haw_landshut.haw_dating.sealedbottle;
+package de.haw_landshut.haw_dating.sealedbottle.algorithm;
 
 import org.apache.commons.math3.fraction.BigFraction;
 import org.junit.Assert;

@@ -4,7 +4,7 @@
  *
  */
 
-package de.haw_landshut.haw_dating.sealedbottle;
+package de.haw_landshut.haw_dating.sealedbottle.algorithm;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
 import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
+import de.haw_landshut.haw_dating.sealedbottle.api.BottleableTest;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

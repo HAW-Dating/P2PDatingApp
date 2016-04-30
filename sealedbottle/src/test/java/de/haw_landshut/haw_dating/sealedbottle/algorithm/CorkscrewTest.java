@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David
- * Manhart, Georg Held
+ * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
  *
  *
  */
 
-package de.haw_landshut.haw_dating.sealedbottle;
+package de.haw_landshut.haw_dating.sealedbottle.algorithm;
 
 
 import org.junit.Assert;
@@ -18,6 +17,7 @@ import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Corkscrew;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.CorkscrewLinearEquation;
 import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
+import de.haw_landshut.haw_dating.sealedbottle.api.BottleableTest;
 
 import static org.junit.Assert.assertEquals;
 
