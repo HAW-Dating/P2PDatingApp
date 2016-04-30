@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import org.apache.commons.math3.fraction.BigFraction;
 
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.crypto.Cipher;
@@ -177,5 +178,37 @@ public class MessageInABottle {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        MessageInABottle that = (MessageInABottle) o;
+
+        if (versionNumber != that.versionNumber) return false;
+        if (!safeWord.equals(that.safeWord)) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(hintWords, that.hintWords)) return false;
+        if (!Arrays.equals(remainderVectorNecessary, that.remainderVectorNecessary))
+            return false;
+        if (!Arrays.deepEquals(remainderVectorOptional, that.remainderVectorOptional))
+            return false;
+        if (!Arrays.deepEquals(hintMatrixes, that.hintMatrixes)) return false;
+        if (!Arrays.equals(encryptedSafeWord, that.encryptedSafeWord)) return false;
+        return Arrays.deepEquals(encryptedHintWords, that.encryptedHintWords);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = versionNumber;
+        result = 31 * result + safeWord.hashCode();
+        result = 31 * result + Arrays.hashCode(hintWords);
+        result = 31 * result + Arrays.hashCode(remainderVectorNecessary);
+        result = 31 * result + Arrays.deepHashCode(remainderVectorOptional);
+        result = 31 * result + Arrays.deepHashCode(hintMatrixes);
+        result = 31 * result + Arrays.hashCode(encryptedSafeWord);
+        result = 31 * result + Arrays.deepHashCode(encryptedHintWords);
+        return result;
+    }
 }
