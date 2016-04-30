@@ -7,10 +7,13 @@
 package de.haw_landshut.haw_dating.sealedbottle.algorithm;
 
 
+import org.apache.commons.math3.fraction.BigFraction;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
@@ -19,6 +22,7 @@ import de.haw_landshut.haw_dating.sealedbottle.algorithm.CorkscrewLinearEquation
 import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleableTest;
 
+import static de.haw_landshut.haw_dating.sealedbottle.algorithm.BottleUtil.makeBigFractionFromByteArray;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -46,6 +50,18 @@ public class CorkscrewTest {
             List<byte[]> attributes = firstBottle.getHashedOptionalAttributeField
                     (optionalFieldNumber);
             List<byte[]> solution = equation.solve();
+
+
+            StringBuilder builder = new StringBuilder();
+            for (byte[] a : attributes) {
+                builder.append(new BigInteger(a)).append(" ");
+            }
+            System.out.println("A:" + builder.toString());
+            builder = new StringBuilder();
+            for (byte[] a : solution) {
+                builder.append(new BigInteger(a)).append(" ");
+            }
+            System.out.println("S:" + builder.toString());
             for (int i = 0; i < attributes.size(); i++) {
                 if (Arrays.equals(attributes.get(i), solution.get(i))) {
                     numberOfEquals++;

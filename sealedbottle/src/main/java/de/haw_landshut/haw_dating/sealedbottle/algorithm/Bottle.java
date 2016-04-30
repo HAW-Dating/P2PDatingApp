@@ -14,6 +14,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 import javax.crypto.SecretKey;
@@ -31,6 +34,24 @@ import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
  */
 
 public class Bottle {
+
+    private final static Comparator<byte[]> byteArrayComparator = new Comparator<byte[]>() {
+        @Override
+        public int compare(byte[] lhs, byte[] rhs) {
+            if (lhs == null) {
+                return -1;
+            } else if (rhs == null) {
+                return 1;
+            }
+            final int length = lhs.length <= rhs.length ? lhs.length : rhs.length;
+            for (int i = 0; i < length; i++) {
+                if (lhs[i] != rhs[i]) {
+                    return lhs[i] - rhs[i];
+                }
+            }
+            return lhs.length - rhs.length;
+        }
+    };
 
     private final Bottlable bottlable;
     private final ArrayList<String> necessaryAttributes = new ArrayList<>();
@@ -188,6 +209,11 @@ public class Bottle {
                     bMatrixes.add(constraintMatixes.get(i).multiply(attributeVector));
                 }
             }
+//            Collections.sort(hashedNecessaryAttributes, byteArrayComparator);
+//            for (List<byte[]> hashedAttributes :
+//                    hashedOptionalAttributeFields) {
+//                Collections.sort(hashedAttributes, byteArrayComparator);
+//            }
             this.state = State.CORKED;
         } else if (State.OPEN.equals(this.state)) {
             throw new IllegalStateException("Bottle needs to invoke fill(), before cork()");

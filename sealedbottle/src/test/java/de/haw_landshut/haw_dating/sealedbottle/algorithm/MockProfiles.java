@@ -81,8 +81,8 @@ public abstract class MockProfiles implements Bottlable {
 
         public Search() {
             super();
-            optionalAttributes.add(new LinkedList<>(Arrays.asList("Segeln", "Basketball",
-                    "Programmieren", "Sex", "Wandern")));
+            optionalAttributes.add(new LinkedList<>(Arrays.asList("Segeln",
+                    "Programmieren", "Sex", "Basketball", "Wandern")));
             optionalAttributes.add(new LinkedList<String>(Arrays.asList("25", "26",
                     "27")));
         }
@@ -102,7 +102,7 @@ public abstract class MockProfiles implements Bottlable {
     }
 
     public static class NoMatch extends MockProfiles {
-        public NoMatch(){
+        public NoMatch() {
             super();
             optionalAttributes.add(new LinkedList<>(Arrays.asList("Bauklötze", "Baseball",
                     "Programmieren", "Sex", "Pfadfinder")));
