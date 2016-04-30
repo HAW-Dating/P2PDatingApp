@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
+ * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
  *
  *
  */
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p>
+ * <p/>
  * 12/16/15 by s-gheldd
  */
 public class BottleTest {
@@ -37,6 +37,14 @@ public class BottleTest {
     @Test
     public void testConstructor() {
         this.bottle = new Bottle(this.bottlable);
+    }
+
+    @Test
+    public void testGetKeyasAESSecretKey() {
+        this.bottle = new Bottle(this.bottlable);
+        bottle.fill().cork().seal();
+        bottle.getKeyasAESSecretKey();
+
     }
 
     @Test

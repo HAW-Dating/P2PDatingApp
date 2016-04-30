@@ -11,10 +11,14 @@ import org.apache.commons.math3.linear.BlockFieldMatrix;
 import org.apache.commons.math3.linear.FieldMatrix;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
@@ -244,7 +248,8 @@ public class Bottle {
      */
     public SecretKey getKeyasAESSecretKey() throws IllegalStateException {
         if (State.SEALED.equals(this.state)) {
-            return new SecretKeySpec(hashOfBottle, "AES");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(this.hashOfBottle, 0, 256 / 8, "AES");
+            return secretKeySpec;
         } else {
             throw new IllegalStateException("Bottle needs to be in State.SEALED");
         }

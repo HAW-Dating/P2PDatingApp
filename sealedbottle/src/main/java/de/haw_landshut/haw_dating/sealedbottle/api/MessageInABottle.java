@@ -11,6 +11,12 @@ import com.google.gson.Gson;
 
 import org.apache.commons.math3.fraction.BigFraction;
 
+import java.security.MessageDigest;
+import java.util.List;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
 
 /**
@@ -29,7 +35,10 @@ public class MessageInABottle {
     private static final String NOT_ENOUGH_HINT_WORDS = "for all optional arguments a hint word " +
             "must be supplied";
     private static final String NO_NULL_PARAMETERS = "all parameters must not be null";
-private static final String BOTTLE_NOT_SEALED = "bottle is not in state sealed";
+    private static final String BOTTLE_NOT_SEALED = "bottle is not in state sealed";
+    public static final String HASH_ALGORITHM = "SHA-256";
+    public static final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
+    public static final String CRYPTO_ALGORITHM = "AES";
 
     private final int versionNumber;
     private final String safeWord;
@@ -38,45 +47,72 @@ private static final String BOTTLE_NOT_SEALED = "bottle is not in state sealed";
     private final byte[] remainderVectorNecessary;
     private final byte[][] remainderVectorOptional;
     private final BigFraction[][][] hintMatrixes;
+    private final byte[] encryptedSafeWord;
+    private final byte[][] encryptedHintWords;
 
     public MessageInABottle(final Bottle bottle, final String safeWord, final String[] hintWords,
                             final int versionNumber) throws IllegalArgumentException {
 
-        if (bottle == null || safeWord == null || hintWords == null ) {
-            throw new IllegalArgumentException(NO_NULL_PARAMETERS);
-        }
+        final MessageDigest messageDigest;
+        final Cipher cipher;
+        try {
+            messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
+            cipher = Cipher.getInstance(TRANSFORMATION);
 
-        if ( !Bottle.State.SEALED.equals(bottle.getState())){
-            throw new IllegalArgumentException(BOTTLE_NOT_SEALED);
-        }
 
-        final int optionalFields = bottle.getNumberOfOptionalAttributeFields();
-        if (hintWords.length < optionalFields) {
-            throw new IllegalArgumentException(NOT_ENOUGH_HINT_WORDS);
-        }
-        for (String hintWord :
-                hintWords) {
-            if (hintWord == null) {
+            if (bottle == null || safeWord == null || hintWords == null) {
                 throw new IllegalArgumentException(NO_NULL_PARAMETERS);
             }
-        }
 
-        this.hintWords = hintWords.clone();
-        this.versionNumber = versionNumber;
-        this.safeWord = safeWord;
-        this.remainderVectorNecessary = bottle.getReminderVectorNecessary().clone();
-        this.remainderVectorOptional = new byte[optionalFields][];
-        for (int i = 0; i < optionalFields; i++) {
-            this.remainderVectorOptional[i] = bottle.getReminderVectorOptional(i).clone();
-        }
-        this.hintMatrixes = new BigFraction[optionalFields][][];
-        for (int i = 0; i < optionalFields; i++) {
-            final BigFraction[][] hintMatrix = bottle.getHintMatrix(i);
-            final int rows = hintMatrix.length;
-            hintMatrixes[i] = new BigFraction[rows][];
-            for (int row = 0; row < rows; row++) {
-                hintMatrixes[i][row] = hintMatrix[row].clone();
+            if (!Bottle.State.SEALED.equals(bottle.getState())) {
+                throw new IllegalArgumentException(BOTTLE_NOT_SEALED);
             }
+
+            final int optionalFields = bottle.getNumberOfOptionalAttributeFields();
+            if (hintWords.length < optionalFields) {
+                throw new IllegalArgumentException(NOT_ENOUGH_HINT_WORDS);
+            }
+            for (String hintWord :
+                    hintWords) {
+                if (hintWord == null) {
+                    throw new IllegalArgumentException(NO_NULL_PARAMETERS);
+                }
+            }
+
+            this.hintWords = hintWords.clone();
+            this.versionNumber = versionNumber;
+            this.safeWord = safeWord;
+            this.remainderVectorNecessary = bottle.getReminderVectorNecessary().clone();
+            this.remainderVectorOptional = new byte[optionalFields][];
+            for (int i = 0; i < optionalFields; i++) {
+                this.remainderVectorOptional[i] = bottle.getReminderVectorOptional(i).clone();
+            }
+            this.hintMatrixes = new BigFraction[optionalFields][][];
+            for (int i = 0; i < optionalFields; i++) {
+                final BigFraction[][] hintMatrix = bottle.getHintMatrix(i);
+                final int rows = hintMatrix.length;
+                hintMatrixes[i] = new BigFraction[rows][];
+                for (int row = 0; row < rows; row++) {
+                    hintMatrixes[i][row] = hintMatrix[row].clone();
+                }
+            }
+            cipher.init(Cipher.ENCRYPT_MODE, bottle.getKeyasAESSecretKey());
+            encryptedSafeWord = cipher.doFinal(safeWord.getBytes());
+
+            this.encryptedHintWords = new byte[optionalFields][];
+            for (int i = 0; i < optionalFields; i++) {
+                final List<byte[]> attributes = bottle.getHashedOptionalAttributeField(i);
+                for (final byte[] attribute :
+                        attributes) {
+                    messageDigest.update(attribute);
+                }
+                final SecretKeySpec secKeySpec = new SecretKeySpec(messageDigest.digest(), CRYPTO_ALGORITHM);
+                cipher.init(Cipher.ENCRYPT_MODE, secKeySpec);
+                encryptedHintWords[i] = cipher.doFinal(hintWords[i].getBytes());
+                messageDigest.reset();
+            }
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
         }
     }
 
@@ -96,11 +132,23 @@ private static final String BOTTLE_NOT_SEALED = "bottle is not in state sealed";
         return safeWord;
     }
 
+    public byte[] getEncryptedSafeWord() {
+        return encryptedSafeWord.clone();
+    }
+
     public String getHintWord(final int i) {
         if (i >= this.hintWords.length) {
             return null;
         } else {
             return this.hintWords[i];
+        }
+    }
+
+    public byte[] getEncryptedHintWord(final int i) {
+        if (i >= this.encryptedHintWords.length) {
+            return null;
+        } else {
+            return this.encryptedHintWords[i].clone();
         }
     }
 
