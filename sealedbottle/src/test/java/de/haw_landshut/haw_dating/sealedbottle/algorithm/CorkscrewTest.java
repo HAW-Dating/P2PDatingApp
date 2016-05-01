@@ -50,18 +50,6 @@ public class CorkscrewTest {
             List<byte[]> attributes = firstBottle.getHashedOptionalAttributeField
                     (optionalFieldNumber);
             List<byte[]> solution = equation.solve();
-
-
-            StringBuilder builder = new StringBuilder();
-            for (byte[] a : attributes) {
-                builder.append(new BigInteger(a)).append(" ");
-            }
-            System.out.println("A:" + builder.toString());
-            builder = new StringBuilder();
-            for (byte[] a : solution) {
-                builder.append(new BigInteger(a)).append(" ");
-            }
-            System.out.println("S:" + builder.toString());
             for (int i = 0; i < attributes.size(); i++) {
                 if (Arrays.equals(attributes.get(i), solution.get(i))) {
                     numberOfEquals++;
