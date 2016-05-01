@@ -7,6 +7,7 @@
 package de.haw_landshut.haw_dating.sealedbottle.algorithm;
 
 import org.apache.commons.math3.fraction.BigFraction;
+import org.apache.commons.math3.linear.ArrayFieldVector;
 import org.apache.commons.math3.linear.BlockFieldMatrix;
 import org.apache.commons.math3.linear.FieldMatrix;
 
@@ -67,7 +68,7 @@ public class Bottle {
     private final int recievedOptionalAttributes[];
     private final ArrayList<BigFraction[][]> constraintMatrixArrays;
     private final ArrayList<FieldMatrix<BigFraction>> constraintMatixes;
-    private final ArrayList<FieldMatrix<BigFraction>> bMatrixes;
+    private final ArrayList<BigFraction[]> bMatrixes;
     private MessageDigest messageDigest;
     private int recievedOptionalAttributeFields = 0;
     private int recievedNeccessaryAttributes = 0;
@@ -193,29 +194,35 @@ public class Bottle {
             for (int i = 0; i < numberOfOptionalAttributeFields; i++) {
                 final ArrayList<String> optionalAttributes = optionalAttributeFields.get(i);
                 final int fieldSize = optionalAttributes.size();
-                final BigFraction[][] fractionArray = new BigFraction[fieldSize][1];
                 hashedOptionalAttributeFields.add(new ArrayList<byte[]>());
                 for (int j = 0; j < fieldSize; j++) {
                     final String attribute = optionalAttributes.get(j);
                     messageDigest.update(attribute.getBytes());
                     final byte[] hash = messageDigest.digest();
                     hashedOptionalAttributeFields.get(i).add(hash);
-                    fractionArray[j][0] = BottleUtil.makeBigFractionFromByteArray(hash);
                 }
-                if (this.numberOfOptionalAttributes[i]
-                        - this.similarilyThreshold[i] > 0) {
-                    final BlockFieldMatrix<BigFraction> attributeVector = new BlockFieldMatrix<>
-                            (fractionArray);
-                    bMatrixes.add(constraintMatixes.get(i).multiply(attributeVector));
-                }
+
             }
-/*
+
+
             Collections.sort(hashedNecessaryAttributes, byteArrayComparator);
             for (List<byte[]> hashedAttributes :
                     hashedOptionalAttributeFields) {
                 Collections.sort(hashedAttributes, byteArrayComparator);
             }
-*/
+
+            for (int i = 0; i < numberOfOptionalAttributeFields; i++) {
+                if (this.numberOfOptionalAttributes[i] - this.similarilyThreshold[i] > 0) {
+                    final ArrayList<byte[]> optionalAttributeFieldHashes = hashedOptionalAttributeFields.get(i);
+                    final int fieldSize = optionalAttributeFieldHashes.size();
+                    final BigFraction[] fractionArray = new BigFraction[fieldSize];
+                    for (int j = 0; j < fieldSize; j++) {
+                        fractionArray[j] = BottleUtil.makeBigFractionFromByteArray(optionalAttributeFieldHashes.get(j));
+                    }
+                    bMatrixes.add(constraintMatixes.get(i).operate(fractionArray));
+                }
+            }
+
             this.state = State.CORKED;
         } else if (State.OPEN.equals(this.state)) {
             throw new IllegalStateException("Bottle needs to invoke fill(), before cork()");
@@ -306,7 +313,7 @@ public class Bottle {
             try {
                 final FieldMatrix<BigFraction> constraintMatrix = this.constraintMatixes.get
                         (numberOfOptionalAttributeField);
-                final FieldMatrix<BigFraction> bMatrix = this.bMatrixes.get
+                final BigFraction[] bMatrix = this.bMatrixes.get
                         (numberOfOptionalAttributeField);
                 final int rows = constraintMatrix.getRowDimension();
                 final int columns = constraintMatrix.getColumnDimension();
@@ -317,7 +324,7 @@ public class Bottle {
                     for (column = 0; column < columns; column++) {
                         hintMatrix[row][column] = rowArray[column];
                     }
-                    hintMatrix[row][column] = bMatrix.getRow(row)[0];
+                    hintMatrix[row][column] = bMatrix[row];
                 }
                 return hintMatrix;
             } catch (IndexOutOfBoundsException ex) {

@@ -26,6 +26,9 @@ public class BottleOpener {
     }
 
     public boolean isOpeningPossible(){
+
+
+
         return true;
     }
 }
