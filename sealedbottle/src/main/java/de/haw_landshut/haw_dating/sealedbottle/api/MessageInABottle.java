@@ -31,20 +31,18 @@ import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
  * MessageInABottle is the serializable class (Gson), that can be send over the network.
  */
 public class MessageInABottle {
+    public static final String HASH_ALGORITHM = "SHA-256";
+    public static final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
+    public static final String CRYPTO_ALGORITHM = "AES";
     private final static Gson gson = new Gson();
-
     private static final String NOT_ENOUGH_HINT_WORDS = "for all optional arguments a hint word " +
             "must be supplied";
     private static final String NO_NULL_PARAMETERS = "all parameters must not be null";
     private static final String BOTTLE_NOT_SEALED = "bottle is not in state sealed";
-    public static final String HASH_ALGORITHM = "SHA-256";
-    public static final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
-    public static final String CRYPTO_ALGORITHM = "AES";
-
     private final int versionNumber;
+    private final int nOptionalFields;
     private final String safeWord;
     private final String[] hintWords;
-
     private final byte[] remainderVectorNecessary;
     private final byte[][] remainderVectorOptional;
     private final BigFraction[][][] hintMatrixes;
@@ -70,6 +68,7 @@ public class MessageInABottle {
             }
 
             final int optionalFields = bottle.getNumberOfOptionalAttributeFields();
+            nOptionalFields = optionalFields;
             if (hintWords.length < optionalFields) {
                 throw new IllegalArgumentException(NOT_ENOUGH_HINT_WORDS);
             }
@@ -107,13 +106,16 @@ public class MessageInABottle {
                         attributes) {
                     messageDigest.update(attribute);
                 }
-                final SecretKeySpec secKeySpec = new SecretKeySpec(messageDigest.digest(), CRYPTO_ALGORITHM);
+                final SecretKeySpec secKeySpec = new SecretKeySpec(messageDigest.digest(),
+                        CRYPTO_ALGORITHM);
                 cipher.init(Cipher.ENCRYPT_MODE, secKeySpec);
                 encryptedHintWords[i] = cipher.doFinal(hintWords[i].getBytes());
                 messageDigest.reset();
             }
         } catch (Exception exception) {
+
             throw new RuntimeException(exception);
+
         }
     }
 
@@ -123,6 +125,10 @@ public class MessageInABottle {
 
     public static MessageInABottle deSerialize(final String jsonMessage) {
         return gson.fromJson(jsonMessage, MessageInABottle.class);
+    }
+
+    public int getNOptionalFields() {
+        return nOptionalFields;
     }
 
     public int getVersionNumber() {
@@ -175,6 +181,17 @@ public class MessageInABottle {
                 result[row] = this.hintMatrixes[i][row].clone();
             }
             return result;
+        }
+    }
+
+    public int getSimilarityThreshold(final int i) {
+        final BigFraction[][] hintMatrix = getHintMatrix(i);
+        if (hintMatrix == null) {
+            return Integer.MAX_VALUE;
+        } else {
+            final int rows = hintMatrix.length;
+            final int columns = hintMatrix[0].length - 1;
+            return columns - rows;
         }
     }
 

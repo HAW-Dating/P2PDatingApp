@@ -9,6 +9,7 @@ package de.haw_landshut.haw_dating.sealedbottle.algorithm;
 import org.apache.commons.collections4.iterators.PermutationIterator;
 import org.apache.commons.math3.fraction.BigFraction;
 import org.apache.commons.math3.util.Combinations;
+import org.apache.commons.math3.util.IntegerSequence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,20 +129,28 @@ public class Corkscrew implements Iterable<CorkscrewLinearEquation> {
      */
     public static int probeSeal(final byte[] foreignRemainderVector, final byte[]
             ownRemainderVector) {
-        int matches = 0;
+        final HashSet<Integer> found = new HashSet<>();
         if (foreignRemainderVector == null
                 || ownRemainderVector == null
                 || foreignRemainderVector.length != ownRemainderVector.length) {
-            matches = NO_MATCHING_ATTRIBUTES;
+            return NO_MATCHING_ATTRIBUTES;
         } else {
             final int length = foreignRemainderVector.length;
             for (int i = 0; i < length; i++) {
-                if ((foreignRemainderVector[i] - ownRemainderVector[i]) == 0) {
-                    matches++;
+                final byte element = foreignRemainderVector[i];
+                for (int j = 0; j < length; j++) {
+                    if (found.contains(j)) {
+                        continue;
+                    } else {
+                        if (element == ownRemainderVector[j]){
+                            found.add(j);
+                            continue;
+                        }
+                    }
                 }
             }
         }
-        return matches;
+        return found.size();
     }
 
     /**
