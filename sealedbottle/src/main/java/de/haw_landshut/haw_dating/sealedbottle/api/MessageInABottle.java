@@ -31,9 +31,9 @@ import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
  * MessageInABottle is the serializable class (Gson), that can be send over the network.
  */
 public class MessageInABottle {
-    public static final String HASH_ALGORITHM = "SHA-256";
-    public static final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
-    public static final String CRYPTO_ALGORITHM = "AES";
+    public static final String HASH_ALGORITHM = BottleCryptoAlgorithms.HASH_ALGORITHM;
+    public static final String TRANSFORMATION = BottleCryptoAlgorithms.TRANSFORMATION;
+    public static final String CRYPTO_ALGORITHM = BottleCryptoAlgorithms.CRYPTO_ALGORITHM;
     private final static Gson gson = new Gson();
     private static final String NOT_ENOUGH_HINT_WORDS = "for all optional arguments a hint word " +
             "must be supplied";

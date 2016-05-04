@@ -7,6 +7,9 @@
 
 package de.haw_landshut.haw_dating.sealedbottle.api;
 
+import java.security.MessageDigest;
+
+import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
@@ -15,15 +18,23 @@ import de.haw_landshut.haw_dating.sealedbottle.algorithm.Corkscrew;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p/>
+ * <p>
  * 4/30/16 by s-gheld
  */
 public class BottleOpener {
 
     private final MessageInABottle incomingMessageInABottle;
     private final Bottle ownBottle;
+    private final MessageDigest messageDigest;
+    private final Cipher cipher;
 
     public BottleOpener(final MessageInABottle incomingMessageInABottle, final Bottle ownBottle) {
+        try {
+            messageDigest = MessageDigest.getInstance(BottleCryptoAlgorithms.HASH_ALGORITHM);
+            cipher = Cipher.getInstance(BottleCryptoAlgorithms.TRANSFORMATION);
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
 
         this.incomingMessageInABottle = incomingMessageInABottle;
         this.ownBottle = ownBottle;
@@ -49,6 +60,15 @@ public class BottleOpener {
     }
 
     public SecretKey tryOpening() {
+
+        final int nOptionalFields = incomingMessageInABottle.getNOptionalFields();
+        for (int i = 0; i < nOptionalFields; i++) {
+
+
+
+
+
+        }
 
 
         return null;

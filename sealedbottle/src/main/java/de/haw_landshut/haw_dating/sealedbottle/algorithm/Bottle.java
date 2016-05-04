@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
+ * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David
+ * Manhart, Georg Held
  *
  *
  */
@@ -7,30 +8,26 @@
 package de.haw_landshut.haw_dating.sealedbottle.algorithm;
 
 import org.apache.commons.math3.fraction.BigFraction;
-import org.apache.commons.math3.linear.ArrayFieldVector;
 import org.apache.commons.math3.linear.BlockFieldMatrix;
 import org.apache.commons.math3.linear.FieldMatrix;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
+import de.haw_landshut.haw_dating.sealedbottle.api.BottleCryptoAlgorithms;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p/>
+ * <p>
  * 11/20/15 by s-gheldd
  */
 
@@ -111,11 +108,10 @@ public class Bottle {
                     similarityThreshold][numberOfOptionalAttributes]);
         }
         try {
-            messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest = MessageDigest.getInstance(BottleCryptoAlgorithms.HASH_ALGORITHM);
 
         } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("Something went very wrong");
+            throw new RuntimeException(ex);
         }
         this.state = State.OPEN;
     }
@@ -213,11 +209,13 @@ public class Bottle {
 
             for (int i = 0; i < numberOfOptionalAttributeFields; i++) {
                 if (this.numberOfOptionalAttributes[i] - this.similarilyThreshold[i] > 0) {
-                    final ArrayList<byte[]> optionalAttributeFieldHashes = hashedOptionalAttributeFields.get(i);
+                    final ArrayList<byte[]> optionalAttributeFieldHashes =
+                            hashedOptionalAttributeFields.get(i);
                     final int fieldSize = optionalAttributeFieldHashes.size();
                     final BigFraction[] fractionArray = new BigFraction[fieldSize];
                     for (int j = 0; j < fieldSize; j++) {
-                        fractionArray[j] = BottleUtil.makeBigFractionFromByteArray(optionalAttributeFieldHashes.get(j));
+                        fractionArray[j] = BottleUtil.makeBigFractionFromByteArray
+                                (optionalAttributeFieldHashes.get(j));
                     }
                     bMatrixes.add(constraintMatixes.get(i).operate(fractionArray));
                 }
