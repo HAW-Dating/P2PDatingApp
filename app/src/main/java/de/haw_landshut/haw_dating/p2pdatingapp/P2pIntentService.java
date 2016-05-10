@@ -4,7 +4,7 @@
  *
  */
 
-package de.haw_landshut.de.p2pdatingapp;
+package de.haw_landshut.haw_dating.p2pdatingapp;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -29,6 +29,9 @@ import java.util.Map;
  */
 public class P2pIntentService extends IntentService {
 
+    // TODO: 10.05.2016 Better INSTANCE_NAME. Or maybe different instance names for different devices....
+    public static final String INSTANCE_NAME = "Magic Instance Name";
+    public static final String SERVICE_TYPE = "HAW Dating App Hot Coffee";
     public static final String TAG = "P2pIntentService";
 
     final HashMap<String, String> profiles = new HashMap<String, String>();
@@ -65,11 +68,10 @@ public class P2pIntentService extends IntentService {
         Map record = new HashMap();
         record.put("Profile", dataString);
 
-
-        // TODO: 09.05.2016 Add an better instance name and no hard coding
+        
         //Creating a service
         WifiP2pDnsSdServiceInfo serviceInfo = WifiP2pDnsSdServiceInfo
-                .newInstance("Magic Instance Name", "HAW Dating App Hot Coffee", record);
+                .newInstance(INSTANCE_NAME, SERVICE_TYPE, record);
 
 
         //Initialising WifiP2pManager and Channel
@@ -114,7 +116,7 @@ public class P2pIntentService extends IntentService {
             @Override
             public void onDnsSdServiceAvailable(String instanceName, String registrationType, WifiP2pDevice srcDevice) {
                 Log.d(TAG, "Service Available: " + srcDevice.deviceAddress + "; " + srcDevice.deviceName);
-                if(instanceName == "Magic Instance Name" && registrationType == "HAW Dating App Hot Coffee"){
+                if(instanceName == INSTANCE_NAME && registrationType == (SERVICE_TYPE + ".local.")){
                     profiles.put(srcDevice.deviceAddress, "");
                 }
             }
