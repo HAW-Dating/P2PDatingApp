@@ -49,6 +49,15 @@ public class MessageInABottle {
     private final byte[] encryptedSafeWord;
     private final byte[][] encryptedHintWords;
 
+    /**
+     * Class for serializing a Bottle Object to a string.
+     *
+     * @param bottle        the to be serialized Bottle in state sealed
+     * @param safeWord      a safe-word for verifying  the derived key
+     * @param hintWords     hint words to verify the optional key fields
+     * @param versionNumber a version number for later extendability
+     * @throws IllegalArgumentException if arguments are in the wrong state or form
+     */
     public MessageInABottle(final Bottle bottle, final String safeWord, final String[] hintWords,
                             final int versionNumber) throws IllegalArgumentException {
 
@@ -96,7 +105,8 @@ public class MessageInABottle {
                     hintMatrixes[i][row] = hintMatrix[row].clone();
                 }
             }
-            cipher.init(Cipher.ENCRYPT_MODE, bottle.getKeyasAESSecretKey());
+            cipher.init(Cipher.ENCRYPT_MODE, bottle.getKeyasAESSecretKey(), BottleCryptoConstants
+                    .IV_PARAMETER_SPEC);
             encryptedSafeWord = cipher.doFinal(safeWord.getBytes(BottleCryptoConstants.CHARSET));
 
             this.encryptedHintWords = new byte[optionalFields][];
@@ -108,8 +118,10 @@ public class MessageInABottle {
                 }
                 final SecretKeySpec secKeySpec = new SecretKeySpec(messageDigest.digest(),
                         CRYPTO_ALGORITHM);
-                cipher.init(Cipher.ENCRYPT_MODE, secKeySpec);
-                encryptedHintWords[i] = cipher.doFinal(hintWords[i].getBytes());
+                cipher.init(Cipher.ENCRYPT_MODE, secKeySpec, BottleCryptoConstants
+                        .IV_PARAMETER_SPEC);
+                encryptedHintWords[i] = cipher.doFinal(hintWords[i].getBytes
+                        (BottleCryptoConstants.CHARSET));
                 messageDigest.reset();
             }
         } catch (Exception exception) {
@@ -119,12 +131,28 @@ public class MessageInABottle {
         }
     }
 
+    /**
+     * Serializes a MessageInABottle object into a JSON string using gson.
+     *
+     * @param messageInABottle a MessageInABottle object
+     * @return a JSON string
+     */
     public static String serialize(final MessageInABottle messageInABottle) {
         return gson.toJson(messageInABottle);
     }
 
+    /**
+     * Deserializes a MessageInABottle JSON string into a MessageInABottle object.
+     *
+     * @param jsonMessage a JSON String of a MessageInABottle object
+     * @return a MessageInABottle object or null
+     */
     public static MessageInABottle deSerialize(final String jsonMessage) {
-        return gson.fromJson(jsonMessage, MessageInABottle.class);
+        try {
+            return gson.fromJson(jsonMessage, MessageInABottle.class);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public int getNOptionalFields() {
