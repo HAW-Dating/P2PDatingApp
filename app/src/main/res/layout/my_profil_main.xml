@@ -6,25 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <!-- Create by Daniel -->
     <!--
     Revision by Altrichter Daniel on 4.04.16.
     Einfügen eines Drawers.
     -->
-
-
-<!-- Create by Daniel -->
-
-<!-- Anmerkungen! -->
-<!-- TextSize und TextColer werden ueber Styles geaendert -> Wiederverwendbarkeit der Styles -->
-
-<!-- TextSize ist auf 18-40dp gesetzt! geht dies auch dynamisch?   -->
-<!-- TableRow 2 Alter .. Eingabe in Gruppen einfügen   -->
-
 <!--
 Revision by Altrichter Daniel on 15.03.16.
 
-LinearLayout ID gegeben um Wischfunktionen zu implementieren
 -->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -207,28 +196,6 @@ LinearLayout ID gegeben um Wischfunktionen zu implementieren
         android:layout_gravity="left|start"
         android:background="@color/white"
         >
-        <!--
-                <TextView
-                    style="@style/nv_drawer_style"
-                    android:text="@string/dr_eigenes_profil"
-                    />
-                <TextView
-                    style="@style/nv_drawer_style"
-                    android:text="@string/dr_nachrichten"
-                    />
-                <TextView
-                    style="@style/nv_drawer_style"
-                    android:text="@string/dr_matchings"
-                    />
-                <TextView
-                    style="@style/nv_drawer_style"
-                    android:text="@string/dr_suchprofil"
-                    />
-                <TextView
-                    style="@style/nv_drawer_style"
-                    android:text="@string/dr_infos"
-                    />
-        -->
     </ListView>
 
 

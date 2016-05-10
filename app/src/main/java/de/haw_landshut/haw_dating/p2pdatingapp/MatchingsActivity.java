@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2016. Alisa Buchner, Derya Turkmen, Daniel Altrichter, Tobias Weiden, David Manhart, Georg Held
+ *
+ *
+ */
+
 package de.haw_landshut.haw_dating.p2pdatingapp;
 
 import android.app.Activity;
@@ -9,19 +15,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
- * Revision by Altrichter Daniel on 4.04.16.
- * einfügen eines Navigation Drawers.
- *
- * Revision by Altrichter Daniel on 15.03.16.
- *
- * Implements OnTouchListener
- * wird gebraucht für die Wischfunktionen.
- *
+ * Created by Altrichter Daniel on 10.05.16.
  */
-public class MainActivity extends Activity implements View.OnTouchListener{
+public class MatchingsActivity extends Activity implements View.OnTouchListener{
 
     private ListView drawerList;
     private ArrayAdapter<String> adapter;
@@ -29,13 +27,14 @@ public class MainActivity extends Activity implements View.OnTouchListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.matchings_main);
 
-        LinearLayout bildschirm = (LinearLayout) findViewById(R.id.activity_main_linear_layout);
+        LinearLayout bildschirm = (LinearLayout) findViewById(R.id.matchings_main_linear_layout);
         bildschirm.setOnTouchListener(this);
 
-    // Navigations Drawer
-        drawerList = (ListView) findViewById(R.id.main_lv_menu);
+
+        // Navigations Drawer
+        drawerList = (ListView) findViewById(R.id.matchings_main_lv_menu);
         addDrawerItems();
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,6 +60,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
             }
         });
     }
+
     private void addDrawerItems(){
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, (getResources().getStringArray(R.array.drawer_list_menu_array)));
         drawerList.setAdapter(adapter);
@@ -89,18 +89,13 @@ public class MainActivity extends Activity implements View.OnTouchListener{
      *  Beim wischen nach links wird Activity siehe Code (-> XYZ.class) aufgerufen!
      */
 
-    /*
-    Hier ein Beispiel für einen Toast:
-    Toast toast = Toast.makeText(v.getContext(),"Es wurde nach LINKS gewischt! \nSearchProfil -> FindYourLove", Toast.LENGTH_SHORT );
-    toast.show();
-     */
-
     private int touchX;
     private int touchY;
     public boolean onTouch(View v, MotionEvent event){
         int aktion = event.getAction();
 
         // 59 Pixel == 0,50cm ; 118 Pixel == 1,00cm
+
         int pixel = 177;
 
         if(aktion == MotionEvent.ACTION_DOWN){
@@ -112,7 +107,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
             int ty = (int) event.getY();
 
             if((touchX - tx) > pixel){
-                Intent intent = new Intent(this, LoginActivity.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
 
             } else if((touchX - tx) <= - pixel){
@@ -122,3 +117,4 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         return true;
     }
 }
+
