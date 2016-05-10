@@ -22,7 +22,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
-import de.haw_landshut.haw_dating.sealedbottle.api.BottleCryptoAlgorithms;
+import de.haw_landshut.haw_dating.sealedbottle.api.BottleCryptoConstants;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
@@ -108,7 +108,7 @@ public class Bottle {
                     similarityThreshold][numberOfOptionalAttributes]);
         }
         try {
-            messageDigest = MessageDigest.getInstance(BottleCryptoAlgorithms.HASH_ALGORITHM);
+            messageDigest = MessageDigest.getInstance(BottleCryptoConstants.HASH_ALGORITHM);
 
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -395,6 +395,10 @@ public class Bottle {
 
     public ArrayList<byte[]> getHashedOptionalAttributeField(final int optionalFieldNumber) {
         return new ArrayList<>(hashedOptionalAttributeFields.get(optionalFieldNumber));
+    }
+
+    public ArrayList<byte[]> getHashedNecessaryAttributes() {
+        return new ArrayList<>(hashedNecessaryAttributes);
     }
 
     /**

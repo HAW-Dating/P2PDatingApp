@@ -4,7 +4,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
+import de.haw_landshut.haw_dating.sealedbottle.algorithm.CorkscrewLinearEquation;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.MockProfiles;
 
 /**
@@ -35,5 +38,11 @@ public class BottleOpenerTest {
     @Test
     public void testIsOpeningPossible() throws Exception {
         Assert.assertTrue(matching.isOpeningPossible());
+    }
+
+    @Test
+    public void testTestSolution() throws Exception {
+
+
     }
 }

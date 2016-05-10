@@ -6,9 +6,11 @@ package de.haw_landshut.haw_dating.sealedbottle.api;
  * <p>
  * 5/4/16 by s-gheldd
  */
-public class BottleCryptoAlgorithms {
+public class BottleCryptoConstants {
     public static final String HASH_ALGORITHM = "SHA-256";
     public static final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
     public static final String CRYPTO_ALGORITHM = "AES";
-    private BottleCryptoAlgorithms(){}
+    public static final String CHARSET = "UTF-8";
+
+    private BottleCryptoConstants(){}
 }
