@@ -57,7 +57,7 @@ Button am ende Entfernt
                 />
 
             <TextView
-                android:text="Platzhalter"
+                android:id="@+id/profil_control_name"
                 style="@style/profile_control_editcontrol"
                 />
 

@@ -49,7 +49,7 @@ Revision by Altrichter Daniel on 15.03.16.
                     />
 
                 <EditText
-                    android:id="@+id/name"
+                    android:id="@+id/profil_name"
                     style="@style/profile_edittext"
                     />
 
@@ -89,7 +89,7 @@ Revision by Altrichter Daniel on 15.03.16.
                     />
 
                 <EditText
-                    android:id="@+id/studie"
+                    android:id="@+id/profil_studie"
                     style="@style/profile_edittext"
                     />
 
@@ -119,7 +119,7 @@ Revision by Altrichter Daniel on 15.03.16.
                     />
 
                 <EditText
-                    android:id="@+id/interests"
+                    android:id="@+id/profil_interests"
                     style="@style/profile_edittext"
                     />
 
@@ -134,7 +134,7 @@ Revision by Altrichter Daniel on 15.03.16.
                     />
 
                 <EditText
-                    android:id="@+id/hometown"
+                    android:id="@+id/profil_hometown"
                     style="@style/profile_edittext"
                     />
 
@@ -149,7 +149,7 @@ Revision by Altrichter Daniel on 15.03.16.
                     />
 
                 <EditText
-                    android:id="@+id/postal_code"
+                    android:id="@+id/profil_postal_code"
                     style="@style/profile_edit_plz"
                     />
 
