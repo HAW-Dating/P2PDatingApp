@@ -32,17 +32,19 @@ import java.util.concurrent.ExecutionException;
 public class P2pInterface {
 
     private static final String TAG = "P2pInterface";
-    private Activity activity;
+    private static String profile = "Not valid yet";
+    private final FindYourLoveMessageListener loveMessagelistener;
     private final IntentFilter intentFilter = new IntentFilter();
+    String groupOwnerAdress;
+    private Activity activity;
     private WifiP2pManager.Channel mChannel;
     private WifiP2pManager mManager;
     private P2pBroadcastReceiver receiver;
     private List peers = new ArrayList();
     private boolean isGroupOwner = false;
-    String groupOwnerAdress;
     private boolean isConnected = false;
-    private static String profile = "Not valid yet";
-    private WifiP2pManager.PeerListListener peerListListener = new WifiP2pManager.PeerListListener() {
+    private WifiP2pManager.PeerListListener peerListListener = new WifiP2pManager
+            .PeerListListener() {
         @Override
         public void onPeersAvailable(WifiP2pDeviceList peerList) {
             //Out with you, ya old little stinky peers...
@@ -58,22 +60,23 @@ public class P2pInterface {
                 Log.d(TAG, "PeerListListener: no peers found");
                 //Log.d(WiFiDirectActivity.TAG, "No devices found");
                 return;
-            }
-
-            else{
+            } else {
 
                 WifiP2pDevice p2pDevice = (WifiP2pDevice) peers.get(0);
-                Log.d(TAG, "PeerListListener: found " + peers.size() + " peers, top peer: " + p2pDevice.deviceName);
+                Log.d(TAG, "PeerListListener: found " + peers.size() + " peers, top peer: " +
+                        p2pDevice.deviceName);
             }
 
         }
     };
 
     //Notifies me, when the Connection Info changes
-    private WifiP2pManager.ConnectionInfoListener connectionInfoListener = new WifiP2pManager.ConnectionInfoListener() {
+    private WifiP2pManager.ConnectionInfoListener connectionInfoListener = new WifiP2pManager
+            .ConnectionInfoListener() {
         @Override
         public void onConnectionInfoAvailable(WifiP2pInfo info) {
-            // TODO: 07.06.2016 Fails after disconnect: NullPointerException. I should probably do something about it...
+            // TODO: 07.06.2016 Fails after disconnect: NullPointerException. I should probably
+            // do something about it...
 
             // InetAddress from WifiP2pInfo struct.
             groupOwnerAdress = info.groupOwnerAddress.getHostAddress();
@@ -98,8 +101,9 @@ public class P2pInterface {
         }
     };
 
-    public P2pInterface(Activity activity){
+    public P2pInterface(Activity activity, FindYourLoveMessageListener listener) {
         this.activity = activity;
+        this.loveMessagelistener = listener;
         Log.d(TAG, "created P2pInterface");
     }
 
@@ -132,11 +136,9 @@ public class P2pInterface {
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
 
 
-
         //Let's get a intance of the WiFiP2PManager and a channel....
         mManager = (WifiP2pManager) activity.getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(activity, activity.getMainLooper(), null);
-
 
 
         //My try to set up the BroadcastReceiver...
@@ -147,27 +149,27 @@ public class P2pInterface {
         fetch();
     }
 
-    private void discover(){
+    private void discover() {
         Log.d(TAG, "discover()");
-        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener(){
+        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
             @Override
-            public void onSuccess(){
+            public void onSuccess() {
                 Log.d(TAG, "discover(): Success");
             }
 
             @Override
-            public void onFailure(int reasonCode){
+            public void onFailure(int reasonCode) {
                 Log.d(TAG, "discover(): Failure: " + reasonCode);
             }
         });
     }
 
-    protected void fetch(){
+    protected void fetch() {
         Log.d(TAG, "fetch()");
         mManager.requestPeers(mChannel, peerListListener);
     }
 
-    private void connect(){
+    private void connect() {
         Log.d(TAG, "connect()");
         final WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
         final WifiP2pConfig config = new WifiP2pConfig();
@@ -185,12 +187,13 @@ public class P2pInterface {
         });
     }
 
-    private void writeMessage(String s){
+    private void writeMessage(String s) {
         Log.d(TAG, "writeMessage()");
         AsyncTask<String, Void, String> asyncTask = new ConnectionAsyncTask(this).execute();
         //connectionAsyncTask.doInBackground(null);
         try {
             String message = asyncTask.get();
+            loveMessagelistener.onLoveMessageReceive(message);
             Log.d(TAG, "writeMessage(): Nachricht erhalten: " + message);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -237,7 +240,7 @@ public class P2pInterface {
 
     protected void onPause() {
         Log.d(TAG, "onPause()");
-        if(isConnected){
+        if (isConnected) {
             disconnect();
         }
         activity.unregisterReceiver(receiver);
