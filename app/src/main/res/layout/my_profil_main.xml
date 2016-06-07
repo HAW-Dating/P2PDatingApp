@@ -63,6 +63,11 @@ Revision by Altrichter Daniel on 15.03.16.
                     style="@style/profile_textviews"
                     />
 
+                <EditText
+                    android:id="@+id/profil_age"
+                    style="@style/profile_age"
+                    />
+
             </TableRow>
             <!-- Zeile 3  -->
             <TableRow
@@ -182,6 +187,7 @@ Revision by Altrichter Daniel on 15.03.16.
         </TableLayout>
 
         <Button
+            android:id="@+id/profil_button"
             android:text="@string/confirm_button"
             style="@style/profile_button_confirm"
             />

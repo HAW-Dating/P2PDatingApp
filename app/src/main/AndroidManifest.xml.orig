@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.haw_landshut.haw_dating.p2pdatingapp">
+    <!--
+Revision by Altrichter Daniel on 15.03.16.
+Eintragung der Activitys nach reihenfolge von Erstaufruf der App!
+    -->
+
+    <!--
+    Permissions added by David und Tobi
+    -->
+    <uses-permission
+        android:required="true"
+        android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission
+        android:required="true"
+        android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission
+        android:required="true"
+        android:name="android.permission.INTERNET"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+<<<<<<< HEAD
+        android:theme="@style/AppTheme.NoActionBar" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.LoginActivity"></activity>
+
+    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.MyProfilActivity"></activity>
+
+    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.MyProfilControlActivity"></activity>
+
+    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.SearchProfilActivity"></activity>
+
+    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.FindYourLoveActivity"></activity>
+
+    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.MatchingsActivity"></activity>
+
+
+</application>
+</manifest>
+=======
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MyProfilActivity" />
+        <activity android:name=".MyProfilControlActivity" />
+        <activity android:name=".SearchProfilActivity" />
+        <activity android:name=".FindYourLoveActivity" />
+
+        <service
+            android:name="de.haw_landshut.de.p2pdatingapp.P2pIntentService"
+            android:exported="false"></service>
+    </application>
+
+</manifest>
+>>>>>>> develop

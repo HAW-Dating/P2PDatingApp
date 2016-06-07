@@ -1,7 +1,6 @@
 package de.haw_landshut.haw_dating.p2pdatingapp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,12 +26,12 @@ import android.widget.Toast;
  * einfügen eines Navigation Drawers.
  *
  */
-public class MyProfilActivity extends Activity implements View.OnTouchListener{
+public class MyProfilActivity extends Activity implements View.OnTouchListener {
 
     private ListView drawerList;
     private ArrayAdapter<String> adapter;
 
-    EditText editTextName, editTextStudie, editTextInterests, editTextHometown, editTextPostal_code;
+    EditText editTextName, editTextAge,  editTextStudie, editTextInterests, editTextHometown, editTextPostal_code;
     int selectedPosition;
 
     Spinner university,gender, searchSexual_preference;
@@ -63,26 +63,87 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener{
         bildschirm.setOnTouchListener(this);
 
 
+
         // SharedPreferences Datei öffnen
         SharedPreferences preferences = getSharedPreferences("Profildata", 0);
         // Editorklasse initialisieren
         editTextName = (EditText)findViewById(R.id.profil_name);
+        editTextAge = (EditText)findViewById(R.id.profil_age);
+        editTextStudie = (EditText)findViewById(R.id.profil_studie);
+        editTextInterests = (EditText)findViewById(R.id.profil_interests);
+        editTextHometown = (EditText)findViewById(R.id.profil_hometown);
+        editTextPostal_code = (EditText)findViewById(R.id.profil_postal_code);
+
+
+
+    /*
         // Schlüsselwerte aus der Datei lesen und in Textfelder schreiben
         editTextName.setText(preferences.getString("name", "Huber Sepp"));
-        editTextStudie = (EditText)findViewById(R.id.profil_studie);
         editTextStudie.setText(preferences.getString("studie", "Soziale Arbeit"));
-        editTextInterests = (EditText)findViewById(R.id.profil_interests);
         editTextInterests.setText(preferences.getString("intrests", "Fliegen"));
-        editTextHometown = (EditText)findViewById(R.id.profil_hometown);
         editTextHometown.setText(preferences.getString("hometown", "Hamburg"));
-        editTextPostal_code = (EditText)findViewById(R.id.profil_postal_code);
         editTextPostal_code.setText(preferences.getString("postal_code", "22113"));
-
 
         // Spinner
         gender.setSelection(preferences.getInt("gender", 0));
         university.setSelection(preferences.getInt("university", 0));
         searchSexual_preference.setSelection(preferences.getInt("searchSexual_preference",0));
+*/
+
+        //Button klicken
+        Button button = (Button) findViewById(R.id.profil_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String[] profilData = new String[9];
+
+                profilData[0] = editTextName.getText().toString();
+                profilData[1] = editTextAge.getText().toString();
+                profilData[2] = gender.getSelectedItem().toString();
+                profilData[3] = editTextStudie.getText().toString();
+                profilData[4] = university.getSelectedItem().toString();
+                profilData[5] = editTextInterests.getText().toString();
+                profilData[6] = editTextHometown.getText().toString();
+                profilData[7] = editTextPostal_code.getText().toString();
+                profilData[8] = searchSexual_preference.getSelectedItem().toString();
+
+
+
+
+                // SharedPreferences Datei öffnen
+                SharedPreferences preferences = getSharedPreferences("Profildata", 0);
+                // Editorklasse initialisieren
+                SharedPreferences.Editor editorPreferences = preferences.edit();
+                // Text mit Schlüsselattribut holen und in Editorklasse schreiben
+                editorPreferences.putString("name", editTextName.getText().toString());
+                editorPreferences.putString("studie", editTextStudie.getText().toString());
+                editorPreferences.putString("intrests", editTextInterests.getText().toString());
+                editorPreferences.putString("hometown", editTextHometown.getText().toString() );
+                editorPreferences.putString("postal_code", editTextPostal_code.getText().toString());
+                // Spinner
+                /*
+                Funktioniert nicht!!!
+                editorPreferences.putString("gender", gender.getSelectedItem().toString());
+                editorPreferences.putString("university", university.getSelectedItem().toString());
+                editorPreferences.putString("searchSexual_preference", searchSexual_preference.getSelectedItem().toString());
+                */
+                selectedPosition = gender.getSelectedItemPosition();
+                editorPreferences.putInt("gender", selectedPosition);
+                selectedPosition = university.getSelectedItemPosition();
+                editorPreferences.putInt("university", selectedPosition);
+                selectedPosition = searchSexual_preference.getSelectedItemPosition();
+                editorPreferences.putInt("searchSexual_preference", selectedPosition);
+                // Speichern
+                editorPreferences.apply();
+
+            }
+        });
+
+
+
+
+
 
 
         // Navigations Drawer
@@ -113,33 +174,7 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener{
         });
     }
 
-    @Override
-    protected void onStop(){
-        super.onStop();
 
-        // SharedPreferences Datei öffnen
-        SharedPreferences preferences = getSharedPreferences("Profildata", 0);
-        // Editorklasse initialisieren
-        SharedPreferences.Editor editorPreferences = preferences.edit();
-
-        // Text mit Schlüsselattribut holen und in Editorklasse schreiben
-        editorPreferences.putString("name", editTextName.getText().toString());
-        editorPreferences.putString("studie", editTextStudie.getText().toString());
-        editorPreferences.putString("intrests", editTextInterests.getText().toString());
-        editorPreferences.putString("hometown", editTextHometown.getText().toString() );
-        editorPreferences.putString("postal_code", editTextPostal_code.getText().toString());
-
-        // Spinner
-        selectedPosition = gender.getSelectedItemPosition();
-        editorPreferences.putInt("gender", selectedPosition);
-        selectedPosition = university.getSelectedItemPosition();
-        editorPreferences.putInt("university", selectedPosition);
-        selectedPosition = searchSexual_preference.getSelectedItemPosition();
-        editorPreferences.putInt("searchSexual_preference", selectedPosition);
-
-        // Speichern
-        editorPreferences.apply();
-    }
 
     private void addDrawerItems(){
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, (getResources().getStringArray(R.array.drawer_list_menu_array)));

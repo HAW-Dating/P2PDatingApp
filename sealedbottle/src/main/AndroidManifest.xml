@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="haw_dating.haw_landshut.de.sealedbottle">
+    package="de.haw_landshut.haw_dating.sealedbottle">
 
     <application
         android:allowBackup="true"

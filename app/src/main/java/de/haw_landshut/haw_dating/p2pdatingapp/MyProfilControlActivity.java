@@ -31,10 +31,6 @@ public class MyProfilControlActivity extends Activity implements View.OnTouchLis
     private ListView drawerList;
     private ArrayAdapter<String> adapter;
 
-    TextView viewTextName, viewTextStudie, viewTextInterests, viewTextHometown, viewTextPostal_code;
-
-    Spinner university,gender, searchSexual_preference;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,34 +38,6 @@ public class MyProfilControlActivity extends Activity implements View.OnTouchLis
 
         LinearLayout bildschirm = (LinearLayout) findViewById(R.id.my_profil_control_linear_layout);
         bildschirm.setOnTouchListener(this);
-
-
-
-        // SharedPreferences Datei öffnen
-        /**
-         * Funktioniert noch nicht richtig!!!!
-         */
-
-        SharedPreferences preferences = getSharedPreferences("Profildata", 0);
-        // Viewklasse initialisieren
-        viewTextName = (TextView)findViewById(R.id.profil_control_name);
-        // Schlüsselwerte aus der Datei lesen und in Textfelder schreiben
-        viewTextName.setText(preferences.getString("name", "Huber Sepp"));
-        viewTextStudie = (TextView)findViewById(R.id.profil_studie);
-        viewTextStudie.setText(preferences.getString("studie", "Soziale Arbeit"));
-        viewTextInterests = (TextView)findViewById(R.id.profil_interests);
-        viewTextInterests.setText(preferences.getString("intrests", "Fliegen"));
-        viewTextHometown = (TextView)findViewById(R.id.profil_hometown);
-        viewTextHometown.setText(preferences.getString("hometown", "Hamburg"));
-        viewTextPostal_code = (TextView)findViewById(R.id.profil_postal_code);
-        viewTextPostal_code.setText(preferences.getString("postal_code", "22113"));
-
-        // Spinner
-        gender.setSelection(preferences.getInt("gender",0 ));
-        university.setSelection(preferences.getInt("university", 0));
-        searchSexual_preference.setSelection(preferences.getInt("searchSexual_preference",0));
-
-
 
         // Navigations Drawer
         drawerList = (ListView) findViewById(R.id.main_lv_menu);
