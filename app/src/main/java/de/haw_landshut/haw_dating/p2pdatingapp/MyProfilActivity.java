@@ -13,7 +13,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
+
+import de.haw_landshut.haw_dating.p2pdatingapp.data_profil_save.StorageProfile;
 
 /**
  * Created by daniel on 28.11.15.
@@ -107,6 +108,10 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener {
                 profilData[6] = editTextHometown.getText().toString();
                 profilData[7] = editTextPostal_code.getText().toString();
                 profilData[8] = searchSexual_preference.getSelectedItem().toString();
+
+                StorageProfile myProfil = new StorageProfile(profilData);
+
+
 
 
 
