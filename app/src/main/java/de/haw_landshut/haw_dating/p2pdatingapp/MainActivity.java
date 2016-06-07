@@ -19,6 +19,7 @@ import android.widget.Toast;
  *
  * Implements OnTouchListener
  * wird gebraucht für die Wischfunktionen.
+ *
  */
 public class MainActivity extends Activity implements View.OnTouchListener{
 
@@ -33,9 +34,6 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         LinearLayout bildschirm = (LinearLayout) findViewById(R.id.activity_main_linear_layout);
         bildschirm.setOnTouchListener(this);
 
-
-
-
     // Navigations Drawer
         drawerList = (ListView) findViewById(R.id.main_lv_menu);
         addDrawerItems();
@@ -45,27 +43,20 @@ public class MainActivity extends Activity implements View.OnTouchListener{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     // MyProfilActivity
-                    case 0:  Toast.makeText(MainActivity.this, "Eigenes Profil", Toast.LENGTH_SHORT).show();
+                    case 0:
                         myProfil();
-                    break;
-                    //
-                    case 1:  Toast.makeText(MainActivity.this, "Nachrichten", Toast.LENGTH_SHORT).show();
-                    break;
-                    // wer ein treffer ist.
-                    case 2:  Toast.makeText(MainActivity.this, "Matchings", Toast.LENGTH_SHORT).show();
-                        findYourLove();
-                    break;
-                    // SearchProfilActivity
-                    case 3:  Toast.makeText(MainActivity.this, "Suchprofil", Toast.LENGTH_SHORT).show();
+                        break;
+                    // SuchProfil
+                    case 1:
                         searchProfil();
-                    break;
-                    // rausschmeißen da es das selbe wie Eigenes Profil ist.
-                    case 4:  Toast.makeText(MainActivity.this, "Infos bearbeiten", Toast.LENGTH_SHORT).show();
-                    break;
-
+                        break;
+                    // FindYourLove
+                    case 2:
+                        findYourLove();
+                        break;
                     // Wenn noch Zeit dann Einstellungen hinzufügen!!!
-                    default:  Toast.makeText(MainActivity.this, "So a schmarn", Toast.LENGTH_SHORT).show();
-                    break;
+                    default:
+                        break;
                 }
             }
         });
@@ -98,6 +89,12 @@ public class MainActivity extends Activity implements View.OnTouchListener{
      *  Beim wischen nach links wird Activity siehe Code (-> XYZ.class) aufgerufen!
      */
 
+    /*
+    Hier ein Beispiel für einen Toast:
+    Toast toast = Toast.makeText(v.getContext(),"Es wurde nach LINKS gewischt! \nSearchProfil -> FindYourLove", Toast.LENGTH_SHORT );
+    toast.show();
+     */
+
     private int touchX;
     private int touchY;
     public boolean onTouch(View v, MotionEvent event){
@@ -114,27 +111,13 @@ public class MainActivity extends Activity implements View.OnTouchListener{
             int tx = (int) event.getX();
             int ty = (int) event.getY();
 
-            // Links, Rechts, Oben, Unten
             if((touchX - tx) > pixel){
-                Toast toast = Toast.makeText(v.getContext(),"Es wurde nach LINKS gewischt! \nMain -> Login", Toast.LENGTH_SHORT );
-                toast.show();
-
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
 
             } else if((touchX - tx) <= - pixel){
-                Toast toast = Toast.makeText(v.getContext(),"Es wurde nach RECHTS gewischt!", Toast.LENGTH_SHORT );
-                toast.show();
+
             }
-            /*
-            else if((touchY - ty) > pixel){
-                Toast toast = Toast.makeText(v.getContext(),"Es wurde nach OBEN gewischt!", Toast.LENGTH_SHORT );
-                toast.show();
-            } else if((touchY - ty) <= - pixel){
-                Toast toast = Toast.makeText(v.getContext(),"Es wurde nach UNTEN gewischt!", Toast.LENGTH_SHORT );
-                toast.show();
-            }
-            */
         }
         return true;
     }

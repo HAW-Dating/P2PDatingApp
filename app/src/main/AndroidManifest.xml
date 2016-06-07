@@ -41,9 +41,11 @@ Eintragung der Activitys nach reihenfolge von Erstaufruf der App!
         <activity android:name=".SearchProfilActivity" />
         <activity android:name=".FindYourLoveActivity" />
 
+    <!--
         <service
             android:name="de.haw_landshut.de.p2pdatingapp.P2pIntentService"
             android:exported="false"></service>
-    </application>
+    -->
 
+</application>
 </manifest>

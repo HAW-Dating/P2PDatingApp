@@ -18,11 +18,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <!-- wurde ersetzt!
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingBottom="20dp"
-    -->
 
 <!--
 Revision by Altrichter Daniel on 15.03.16.
@@ -48,9 +43,6 @@ Button am ende Entfernt
         android:id="@+id/logo"
         android:src="@drawable/my_profil_image" />
 
-    <!-- Funktioniert nicht immer gleich!
-    android:background="@drawable/border_background_white"
-    -->
     <TableLayout
         style="@style/profile_control_table_layout"
     >
@@ -65,7 +57,7 @@ Button am ende Entfernt
                 />
 
             <TextView
-                android:text="Platzhalter"
+                android:id="@+id/profil_control_name"
                 style="@style/profile_control_editcontrol"
                 />
 
@@ -198,17 +190,7 @@ Button am ende Entfernt
                 />
         </TableRow>
     </TableLayout>
-<!--
-            <Button
-                android:text="@string/control_next"
-                style="@style/profile_control_button"
-                />
 
-            <Button
-                android:text="@string/control_back"
-                style="@style/profile_control_button"
-                />
--->
 </LinearLayout>
 </ScrollView>
 
@@ -219,28 +201,6 @@ Button am ende Entfernt
         android:layout_gravity="left|start"
         android:background="@color/white"
         >
-        <!--
-                <TextView
-                    style="@style/nv_drawer_style"
-                    android:text="@string/dr_eigenes_profil"
-                    />
-                <TextView
-                    style="@style/nv_drawer_style"
-                    android:text="@string/dr_nachrichten"
-                    />
-                <TextView
-                    style="@style/nv_drawer_style"
-                    android:text="@string/dr_matchings"
-                    />
-                <TextView
-                    style="@style/nv_drawer_style"
-                    android:text="@string/dr_suchprofil"
-                    />
-                <TextView
-                    style="@style/nv_drawer_style"
-                    android:text="@string/dr_infos"
-                    />
-        -->
     </ListView>
 
 

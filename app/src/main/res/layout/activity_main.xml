@@ -52,29 +52,6 @@
         android:layout_gravity="left|start"
         android:background="@color/white"
         >
-<!--
-        <TextView
-            style="@style/nv_drawer_style"
-            android:text="@string/dr_eigenes_profil"
-            />
-        <TextView
-            style="@style/nv_drawer_style"
-            android:text="@string/dr_nachrichten"
-            />
-        <TextView
-            style="@style/nv_drawer_style"
-            android:text="@string/dr_matchings"
-            />
-        <TextView
-            style="@style/nv_drawer_style"
-            android:text="@string/dr_suchprofil"
-            />
-        <TextView
-            style="@style/nv_drawer_style"
-            android:text="@string/dr_infos"
-            />
--->
     </ListView>
-
 
 </android.support.v4.widget.DrawerLayout>

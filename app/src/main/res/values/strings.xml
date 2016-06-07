@@ -50,20 +50,11 @@ Einstellungmenü eingefügt
     <!-- Einstellungsmenü an der linken Seite -->
     <string name="open">Auf</string>
     <string name="close">Zu</string>
-<!--
-    <string name="dr_eigenes_profil">Eigenes Profil</string>
-    <string name="dr_nachrichten">Nachrichten</string>
-    <string name="dr_matchings">Matchings</string>
-    <string name="dr_suchprofil">Suchprofil</string>
-    <string name="dr_infos">Infos bearbeiten</string>
-    -->
 
     <string-array name="drawer_list_menu_array">
         <item>Eigenes Profil</item>
-        <item>Nachrichten</item>
-        <item>Matchings</item>
         <item>Suchprofil</item>
-        <item>Infos bearbeiten</item>
+        <item>Matchings</item>
     </string-array>
 
     <!-- Durch spinner ersetzt. Evtl nochmal beim profilcheck benötigt? -->
