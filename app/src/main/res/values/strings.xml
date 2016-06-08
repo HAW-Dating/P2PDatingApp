@@ -65,5 +65,12 @@ Einstellungmenü eingefügt
     <string name="bisexual"> m / w </string>
 
 
+    <!-- SharedPreferenceKeys -->
+    <string name="shared_preference_profile_key">profile_key</string>
+    <string name="shared_preference_search_profile_key">search_profile_key</string>
+    <string name="shared_preference_profile">profile</string>
+
+
+
 
 </resources>

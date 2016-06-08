@@ -33,6 +33,7 @@ import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
 public class MyProfilActivity extends Activity implements View.OnTouchListener, View
         .OnClickListener {
 
+    public static final String STRING_DEF_VALUE = "";
     private static Integer[] profileFields = new Integer[]{R.id.gender, R.id.university, R.id
             .sexual_preference, R.id.profil_name, R.id.profil_age, R.id.profil_studie, R.id
             .profil_interests, R.id.profil_hometown, R.id.profil_postal_code};
@@ -202,7 +203,35 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener, 
         } else if (view instanceof Spinner) {
             return ((Spinner) view).getSelectedItem().toString();
         }
-        return "";
+        return STRING_DEF_VALUE;
+    }
+
+    private void restoreInput(final int id, final String value) {
+        final View view = findViewById(id);
+        if (view instanceof EditText) {
+            ((EditText) view).setText(value);
+        } else if (view instanceof Spinner) {
+            final Spinner spinner = (Spinner) view;
+            final ArrayAdapter<String> adapter = (ArrayAdapter) spinner.getAdapter();
+            spinner.setSelection(adapter.getPosition(value));
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final SharedPreferences preferences = getSharedPreferences(getStringDataById(
+                R.string.shared_preference_profile_key), Context.MODE_PRIVATE);
+        final String serializedProfile = preferences.getString(getStringDataById(
+                R.string.shared_preference_profile), STRING_DEF_VALUE);
+        if (serializedProfile != STRING_DEF_VALUE) {
+            final StorageProfile storedProfile = StorageProfile.deSerialize(serializedProfile);
+            for (final int id : storedProfile.getProfileFields()) {
+                restoreInput(id, storedProfile.getProfileData().get(id));
+            }
+
+        }
+
     }
 
     @Override
@@ -217,13 +246,15 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener, 
 
         StorageProfile myProfile = new StorageProfile(profileData, profileFields);
 
-        
+
         // SharedPreferences Datei öffnen
-        SharedPreferences preferences = getSharedPreferences("ProfileData", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(getStringDataById(R.string
+                .shared_preference_profile_key), Context.MODE_PRIVATE);
         // Editorklasse initialisieren
         SharedPreferences.Editor preferenceEditor = preferences.edit();
         // Text mit Schlüsselattribut holen und in Editorklasse schreiben
-        preferenceEditor.putString("profile", myProfile.serialize());
+        preferenceEditor.putString(getStringDataById(R.string.shared_preference_profile),
+                myProfile.serialize());
         preferenceEditor.apply();
     }
 }

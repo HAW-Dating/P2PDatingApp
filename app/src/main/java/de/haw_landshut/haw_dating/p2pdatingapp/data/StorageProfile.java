@@ -47,6 +47,10 @@ public class StorageProfile implements Bottlable {
         return profileData;
     }
 
+    public Integer[] getProfileFields() {
+        return profileFields;
+    }
+
     @Override
     public int getNumberOfOptionalAttributeFields() {
         return 1;
