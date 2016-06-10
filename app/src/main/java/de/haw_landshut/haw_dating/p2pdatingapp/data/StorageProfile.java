@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import de.haw_landshut.haw_dating.p2pdatingapp.R;
 import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
 
 /**
@@ -17,20 +16,20 @@ import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
  */
 public class StorageProfile implements Bottlable {
 
-    public static Integer[] necessaryFields = new Integer[]{R.id.gender, R.id.university, R.id
-            .sexual_preference, R.id.profil_age};
-    public static Integer[][] optionalFields = new Integer[][]{{R.id.profil_hometown, R.id
-            .profil_interests, R.id.profil_studie}};
     public static int[] similarityThresholds = new int[]{3};
     private static Gson gson = new Gson();
     private final Map<Integer, String> profileData;
     private final Integer[] profileFields;
-
+    private final Integer[] necessaryFields;
+    private final Integer[][] optionalFields;
     private Queue<String> necessaryQueue;
     private Queue<String>[] optionalQueue = new Queue[getNumberOfOptionalAttributeFields()];
 
 
-    public StorageProfile(final Map<Integer, String> profileData, final Integer[] profileFields) {
+    public StorageProfile(final Map<Integer, String> profileData, final Integer[] profileFields,
+                          final Integer[] necessaryFields, final Integer[][] optionalFields) {
+        this.necessaryFields = necessaryFields;
+        this.optionalFields = optionalFields;
         this.profileData = profileData;
         this.profileFields = profileFields;
     }

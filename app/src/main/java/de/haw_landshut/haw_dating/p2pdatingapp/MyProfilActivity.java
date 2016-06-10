@@ -22,17 +22,22 @@ import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
 
 /**
  * Created by daniel on 28.11.15.
- * <p/>
+ * <p>
  * Revision by Altrichter Daniel on 15.03.16.
  * Implements OnTouchListener
  * wird gebraucht für die Wischfunktionen.
- * <p/>
+ * <p>
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
 public class MyProfilActivity extends Activity implements View.OnTouchListener, View
         .OnClickListener {
 
+
+    public static final Integer[] necessaryFields = new Integer[]{R.id.gender, R.id.university, R.id
+            .sexual_preference, R.id.profil_age};
+    public static final Integer[][] optionalFields = new Integer[][]{{R.id.profil_hometown, R.id
+            .profil_interests, R.id.profil_studie}};
     public static final String STRING_DEF_VALUE = "";
     private static Integer[] profileFields = new Integer[]{R.id.gender, R.id.university, R.id
             .sexual_preference, R.id.profil_name, R.id.profil_age, R.id.profil_studie, R.id
@@ -45,13 +50,13 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener, 
     private ArrayAdapter<String> adapter;
     /**
      * Created by daniel on 15.03.16.
-     * <p/>
+     * <p>
      * Positionen erkennen und berechnung von Wischereignissen.
      * Dies Funktioniert nur in den Richtungen die kein Scrollingview besitzen.
      * Hier nach links bzw. rechts
-     * <p/>
+     * <p>
      * Pixelangaben müssen evtl noch angepasst werden
-     * <p/>
+     * <p>
      * Beim wischen nach links wird Activity siehe Code (-> XYZ.class) aufgerufen!
      */
 
@@ -244,7 +249,8 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener, 
         }
 
 
-        StorageProfile myProfile = new StorageProfile(profileData, profileFields);
+        StorageProfile myProfile = new StorageProfile(profileData, profileFields,
+                necessaryFields, optionalFields);
 
 
         // SharedPreferences Datei öffnen
