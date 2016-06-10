@@ -1,8 +1,9 @@
 package de.haw_landshut.haw_dating.p2pdatingapp;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
 
 /**
  * Created by daniel on 08.12.15.
@@ -24,8 +30,19 @@ import android.widget.Toast;
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
-public class SearchProfilActivity extends Activity implements View.OnTouchListener, View
+public class SearchProfilActivity extends AbstractProfileActivity implements View
+        .OnTouchListener, View
         .OnClickListener, FindYourLoveMessageListener {
+
+    public static final Integer[] profileFields = new Integer[]{R.id.search_age, R.id
+            .search_gender, R.id.search_hometown, R.id.search_interests, R.id.search_studie, R.id
+            .search_postal_code, R.id.search_sexual_preference, R.id.search_university};
+    public static final Integer[][] optionalFields = new Integer[][]{{R.id.search_hometown, R.id
+            .search_interests, R.id.search_studie}};
+    public static final Integer[] necessaryFields = new Integer[]{R.id.search_gender, R.id
+            .search_university, R.id.search_sexual_preference, R.id.search_age};
+
+    final private Map<Integer, String> profileData = new HashMap<>();
 
     private ListView drawerList;
     private ArrayAdapter<String> adapter;
@@ -115,12 +132,6 @@ public class SearchProfilActivity extends Activity implements View.OnTouchListen
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        p2pInterface.onResume();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         p2pInterface.onPause();
@@ -173,8 +184,47 @@ public class SearchProfilActivity extends Activity implements View.OnTouchListen
         return true;
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        p2pInterface.onResume();
+        final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        final String serializedProfile = preferences.getString(getStringDataById(
+                R.string.shared_preference_search_profile), STRING_DEF_VALUE);
+        Log.d("stored search profile", serializedProfile);
+        if (serializedProfile != STRING_DEF_VALUE) {
+            final StorageProfile storedProfile = StorageProfile.deSerialize(serializedProfile);
+            for (final int id : storedProfile.getProfileFields()) {
+                restoreInput(id, storedProfile.getProfileData().get(id));
+            }
+
+        }
+    }
+
     @Override
     public void onClick(View v) {
+
+        for (Integer attributeId : profileFields) {
+            profileData.put(attributeId, getStringDataById(attributeId));
+
+        }
+
+
+        StorageProfile myProfile = new StorageProfile(profileData, profileFields,
+                necessaryFields, optionalFields);
+
+
+        // SharedPreferences Datei öffnen
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        // Editorklasse initialisieren
+        SharedPreferences.Editor preferenceEditor = preferences.edit();
+        // Text mit Schlüsselattribut holen und in Editorklasse schreiben
+        preferenceEditor.putString(getStringDataById(R.string.shared_preference_search_profile),
+                myProfile.serialize());
+        preferenceEditor.commit();
+
+
         p2pInterface.sendProfile("Hallo");
     }
 

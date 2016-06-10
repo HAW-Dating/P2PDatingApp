@@ -1,10 +1,9 @@
 package de.haw_landshut.haw_dating.p2pdatingapp;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,15 +21,15 @@ import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
 
 /**
  * Created by daniel on 28.11.15.
- * <p>
+ * <p/>
  * Revision by Altrichter Daniel on 15.03.16.
  * Implements OnTouchListener
  * wird gebraucht für die Wischfunktionen.
- * <p>
+ * <p/>
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
-public class MyProfilActivity extends Activity implements View.OnTouchListener, View
+public class MyProfilActivity extends AbstractProfileActivity implements View.OnTouchListener, View
         .OnClickListener {
 
 
@@ -38,8 +37,7 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener, 
             .sexual_preference, R.id.profil_age};
     public static final Integer[][] optionalFields = new Integer[][]{{R.id.profil_hometown, R.id
             .profil_interests, R.id.profil_studie}};
-    public static final String STRING_DEF_VALUE = "";
-    private static Integer[] profileFields = new Integer[]{R.id.gender, R.id.university, R.id
+    private static final Integer[] profileFields = new Integer[]{R.id.gender, R.id.university, R.id
             .sexual_preference, R.id.profil_name, R.id.profil_age, R.id.profil_studie, R.id
             .profil_interests, R.id.profil_hometown, R.id.profil_postal_code};
     EditText editTextName, editTextAge, editTextStudie, editTextInterests, editTextHometown,
@@ -50,13 +48,13 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener, 
     private ArrayAdapter<String> adapter;
     /**
      * Created by daniel on 15.03.16.
-     * <p>
+     * <p/>
      * Positionen erkennen und berechnung von Wischereignissen.
      * Dies Funktioniert nur in den Richtungen die kein Scrollingview besitzen.
      * Hier nach links bzw. rechts
-     * <p>
+     * <p/>
      * Pixelangaben müssen evtl noch angepasst werden
-     * <p>
+     * <p/>
      * Beim wischen nach links wird Activity siehe Code (-> XYZ.class) aufgerufen!
      */
 
@@ -200,35 +198,13 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener, 
         return true;
     }
 
-    private String getStringDataById(final int id) {
-
-        final View view = findViewById(id);
-        if (view instanceof EditText) {
-            return ((EditText) view).getText().toString();
-        } else if (view instanceof Spinner) {
-            return ((Spinner) view).getSelectedItem().toString();
-        }
-        return STRING_DEF_VALUE;
-    }
-
-    private void restoreInput(final int id, final String value) {
-        final View view = findViewById(id);
-        if (view instanceof EditText) {
-            ((EditText) view).setText(value);
-        } else if (view instanceof Spinner) {
-            final Spinner spinner = (Spinner) view;
-            final ArrayAdapter<String> adapter = (ArrayAdapter) spinner.getAdapter();
-            spinner.setSelection(adapter.getPosition(value));
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        final SharedPreferences preferences = getSharedPreferences(getStringDataById(
-                R.string.shared_preference_profile_key), Context.MODE_PRIVATE);
+        final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         final String serializedProfile = preferences.getString(getStringDataById(
                 R.string.shared_preference_profile), STRING_DEF_VALUE);
+        Log.d("stored profile", serializedProfile);
         if (serializedProfile != STRING_DEF_VALUE) {
             final StorageProfile storedProfile = StorageProfile.deSerialize(serializedProfile);
             for (final int id : storedProfile.getProfileFields()) {
@@ -254,13 +230,12 @@ public class MyProfilActivity extends Activity implements View.OnTouchListener, 
 
 
         // SharedPreferences Datei öffnen
-        SharedPreferences preferences = getSharedPreferences(getStringDataById(R.string
-                .shared_preference_profile_key), Context.MODE_PRIVATE);
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         // Editorklasse initialisieren
         SharedPreferences.Editor preferenceEditor = preferences.edit();
         // Text mit Schlüsselattribut holen und in Editorklasse schreiben
         preferenceEditor.putString(getStringDataById(R.string.shared_preference_profile),
                 myProfile.serialize());
-        preferenceEditor.apply();
+        preferenceEditor.commit();
     }
 }

@@ -66,11 +66,10 @@ Einstellungmenü eingefügt
 
 
     <!-- SharedPreferenceKeys -->
-    <string name="shared_preference_profile_key">profile_key</string>
-    <string name="shared_preference_search_profile_key">search_profile_key</string>
+    <string name="shared_preference_key">profile_key</string>
+    <string name="shared_preference_search_key">search_profile_key</string>
     <string name="shared_preference_profile">profile</string>
-
-
+    <string name="shared_preference_search_profile">search_profile</string>
 
 
 </resources>
