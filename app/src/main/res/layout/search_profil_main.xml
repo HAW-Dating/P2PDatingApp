@@ -160,6 +160,7 @@ Revision by Altrichter Daniel on 15.03.16.
     <Button
         android:text="@string/search_button"
         style="@style/profile_button_confirm"
+        android:id="@+id/search_button"
         />
 
 </LinearLayout>
