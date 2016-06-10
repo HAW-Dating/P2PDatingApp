@@ -33,6 +33,7 @@ public class P2pInterface {
 
     private static final String TAG = "P2pInterface";
     private static String profile = "Not valid yet";
+    private static boolean shouldDisconnect;
     private final FindYourLoveMessageListener loveMessagelistener;
     private final IntentFilter intentFilter = new IntentFilter();
     String groupOwnerAdress;
@@ -95,7 +96,12 @@ public class P2pInterface {
                 // owner.
                 isGroupOwner = false;
                 Log.d(TAG, "ConnectionInfoListener: You are not the GroupOwner");
-                writeMessage(profile);
+                if (!isShouldDisconnect()) {
+                    writeMessage(profile);
+                } else {
+                    Log.d(TAG, "ConnectionInfoListener: should disconnect");
+                    disconnect();
+                }
             }
 
         }
@@ -171,6 +177,7 @@ public class P2pInterface {
 
     private void connect() {
         Log.d(TAG, "connect()");
+        // TODO: 10.06.2016 run through all peers
         final WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
         final WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
@@ -201,8 +208,6 @@ public class P2pInterface {
             e.printStackTrace();
         }
         disconnect();
-        // TODO: 07.06.2016 Initiate should be called after sending Message
-        //initiate();
     }
 
     public void disconnect() {
@@ -218,7 +223,9 @@ public class P2pInterface {
                             @Override
                             public void onSuccess() {
                                 setIsConnected(false);
+                                setShouldDisconnect(false);
                                 Log.d(TAG, "disconnect: removeGroup onSuccess -");
+                                initiate();
                             }
 
                             @Override
@@ -264,5 +271,13 @@ public class P2pInterface {
 
     protected void setIsConnected(boolean isConnected) {
         this.isConnected = isConnected;
+    }
+
+    synchronized public static boolean isShouldDisconnect() {
+        return shouldDisconnect;
+    }
+
+    synchronized public static void setShouldDisconnect(boolean shouldDisconnect) {
+        P2pInterface.shouldDisconnect = shouldDisconnect;
     }
 }

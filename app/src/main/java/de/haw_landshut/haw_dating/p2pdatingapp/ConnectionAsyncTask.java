@@ -41,6 +41,7 @@ public class ConnectionAsyncTask extends AsyncTask<String, Void, String> {
                 String msgReceived = inputStream.readUTF();
                 //activity.setTxtStatus("Incoming Message: " + msgReceived);
                 Log.d(TAG, "Point 4");
+                p2pInterface.setShouldDisconnect(true);
                 client.close();
                 serverSocket.close();
                 return msgReceived;
@@ -67,6 +68,7 @@ public class ConnectionAsyncTask extends AsyncTask<String, Void, String> {
                 dataOutputStream.writeUTF(p2pInterface.getProfile());
 
                 Log.d(TAG, "Point 8");
+                p2pInterface.setShouldDisconnect(true);
                 socket.close();
                 //activity.setTxtStatus("Message send... hopefully");
                 return message;
