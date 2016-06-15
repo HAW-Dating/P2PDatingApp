@@ -32,6 +32,7 @@ public class ConnectionAsyncTask extends AsyncTask<String, Void, String> {
                 ServerSocket serverSocket = new ServerSocket(PORT);
                 Socket client = serverSocket.accept();
 
+
                 Log.d(TAG, "Point 2");
                 DataOutputStream dataOutputStream = new DataOutputStream(client.getOutputStream());
                 dataOutputStream.writeUTF(p2pInterface.getProfile());
@@ -42,8 +43,12 @@ public class ConnectionAsyncTask extends AsyncTask<String, Void, String> {
                 //activity.setTxtStatus("Incoming Message: " + msgReceived);
                 Log.d(TAG, "Point 4");
                 p2pInterface.setShouldDisconnect(true);
+                dataOutputStream.close();
+                inputStream.close();
                 client.close();
                 serverSocket.close();
+                p2pInterface.setIsGroupOwner(false);
+                //p2pInterface.disconnect();
                 return msgReceived;
             }
 
@@ -54,6 +59,9 @@ public class ConnectionAsyncTask extends AsyncTask<String, Void, String> {
 
         else{
             try {
+                if (p2pInterface.getGroupOwnerAdress() == null){
+                    return null;
+                }
                 Log.d(TAG, "Point 5");
                 Socket socket = new Socket();
                 socket.bind(null);
@@ -69,8 +77,9 @@ public class ConnectionAsyncTask extends AsyncTask<String, Void, String> {
 
                 Log.d(TAG, "Point 8");
                 p2pInterface.setShouldDisconnect(true);
+                dataInputStream.close();
+                dataOutputStream.close();
                 socket.close();
-                //activity.setTxtStatus("Message send... hopefully");
                 return message;
 
             } catch (IOException e) {

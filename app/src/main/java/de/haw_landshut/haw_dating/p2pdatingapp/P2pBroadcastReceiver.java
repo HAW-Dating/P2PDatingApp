@@ -70,6 +70,7 @@ public class P2pBroadcastReceiver extends BroadcastReceiver {
             if (networkInfo.isConnected()) {
                 p2pInterface.setIsConnected(true);
 
+
                 // We are connected with the other device, request connection
                 // info to find group owner IP
                 Log.d(TAG, "WIFI_P2P_CONNECTION_CHANGED_ACTION: isConnected");
@@ -77,6 +78,7 @@ public class P2pBroadcastReceiver extends BroadcastReceiver {
             }
             else if (networkInfo.isConnected() == false) {
                 p2pInterface.setIsConnected(false);
+                p2pInterface.setShouldDisconnect(false);
                 Log.d(TAG, "WIFI_P2P_CONNECTION_CHANGED_ACTION: is not connected");
             }
         }
