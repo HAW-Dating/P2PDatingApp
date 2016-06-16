@@ -57,7 +57,7 @@ Button am ende Entfernt
                 />
 
             <TextView
-                android:id="@+id/profil_control_name"
+                android:id="@+id/profile_control_name"
                 style="@style/profile_control_editcontrol"
                 />
 
@@ -74,6 +74,7 @@ Button am ende Entfernt
                 />
 
             <TextView
+                android:id="@+id/profile_control_age"
                 android:text="Platzhalter"
                 style="@style/profile_control_editcontrol"
                 />
@@ -90,6 +91,7 @@ Button am ende Entfernt
                 />
 
             <TextView
+                android:id="@+id/profile_control_gender"
                 android:text="Platzhalter"
                 style="@style/profile_control_editcontrol"
                 />
@@ -106,6 +108,7 @@ Button am ende Entfernt
                 />
 
             <TextView
+                android:id="@+id/profile_control_studie"
                 android:text="Platzhalter"
                 style="@style/profile_control_editcontrol"
                 />
@@ -122,6 +125,7 @@ Button am ende Entfernt
                 />
 
             <TextView
+                android:id="@+id/profile_control_university"
                 android:text="Platzhalter"
                 style="@style/profile_control_editcontrol"
                 />
@@ -138,6 +142,7 @@ Button am ende Entfernt
                 />
 
             <TextView
+                android:id="@+id/profile_control_interests"
                 android:text="Platzhalter"
                 style="@style/profile_control_editcontrol"
                 />
@@ -154,6 +159,7 @@ Button am ende Entfernt
                 />
 
             <TextView
+                android:id="@+id/profile_control_hometown"
                 android:text="Platzhalter"
                 style="@style/profile_control_editcontrol"
                 />
@@ -170,6 +176,7 @@ Button am ende Entfernt
                 />
 
             <TextView
+                android:id="@+id/profile_control_postal_code"
                 android:text="Platzhalter"
                 style="@style/profile_control_editcontrol"
                 />
@@ -185,6 +192,7 @@ Button am ende Entfernt
                 />
 
             <TextView
+                android:id="@+id/profile_control_sexual_preference"
                 android:text="Platzhalter"
                 style="@style/profile_control_editcontrol"
                 />

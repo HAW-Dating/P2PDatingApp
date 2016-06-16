@@ -18,6 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
+import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
+import de.haw_landshut.haw_dating.sealedbottle.algorithm.Corkscrew;
+import de.haw_landshut.haw_dating.sealedbottle.api.BottleOpener;
+import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
 
 /**
  * Created by daniel on 08.12.15.
@@ -224,8 +228,13 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
                 myProfile.serialize());
         preferenceEditor.commit();
 
+        final Bottle bottle = new Bottle(myProfile);
+        bottle.fill().cork().seal();
+        final MessageInABottle message = new MessageInABottle(bottle,"loveline",new String[]{"hint"},1);
+        final String send = MessageInABottle.serialize(message);
+        final BottleOpener opener = new BottleOpener(message,bottle);
 
-        p2pInterface.sendProfile("Hallo");
+        //p2pInterface.sendProfile("Hallo");
     }
 
     @Override
