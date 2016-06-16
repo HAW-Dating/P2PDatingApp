@@ -37,7 +37,7 @@ public class MyProfilActivity extends AbstractProfileActivity implements View.On
             .sexual_preference, R.id.profil_age};
     public static final Integer[][] optionalFields = new Integer[][]{{R.id.profil_hometown, R.id
             .profil_interests, R.id.profil_studie}};
-    private static final Integer[] profileFields = new Integer[]{R.id.gender, R.id.university, R.id
+    public static final Integer[] profileFields = new Integer[]{R.id.gender, R.id.university, R.id
             .sexual_preference, R.id.profil_name, R.id.profil_age, R.id.profil_studie, R.id
             .profil_interests, R.id.profil_hometown, R.id.profil_postal_code};
     EditText editTextName, editTextAge, editTextStudie, editTextInterests, editTextHometown,
