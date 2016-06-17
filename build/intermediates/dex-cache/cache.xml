@@ -1,2 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="07186e919d6a273d731a83f3f775a7dbdb670f58">
+        <dex dex="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\pre-dexed\debug\instant-run-bootstrap_c3a4ab63393504bc79a800e99406e81ddbdf39b6.jar" />
+    </item>
+    <item
+        jar="C:\Users\Tobias\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_ee38051745fb93151997918490fb58c1dc5a421d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Tobias\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-collections4\4.1\a4cf4688fe1c7e3a63aa636cc96d013af537768e\commons-collections4-4.1.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="a4cf4688fe1c7e3a63aa636cc96d013af537768e">
+        <dex dex="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\pre-dexed\debug\commons-collections4-4.1_64a71f0dc5424a868d0ba8c19d0f65cd2bfce3f3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="0490bccce52bd92f4c0a23a1ed024b57f5a8e16b">
+        <dex dex="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\pre-dexed\debug\instant-run_f06f3f15f4d667d52f4126f3937717792603a3eb.jar" />
+    </item>
+    <item
+        jar="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_974260c4e0b43f5ad721828e2b352992b5b6ed7b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_7e78fdd10924476409cc46a67e44c3e68a3afe0b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_9eb4c9e12e3bdb2fc6f77d937d00662e5c514e5c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Tobias\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-math3\3.6\825c90790e83af784be1de0a3f3a9f066cf884b9\commons-math3-3.6.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="825c90790e83af784be1de0a3f3a9f066cf884b9">
+        <dex dex="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\pre-dexed\debug\commons-math3-3.6_0aaf85de400dd90549264a66dc8f1d7c31b1eca6.jar" />
+    </item>
+    <item
+        jar="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\exploded-aar\com.android.support\design\23.0.1\jars\classes.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.0.1_7fc013aeb47c19eb229a457d240f53da399ec3df.jar" />
+    </item>
+    <item
+        jar="C:\Users\Tobias\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.6.2\f1bc476cc167b18e66c297df599b2377131a8947\gson-2.6.2.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="f1bc476cc167b18e66c297df599b2377131a8947">
+        <dex dex="C:\Users\Tobias\Documents\Uni\Studienprojekt\P2PDatingApp\app\build\intermediates\pre-dexed\debug\gson-2.6.2_f2b0d4d6b165c0e086ee135d15c6c01f81f11ca8.jar" />
+    </item>
+
+</items>

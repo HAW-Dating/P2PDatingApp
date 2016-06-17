@@ -11,6 +11,7 @@ import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -196,24 +197,31 @@ public class P2pInterface {
         Log.d(TAG, "connect()");
         // TODO: 10.06.2016 run through all peers
 
-        setShouldDisconnect(false);
-        final WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
-        final WifiP2pConfig config = new WifiP2pConfig();
-        config.deviceAddress = device.deviceAddress;
-        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "connect(): Success, deviceName: " + device.deviceName);
-            }
-
-            @Override
-            public void onFailure(int reason) {
-                Log.d(TAG, "connect(): Failure: " + reason);
-                if (reason == mManager.BUSY){
-                    restart();
+        if (!peers.isEmpty()) {
+            setShouldDisconnect(false);
+            final WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
+            final WifiP2pConfig config = new WifiP2pConfig();
+            config.deviceAddress = device.deviceAddress;
+            mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG, "connect(): Success, deviceName: " + device.deviceName);
                 }
-            }
-        });
+
+                @Override
+                public void onFailure(int reason) {
+                    Log.d(TAG, "connect(): Failure: " + reason);
+                    if (reason == mManager.BUSY){
+                        restart();
+                    }
+                }
+            });
+        }
+        else if(peers.isEmpty()){
+            Toast toast = new Toast(activity);
+            toast.setText("There are no other hot lovers around.\nTry again later, you stinky bastard!");
+            toast.show();
+        }
     }
 
     private void writeMessage(String s){
