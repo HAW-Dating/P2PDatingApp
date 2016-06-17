@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +19,11 @@ import java.util.Map;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import de.haw_landshut.haw_dating.p2pdatingapp.P2p.FindYourLoveMessageListener;
+import de.haw_landshut.haw_dating.p2pdatingapp.P2p.P2pInterface;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.WifiMessage;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
-import de.haw_landshut.haw_dating.sealedbottle.algorithm.Corkscrew;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleCryptoConstants;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleOpener;
 import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
@@ -258,7 +258,10 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             } else {
                 Log.d(TAG, "onLoveMessageReceive: Could not deserialize" + message);
             }
+        } else {
+            Log.d(TAG, "onLoveMessageReceive: no Profile returned");
         }
+
     }
 
     private String tryDecode(final WifiMessage wifiMessage) throws Exception {

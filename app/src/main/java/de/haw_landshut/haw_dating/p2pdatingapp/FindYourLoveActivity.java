@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by alisabuchner on 08.12.15.
  *
@@ -21,6 +23,7 @@ import android.widget.Toast;
  * wird gebraucht für die Wischfunktionen.
  */
 public class FindYourLoveActivity extends Activity implements View.OnTouchListener{
+    public final static String CHAT_MESSAGE = "com.example.haw_mobile.beaconchat.CHAT_MESSAGE";
 
     private ListView drawerList;
     private ArrayAdapter<String> adapter;
@@ -114,6 +117,23 @@ public class FindYourLoveActivity extends Activity implements View.OnTouchListen
             }
         }
         return true;
+    }
+
+    public void enterChatActivity(String minorID) {
+
+        Intent intent = new Intent(this, ChatActivity.class);
+
+        ArrayList<String> data = new ArrayList<String>();
+        String ip = getString(R.string.server_name);
+        String roomID = minorID;
+        data.add(ip);
+        data.add(roomID);
+
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList("data", data);
+        intent.putExtra(FindYourLoveActivity.CHAT_MESSAGE, bundle);
+        startActivity(intent);
+
     }
 
 }

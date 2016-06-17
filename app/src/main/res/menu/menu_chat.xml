@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.landshut.haw_mobile.beaconchat.Chat">
+    <item android:id="@+id/action_settings" android:title="@string/action_name"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>

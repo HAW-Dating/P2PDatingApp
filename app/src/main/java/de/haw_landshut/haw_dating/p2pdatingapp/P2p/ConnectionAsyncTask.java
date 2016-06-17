@@ -1,4 +1,4 @@
-package de.haw_landshut.haw_dating.p2pdatingapp;
+package de.haw_landshut.haw_dating.p2pdatingapp.P2p;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import de.haw_landshut.haw_dating.p2pdatingapp.P2p.P2pInterface;
 
 /**
  * Created by Tobias on 06.06.2016.

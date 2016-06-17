@@ -1,4 +1,4 @@
-package de.haw_landshut.haw_dating.p2pdatingapp;
+package de.haw_landshut.haw_dating.p2pdatingapp.P2p;
 
 import android.app.Activity;
 import android.content.Context;
@@ -267,14 +267,14 @@ public class P2pInterface {
         }
     }
 
-    protected void onResume() {
+    public void onResume() {
         Log.d(TAG, "onResume()");
         receiver = new P2pBroadcastReceiver(mManager, mChannel, this);
         activity.registerReceiver(receiver, intentFilter);
         discover();
     }
 
-    protected void onPause() {
+    public void onPause() {
         Log.d(TAG, "onPause()");
         if (isConnected) {
             disconnect();
