@@ -46,6 +46,7 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             .search_interests, R.id.search_studie}};
     public static final Integer[] necessaryFields = new Integer[]{R.id.search_gender, R.id
             .search_university, R.id.search_sexual_preference, R.id.search_age};
+    private static final String TAG = SearchProfilActivity.class.getCanonicalName();
 
     final private Map<Integer, String> profileData = new HashMap<>();
 
@@ -234,14 +235,43 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
         final MessageInABottle message = new MessageInABottle(bottle, "loveline", new String[]{"hint"}, 1);
         final String send = MessageInABottle.serialize(message);
         //final BottleOpener opener = new BottleOpener(message,bottle);
-        final WifiMessage wifiMessage = new WifiMessage(send);
+        final WifiMessage wifiMessage = WifiMessage.createWifiMessage(send, bottle.getKeyasAESSecretKey(), "hallo");
 
-        p2pInterface.sendProfile(wifiMessage.serialize());
+        final String finalSendString = wifiMessage.serialize();
+        p2pInterface.sendProfile(finalSendString);
 
     }
 
     @Override
     public void onLoveMessageReceive(String message) {
         Log.d("message received", message);
+        final WifiMessage wifiMessage = WifiMessage.deserialize(message);
+
+        if (wifiMessage != null) {
+
+            final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+            final String profileString = preferences.getString(getStringDataById(R.string.shared_preference_profile), STRING_DEF_VALUE);
+            if (!STRING_DEF_VALUE.equals(profileString)) {
+                final Bottle bottle = new Bottle(StorageProfile.deSerialize(profileString));
+                bottle.fill();
+                bottle.cork();
+                bottle.seal();
+
+                final BottleOpener bottleOpener = new BottleOpener(MessageInABottle.deSerialize(wifiMessage.getSerializedMessageInABottle()), bottle);
+                if (bottleOpener.isOpeningPossible()){
+                    bottleOpener.tryOpening();
+
+
+                }
+
+
+
+
+            }
+
+
+        } else {
+            Log.d(TAG, "onLoveMessageReceive: Could not deserialize" + message);
+        }
     }
 }

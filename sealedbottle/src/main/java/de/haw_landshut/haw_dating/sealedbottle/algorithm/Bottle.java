@@ -27,7 +27,7 @@ import de.haw_landshut.haw_dating.sealedbottle.api.BottleCryptoConstants;
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.
  * Supervising professor: Prof. Andreas Siebert, Ph.D
- * <p>
+ * <p/>
  * 11/20/15 by s-gheldd
  */
 
@@ -279,7 +279,7 @@ public class Bottle {
      * @return a SecretKey of type "AES".
      * @throws IllegalStateException if Bottle is not in State.SEALED at time of invocation.
      */
-    public SecretKey getKeyasAESSecretKey() throws IllegalStateException {
+    public SecretKeySpec getKeyasAESSecretKey() throws IllegalStateException {
         if (State.SEALED.equals(this.state)) {
             SecretKeySpec secretKeySpec = new SecretKeySpec(this.hashOfBottle, 0, 256 / 8, "AES");
             return secretKeySpec;
