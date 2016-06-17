@@ -8,6 +8,4 @@ package de.haw_landshut.haw_dating.p2pdatingapp;
  */
 public interface FindYourLoveMessageListener {
     void onLoveMessageReceive(final String message);
-
-
 }

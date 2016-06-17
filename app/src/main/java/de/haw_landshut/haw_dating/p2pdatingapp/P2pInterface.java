@@ -195,7 +195,7 @@ public class P2pInterface {
     private void connect(){
         Log.d(TAG, "connect()");
         // TODO: 10.06.2016 run through all peers
-        // TODO: 10.06.2016 Add to App
+
         setShouldDisconnect(false);
         final WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
         final WifiP2pConfig config = new WifiP2pConfig();
@@ -345,4 +345,6 @@ public class P2pInterface {
     public void setIsGroupOwner(boolean isGroupOwner) {
         this.isGroupOwner = isGroupOwner;
     }
+
+
 }

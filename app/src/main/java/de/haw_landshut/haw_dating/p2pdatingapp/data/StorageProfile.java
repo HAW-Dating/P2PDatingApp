@@ -60,7 +60,9 @@ public class StorageProfile implements Bottlable {
         necessaryQueue = new LinkedList<>();
 
         for (final Integer attributeId : necessaryFields) {
-            necessaryQueue.addAll(Arrays.asList(profileData.get(attributeId).split(",")));
+            final String attributeString = profileData.get(attributeId);
+            final String[] attributeStringArray = attributeString.split(",");
+            necessaryQueue.addAll(Arrays.asList(attributeStringArray));
         }
         return necessaryQueue.size();
     }
@@ -70,7 +72,9 @@ public class StorageProfile implements Bottlable {
         optionalQueue[field] = new LinkedList<>();
 
         for (final Integer attributeId : optionalFields[field]) {
-            optionalQueue[field].add(profileData.get(attributeId));
+            final String attributeString = profileData.get(attributeId);
+            final String[] attributeStringArray = attributeString.split(",");
+            optionalQueue[field].addAll(Arrays.asList(attributeStringArray));
         }
 
         return optionalQueue[field].size();

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
+import de.haw_landshut.haw_dating.p2pdatingapp.data.WifiMessage;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Corkscrew;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleOpener;
@@ -230,16 +231,17 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
 
         final Bottle bottle = new Bottle(myProfile);
         bottle.fill().cork().seal();
-        final MessageInABottle message = new MessageInABottle(bottle,"loveline",new String[]{"hint"},1);
+        final MessageInABottle message = new MessageInABottle(bottle, "loveline", new String[]{"hint"}, 1);
         final String send = MessageInABottle.serialize(message);
-        final BottleOpener opener = new BottleOpener(message,bottle);
+        //final BottleOpener opener = new BottleOpener(message,bottle);
+        final WifiMessage wifiMessage = new WifiMessage(send);
 
-        //p2pInterface.sendProfile("Hallo");
+        p2pInterface.sendProfile(wifiMessage.serialize());
+
     }
 
     @Override
     public void onLoveMessageReceive(String message) {
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
-        toast.show();
+        Log.d("message received", message);
     }
 }
