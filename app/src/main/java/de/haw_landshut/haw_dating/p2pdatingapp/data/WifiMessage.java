@@ -48,6 +48,10 @@ public class WifiMessage {
         return uuid;
     }
 
+    public byte[] getEncryptedMessage() {
+        return encryptedMessage;
+    }
+
     public String serialize() {
         return gson.toJson(this);
     }

@@ -91,7 +91,7 @@ public class BottleOpener {
      *
      * @return An 256Bit AES SecretKey if a match is achieved, null otherwise
      */
-    public SecretKey tryOpening() {
+    public SecretKeySpec tryOpening() {
         final int nOptionalFields = incomingMessageInABottle.getNOptionalFields();
         final ArrayList<List<byte[]>> calculatedHashedAttributes = new ArrayList<>(nOptionalFields);
         for (int i = 0; i < nOptionalFields; i++) {

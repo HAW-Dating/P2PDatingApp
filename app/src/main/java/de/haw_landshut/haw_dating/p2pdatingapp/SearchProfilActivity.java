@@ -17,21 +17,25 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
 import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.WifiMessage;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Corkscrew;
+import de.haw_landshut.haw_dating.sealedbottle.api.BottleCryptoConstants;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleOpener;
 import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
 
 /**
  * Created by daniel on 08.12.15.
- * <p/>
+ * <p>
  * Revision by Altrichter Daniel on 15.03.16.
- * <p/>
+ * <p>
  * Implements OnTouchListener
  * wird gebraucht für die Wischfunktionen.
- * <p/>
+ * <p>
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
@@ -56,13 +60,13 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
     private Button searchButton;
     /**
      * Created by daniel on 15.03.16.
-     * <p/>
+     * <p>
      * Positionen erkennen und berechnung von Wischereignissen.
      * Dies Funktioniert nur in den Richtungen die kein Scrollingview besitzen.
      * Hier nach links bzw. rechts
-     * <p/>
+     * <p>
      * Pixelangaben müssen evtl noch angepasst werden
-     * <p/>
+     * <p>
      * Beim wischen nach links wird Activity siehe Code (-> XYZ.class) aufgerufen!
      */
 
@@ -215,12 +219,8 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             profileData.put(attributeId, getStringDataById(attributeId));
 
         }
-
-
         StorageProfile myProfile = new StorageProfile(profileData, profileFields,
                 necessaryFields, optionalFields);
-
-
         // SharedPreferences Datei öffnen
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         // Editorklasse initialisieren
@@ -249,29 +249,40 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             final WifiMessage wifiMessage = WifiMessage.deserialize(message);
 
             if (wifiMessage != null) {
-
-                final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-                final String profileString = preferences.getString(getStringDataById(R.string.shared_preference_profile), STRING_DEF_VALUE);
-                if (!STRING_DEF_VALUE.equals(profileString)) {
-                    final Bottle bottle = new Bottle(StorageProfile.deSerialize(profileString));
-                    bottle.fill();
-                    bottle.cork();
-                    bottle.seal();
-
-                    final BottleOpener bottleOpener = new BottleOpener(MessageInABottle.deSerialize(wifiMessage.getSerializedMessageInABottle()), bottle);
-                    if (bottleOpener.isOpeningPossible()) {
-                        bottleOpener.tryOpening();
-
-
-                    }
-
-
+                try {
+                    final String chatRoom = tryDecode(wifiMessage);
+                    Log.d(TAG, "onLoveMessageReceive: " + chatRoom);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-
-
             } else {
                 Log.d(TAG, "onLoveMessageReceive: Could not deserialize" + message);
             }
         }
+    }
+
+    private String tryDecode(final WifiMessage wifiMessage) throws Exception {
+        final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        final String profileString = preferences.getString(getStringDataById(R.string.shared_preference_profile), STRING_DEF_VALUE);
+        if (!STRING_DEF_VALUE.equals(profileString)) {
+            final StorageProfile storageProfile = StorageProfile.deSerialize(profileString);
+            final Bottle bottle = new Bottle(storageProfile);
+            bottle.fill();
+            bottle.cork();
+            bottle.seal();
+
+            final BottleOpener bottleOpener = new BottleOpener(MessageInABottle.deSerialize(wifiMessage.getSerializedMessageInABottle()), bottle);
+            if (bottleOpener.isOpeningPossible()) {
+                final SecretKeySpec secretKeySpec = bottleOpener.tryOpening();
+                if (secretKeySpec != null) {
+                    final Cipher cipher = Cipher.getInstance(BottleCryptoConstants.TRANSFORMATION);
+                    cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, BottleCryptoConstants.IV_PARAMETER_SPEC);
+                    final String chatRoom = new String(cipher.doFinal(wifiMessage.getEncryptedMessage()), BottleCryptoConstants.CHARSET);
+                    return chatRoom;
+                }
+                Log.d(TAG, "tryDecode: Could not decipher");
+            }
+        }
+        return null;
     }
 }
