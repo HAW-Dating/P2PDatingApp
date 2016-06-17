@@ -44,7 +44,8 @@ public class P2pInterface {
     private boolean isGroupOwner = false;
     String groupOwnerAdress;
     private boolean isConnected = false;
-    private static String profile = "Not valid yet";
+    public static final String NOT_VALID_YET = "Not valid yet";
+    private static String profile = NOT_VALID_YET;
 
     // TODO: 15.06.2016 Add in App
     private final FindYourLoveMessageListener loveMessagelistener;
@@ -77,9 +78,7 @@ public class P2pInterface {
                 Log.d(TAG, "PeerListListener: no peers found");
                 //Log.d(WiFiDirectActivity.TAG, "No devices found");
                 return;
-            }
-
-            else{
+            } else {
 
                 WifiP2pDevice p2pDevice = (WifiP2pDevice) peers.get(0);
                 Log.d(TAG, "PeerListListener: found " + peers.size() + " peers, top peer: " + p2pDevice.deviceName);
@@ -92,14 +91,13 @@ public class P2pInterface {
     private WifiP2pManager.ConnectionInfoListener connectionInfoListener = new WifiP2pManager.ConnectionInfoListener() {
         @Override
         public void onConnectionInfoAvailable(WifiP2pInfo info) {
-            if (isShouldDisconnect()){
+            if (isShouldDisconnect()) {
                 Log.d(TAG, "ConnectionInfoListener: should disconnect");
                 //isGroupOwner = false;
                 //disconnect();
                 //discover();
                 return;
-            }
-            else {
+            } else {
                 // InetAddress from WifiP2pInfo struct.
                 groupOwnerAdress = info.groupOwnerAddress.getHostAddress();
                 // After the group negotiation, we can determine the group owner.
@@ -154,12 +152,9 @@ public class P2pInterface {
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
 
 
-
         //Let's get a intance of the WiFiP2PManager and a channel....
         mManager = (WifiP2pManager) activity.getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(activity, activity.getMainLooper(), null);
-
-
 
 
         //My try to set up the BroadcastReceiver...
@@ -170,30 +165,30 @@ public class P2pInterface {
         fetch();
     }
 
-    protected void discover(){
+    protected void discover() {
         Log.d(TAG, "discover()");
-        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener(){
+        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
             @Override
-            public void onSuccess(){
+            public void onSuccess() {
                 Log.d(TAG, "discover(): Success");
             }
 
             @Override
-            public void onFailure(int reasonCode){
+            public void onFailure(int reasonCode) {
                 Log.d(TAG, "discover(): Failure: " + reasonCode);
-                if (reasonCode == mManager.BUSY){
+                if (reasonCode == mManager.BUSY) {
                     restart();
                 }
             }
         });
     }
 
-    protected void fetch(){
+    protected void fetch() {
         Log.d(TAG, "fetch()");
         mManager.requestPeers(mChannel, peerListListener);
     }
 
-    private void connect(){
+    private void connect() {
         Log.d(TAG, "connect()");
         // TODO: 10.06.2016 run through all peers
 
@@ -211,20 +206,17 @@ public class P2pInterface {
                 @Override
                 public void onFailure(int reason) {
                     Log.d(TAG, "connect(): Failure: " + reason);
-                    if (reason == mManager.BUSY){
+                    if (reason == mManager.BUSY) {
                         restart();
                     }
                 }
             });
-        }
-        else if(peers.isEmpty()){
-            Toast toast = new Toast(activity);
-            toast.setText("There are no other hot lovers around.\nTry again later, you stinky bastard!");
-            toast.show();
+        } else if (peers.isEmpty()) {
+            Toast.makeText(activity, "There are no other hot lovers around.\nTry again later, you stinky bastard!", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void writeMessage(String s){
+    private void writeMessage(String s) {
         Log.d(TAG, "writeMessage()");
         AsyncTask<String, Void, String> asyncTask = new ConnectionAsyncTask(this).execute();
         //connectionAsyncTask.doInBackground(null);
@@ -239,7 +231,7 @@ public class P2pInterface {
         } catch (TimeoutException e) {
             Log.d(TAG, "writeMessage(): asyncTask TimeOut");
             setShouldDisconnect(true);
-            if (!asyncTask.cancel(true)){
+            if (!asyncTask.cancel(true)) {
                 Log.d(TAG, "writeMessage(): asyncTask couldn't be canceled");
             }
         }
@@ -284,7 +276,7 @@ public class P2pInterface {
 
     protected void onPause() {
         Log.d(TAG, "onPause()");
-        if(isConnected){
+        if (isConnected) {
             disconnect();
         }
         activity.unregisterReceiver(receiver);
@@ -317,11 +309,11 @@ public class P2pInterface {
         P2pInterface.profile = profile;
     }
 
-    synchronized protected static String getProfile(){
+    synchronized protected static String getProfile() {
         return profile;
     }
 
-    private void restart(){
+    private void restart() {
         Log.d(TAG, "restart()");
         mManager.cancelConnect(mChannel, new WifiP2pManager.ActionListener() {
             @Override
