@@ -12,7 +12,6 @@ import org.junit.Test;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
 import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleableTest;
 
@@ -44,7 +43,7 @@ public class BottleTest {
     public void testGetKeyasAESSecretKey() {
         this.bottle = new Bottle(this.bottlable);
         bottle.fill().cork().seal();
-        bottle.getKeyasAESSecretKey();
+        bottle.getKeyAsAESSecretKey();
 
     }
 

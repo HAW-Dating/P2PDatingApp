@@ -62,7 +62,7 @@
                         android:text="@string/studie" />
 
                     <EditText
-                        android:id="@+id/search_studie"
+                        android:id="@+id/search_studies"
                         style="@style/profile_edittext" />
                 </TableRow>
 

@@ -22,7 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import de.haw_landshut.haw_dating.p2pdatingapp.P2p.FindYourLoveMessageListener;
 import de.haw_landshut.haw_dating.p2pdatingapp.P2p.P2pInterface;
-import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
+import de.haw_landshut.haw_dating.p2pdatingapp.data.StoredProfile;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.WifiMessage;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleCryptoConstants;
@@ -40,17 +40,34 @@ import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
-public class SearchProfileActivity extends AbstractProfileActivity implements View
-        .OnTouchListener, View
-        .OnClickListener, FindYourLoveMessageListener {
+public class SearchProfileActivity extends AbstractProfileActivity implements View.OnTouchListener, View.OnClickListener, FindYourLoveMessageListener {
 
-    public static final Integer[] profileFields = new Integer[]{R.id.search_age, R.id
-            .search_gender, R.id.search_hometown, R.id.search_interests_1, R.id.search_studie, R.id
-            .search_postal_code, R.id.search_sexual_preference, R.id.search_university};
-    public static final Integer[][] optionalFields = new Integer[][]{{R.id.search_hometown, R.id
-            .search_interests_1, R.id.search_studie}};
-    public static final Integer[] necessaryFields = new Integer[]{R.id.search_gender, R.id
-            .search_university, R.id.search_sexual_preference, R.id.search_age};
+    public static final Integer[] necessaryFields = new Integer[]{
+            R.id.search_gender,
+            R.id.search_university,
+            R.id.search_sexual_preference,
+            R.id.search_age};
+
+    public static final Integer[][] optionalFields = new Integer[][]{{
+            R.id.search_hometown,
+            R.id.search_interests_1,
+            R.id.search_interests_2,
+            R.id.search_interests_3,
+            R.id.search_studies}
+    };
+
+    public static final Integer[] profileFields = new Integer[]{
+            R.id.search_age,
+            R.id.search_gender,
+            R.id.search_hometown,
+            R.id.search_interests_1,
+            R.id.search_interests_2,
+            R.id.search_interests_3,
+            R.id.search_studies,
+            R.id.search_postal_code,
+            R.id.search_sexual_preference,
+            R.id.search_university};
+
     private static final String TAG = SearchProfileActivity.class.getSimpleName();
 
     final private Map<Integer, String> profileData = new HashMap<>();
@@ -213,7 +230,7 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
                 R.string.shared_preference_search_profile), STRING_DEF_VALUE);
         Log.d("stored search profile", serializedProfile);
         if (serializedProfile != STRING_DEF_VALUE) {
-            final StorageProfile storedProfile = StorageProfile.deSerialize(serializedProfile);
+            final StoredProfile storedProfile = StoredProfile.deSerialize(serializedProfile);
             for (final int id : storedProfile.getProfileFields()) {
                 restoreInput(id, storedProfile.getProfileData().get(id));
             }
@@ -228,23 +245,22 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
             profileData.put(attributeId, getStringDataById(attributeId));
 
         }
-        StorageProfile myProfile = new StorageProfile(profileData, profileFields,
-                necessaryFields, optionalFields);
+        final StoredProfile myProfile = new StoredProfile(profileData, profileFields, necessaryFields, optionalFields);
         // SharedPreferences Datei öffnen
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         // Editorklasse initialisieren
-        SharedPreferences.Editor preferenceEditor = preferences.edit();
+        final SharedPreferences.Editor preferenceEditor = preferences.edit();
         // Text mit Schlüsselattribut holen und in Editorklasse schreiben
         preferenceEditor.putString(getStringDataById(R.string.shared_preference_search_profile),
                 myProfile.serialize());
-        preferenceEditor.commit();
+        preferenceEditor.apply();
 
         final Bottle bottle = new Bottle(myProfile);
         bottle.fill().cork().seal();
         final MessageInABottle message = new MessageInABottle(bottle, "loveline", new String[]{"hint"}, 1);
         final String send = MessageInABottle.serialize(message);
         //final BottleOpener opener = new BottleOpener(message,bottle);
-        final WifiMessage wifiMessage = WifiMessage.createWifiMessage(send, bottle.getKeyasAESSecretKey(), "hallo");
+        final WifiMessage wifiMessage = WifiMessage.createWifiMessage(send, bottle.getKeyAsAESSecretKey(), "hallo");
 
         final String finalSendString = wifiMessage.serialize();
         p2pInterface.sendProfile(finalSendString);
@@ -280,8 +296,8 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
         final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         final String profileString = preferences.getString(getStringDataById(R.string.shared_preference_profile), STRING_DEF_VALUE);
         if (!STRING_DEF_VALUE.equals(profileString)) {
-            final StorageProfile storageProfile = StorageProfile.deSerialize(profileString);
-            final Bottle bottle = new Bottle(storageProfile);
+            final StoredProfile storedProfile = StoredProfile.deSerialize(profileString);
+            final Bottle bottle = new Bottle(storedProfile);
             bottle.fill();
             bottle.cork();
             bottle.seal();

@@ -64,7 +64,7 @@ public class BottleOpenerTest {
         SecretKey key = matching.tryOpening();
         Assert.assertNotNull(key);
 
-        Assert.assertEquals(searchB.getKeyasAESSecretKey(), key);
+        Assert.assertEquals(searchB.getKeyAsAESSecretKey(), key);
 
         key = notMatching.tryOpening();
         Assert.assertNull(key);

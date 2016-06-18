@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
+import de.haw_landshut.haw_dating.p2pdatingapp.data.StoredProfile;
 
 /**
  * Created by alisabuchner on 08.12.15.
@@ -111,7 +111,7 @@ public class MyProfileControlActivity extends AbstractProfileActivity implements
         Log.d("control profile", serializedProfile);
         if (serializedProfile != STRING_DEF_VALUE) {
             fillTranslationMap();
-            final Map<Integer, String> data = StorageProfile.deSerialize(serializedProfile)
+            final Map<Integer, String> data = StoredProfile.deSerialize(serializedProfile)
                     .getProfileData();
             for (final Integer id : profileFields) {
                 ((TextView) findViewById(id)).setText(data.get(translationMap.get(id)));

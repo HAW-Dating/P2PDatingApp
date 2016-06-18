@@ -279,7 +279,7 @@ public class Bottle {
      * @return a SecretKey of type "AES".
      * @throws IllegalStateException if Bottle is not in State.SEALED at time of invocation.
      */
-    public SecretKeySpec getKeyasAESSecretKey() throws IllegalStateException {
+    public SecretKeySpec getKeyAsAESSecretKey() throws IllegalStateException {
         if (State.SEALED.equals(this.state)) {
             SecretKeySpec secretKeySpec = new SecretKeySpec(this.hashOfBottle, 0, 256 / 8, "AES");
             return secretKeySpec;

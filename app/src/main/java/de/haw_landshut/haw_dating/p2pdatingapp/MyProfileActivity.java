@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
+import de.haw_landshut.haw_dating.p2pdatingapp.data.StoredProfile;
 
 /**
  * Created by daniel on 28.11.15.
@@ -29,8 +29,7 @@ import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
-public class MyProfileActivity extends AbstractProfileActivity implements View.OnTouchListener, View
-        .OnClickListener {
+public class MyProfileActivity extends AbstractProfileActivity implements View.OnTouchListener, View.OnClickListener {
 
 
     public static final Integer[] necessaryFields = new Integer[]{
@@ -210,7 +209,7 @@ public class MyProfileActivity extends AbstractProfileActivity implements View.O
                 R.string.shared_preference_profile), STRING_DEF_VALUE);
         Log.d("stored profile", serializedProfile);
         if (serializedProfile != STRING_DEF_VALUE) {
-            final StorageProfile storedProfile = StorageProfile.deSerialize(serializedProfile);
+            final StoredProfile storedProfile = StoredProfile.deSerialize(serializedProfile);
             for (final int id : storedProfile.getProfileFields()) {
                 restoreInput(id, storedProfile.getProfileData().get(id));
             }
@@ -229,7 +228,7 @@ public class MyProfileActivity extends AbstractProfileActivity implements View.O
         }
 
 
-        StorageProfile myProfile = new StorageProfile(profileData, profileFields,
+        StoredProfile myProfile = new StoredProfile(profileData, profileFields,
                 necessaryFields, optionalFields);
 
 
@@ -240,6 +239,6 @@ public class MyProfileActivity extends AbstractProfileActivity implements View.O
         // Text mit Schlüsselattribut holen und in Editorklasse schreiben
         preferenceEditor.putString(getStringDataById(R.string.shared_preference_profile),
                 myProfile.serialize());
-        preferenceEditor.commit();
+        preferenceEditor.apply();
     }
 }
