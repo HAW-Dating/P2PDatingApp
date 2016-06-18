@@ -33,17 +33,38 @@ public class MyProfileActivity extends AbstractProfileActivity implements View.O
         .OnClickListener {
 
 
-    public static final Integer[] necessaryFields = new Integer[]{R.id.gender, R.id.university, R.id
-            .sexual_preference, R.id.profil_age};
-    public static final Integer[][] optionalFields = new Integer[][]{{R.id.profil_hometown, R.id
-            .profil_interests, R.id.profil_studie}};
-    public static final Integer[] profileFields = new Integer[]{R.id.gender, R.id.university, R.id
-            .sexual_preference, R.id.profil_name, R.id.profil_age, R.id.profil_studie, R.id
-            .profil_interests, R.id.profil_hometown, R.id.profil_postal_code};
-    EditText editTextName, editTextAge, editTextStudie, editTextInterests, editTextHometown,
+    public static final Integer[] necessaryFields = new Integer[]{
+            R.id.profile_gender,
+            R.id.profile_university,
+            R.id.profile_sexual_preference,
+            R.id.profile_age};
+
+    public static final Integer[][] optionalFields = new Integer[][]{{
+            R.id.profile_hometown,
+            R.id.profile_interests_1,
+            R.id.profile_interests_2,
+            R.id.profile_interests_3,
+            R.id.profile_studies}
+    };
+
+    public static final Integer[] profileFields = new Integer[]{
+            R.id.profile_gender,
+            R.id.profile_university,
+            R.id.profile_sexual_preference,
+            R.id.profil_name,
+            R.id.profile_age,
+            R.id.profile_studies,
+            R.id.profile_interests_1,
+            R.id.profile_interests_2,
+            R.id.profile_interests_3,
+            R.id.profile_hometown,
+            R.id.profil_postal_code};
+
+
+    private EditText editTextName, editTextAge, editTextStudie, editTextInterests, editTextHometown,
             editTextPostal_code;
-    int selectedPosition;
-    Spinner university, gender, searchSexual_preference;
+    private int selectedPosition;
+    private Spinner university, gender, searchSexual_preference;
     private ListView drawerList;
     private ArrayAdapter<String> adapter;
     /**
@@ -68,21 +89,21 @@ public class MyProfileActivity extends AbstractProfileActivity implements View.O
 
 
         /* Fuer Spinner Geschlecht */
-        gender = (Spinner) findViewById(R.id.gender);
+        gender = (Spinner) findViewById(R.id.profile_gender);
         ArrayAdapter<String> adapterGender =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources
                         ().getStringArray(R.array.sexual_spinner));
         gender.setAdapter(adapterGender);
 
         /* Fuer Spinner Universität */
-        university = (Spinner) findViewById(R.id.university);
+        university = (Spinner) findViewById(R.id.profile_university);
         ArrayAdapter<String> adapterUniversity =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources
                         ().getStringArray(R.array.university_spinner));
         university.setAdapter(adapterUniversity);
 
         /* Fuer Spinner Suche-Geschlecht */
-        searchSexual_preference = (Spinner) findViewById(R.id.sexual_preference);
+        searchSexual_preference = (Spinner) findViewById(R.id.profile_sexual_preference);
         ArrayAdapter<String> adapterSearchGender =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources
                         ().getStringArray(R.array.sexual_spinner));
@@ -94,33 +115,16 @@ public class MyProfileActivity extends AbstractProfileActivity implements View.O
 
 
         // SharedPreferences Datei öffnen
-        SharedPreferences preferences = getSharedPreferences("Profildata", 0);
         // Editorklasse initialisieren
         editTextName = (EditText) findViewById(R.id.profil_name);
-        editTextAge = (EditText) findViewById(R.id.profil_age);
-        editTextStudie = (EditText) findViewById(R.id.profil_studie);
-        editTextInterests = (EditText) findViewById(R.id.profil_interests);
-        editTextHometown = (EditText) findViewById(R.id.profil_hometown);
+        editTextAge = (EditText) findViewById(R.id.profile_age);
+        editTextStudie = (EditText) findViewById(R.id.profile_studies);
+        editTextInterests = (EditText) findViewById(R.id.profile_interests_1);
+        editTextHometown = (EditText) findViewById(R.id.profile_hometown);
         editTextPostal_code = (EditText) findViewById(R.id.profil_postal_code);
 
-
-
-    /*
-        // Schlüsselwerte aus der Datei lesen und in Textfelder schreiben
-        editTextName.setText(preferences.getString("name", "Huber Sepp"));
-        editTextStudie.setText(preferences.getString("studie", "Soziale Arbeit"));
-        editTextInterests.setText(preferences.getString("intrests", "Fliegen"));
-        editTextHometown.setText(preferences.getString("hometown", "Hamburg"));
-        editTextPostal_code.setText(preferences.getString("postal_code", "22113"));
-
-        // Spinner
-        gender.setSelection(preferences.getInt("gender", 0));
-        university.setSelection(preferences.getInt("university", 0));
-        searchSexual_preference.setSelection(preferences.getInt("searchSexual_preference",0));
-*/
-
         //Button klicken
-        Button button = (Button) findViewById(R.id.profil_button);
+        final Button button = (Button) findViewById(R.id.profil_button);
         button.setOnClickListener(this);
 
 

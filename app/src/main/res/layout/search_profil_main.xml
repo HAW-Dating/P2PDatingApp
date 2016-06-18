@@ -78,16 +78,7 @@
                         style="@style/profile_spinner_university" />
                 </TableRow>
                 <!-- Zeile 5 -->
-                <TableRow style="@style/profile_table_row">
 
-                    <TextView
-                        style="@style/profile_textviews"
-                        android:text="@string/sexual_preference" />
-
-                    <Spinner
-                        android:id="@+id/search_sexual_preference"
-                        style="@style/profile_spinner_sexual" />
-                </TableRow>
                 <!-- Zeile 6  -->
                 <TableRow style="@style/profile_table_row">
 
@@ -117,10 +108,51 @@
 
                     <TextView
                         style="@style/profile_textviews"
+                        android:text="@string/sexual_preference" />
+
+                    <Spinner
+                        android:id="@+id/search_sexual_preference"
+                        style="@style/profile_spinner_sexual" />
+                </TableRow>
+
+                <TableRow style="@style/profile_table_row">
+
+                    <TextView
+                        style="@style/profile_textviews"
                         android:text="@string/interests" />
 
                     <EditText
-                        android:id="@+id/search_interests"
+                        android:id="@+id/search_interests_1"
+                        style="@style/profile_edittext" />
+                </TableRow>
+
+                <TableRow style="@style/profile_table_row">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/search_interests_2"
+                        style="@style/profile_edittext" />
+                </TableRow>
+
+                <TableRow style="@style/profile_table_row">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/search_interests_3"
                         style="@style/profile_edittext" />
                 </TableRow>
             </TableLayout>

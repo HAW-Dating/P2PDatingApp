@@ -45,10 +45,10 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
         .OnClickListener, FindYourLoveMessageListener {
 
     public static final Integer[] profileFields = new Integer[]{R.id.search_age, R.id
-            .search_gender, R.id.search_hometown, R.id.search_interests, R.id.search_studie, R.id
+            .search_gender, R.id.search_hometown, R.id.search_interests_1, R.id.search_studie, R.id
             .search_postal_code, R.id.search_sexual_preference, R.id.search_university};
     public static final Integer[][] optionalFields = new Integer[][]{{R.id.search_hometown, R.id
-            .search_interests, R.id.search_studie}};
+            .search_interests_1, R.id.search_studie}};
     public static final Integer[] necessaryFields = new Integer[]{R.id.search_gender, R.id
             .search_university, R.id.search_sexual_preference, R.id.search_age};
     private static final String TAG = SearchProfileActivity.class.getSimpleName();
