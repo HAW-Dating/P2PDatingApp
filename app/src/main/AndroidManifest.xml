@@ -36,9 +36,9 @@ Eintragung der Activitys nach reihenfolge von Erstaufruf der App!
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MyProfilActivity" />
-        <activity android:name=".MyProfilControlActivity" />
-        <activity android:name=".SearchProfilActivity" />
+        <activity android:name=".MyProfileActivity" />
+        <activity android:name=".MyProfileControlActivity" />
+        <activity android:name=".SearchProfileActivity" />
         <activity android:name=".FindYourLoveActivity" />
         <activity android:name=".ChatActivity" />
 

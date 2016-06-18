@@ -35,7 +35,7 @@ public class BottleOpenerTest {
                 hintWords, 1);
         own = new Bottle(match).fill().cork().seal();
         matching = new BottleOpener(incoming, own);
-        notMatching = new BottleOpener(incoming,new Bottle(noMatch).fill().cork().seal());
+        notMatching = new BottleOpener(incoming, new Bottle(noMatch).fill().cork().seal());
     }
 
 
@@ -63,6 +63,8 @@ public class BottleOpenerTest {
         System.out.println(a);*/
         SecretKey key = matching.tryOpening();
         Assert.assertNotNull(key);
+
+        Assert.assertEquals(searchB.getKeyasAESSecretKey(), key);
 
         key = notMatching.tryOpening();
         Assert.assertNull(key);

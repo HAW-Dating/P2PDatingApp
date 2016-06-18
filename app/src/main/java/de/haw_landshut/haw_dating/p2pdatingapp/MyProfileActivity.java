@@ -29,7 +29,7 @@ import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
-public class MyProfilActivity extends AbstractProfileActivity implements View.OnTouchListener, View
+public class MyProfileActivity extends AbstractProfileActivity implements View.OnTouchListener, View
         .OnClickListener {
 
 
@@ -132,7 +132,7 @@ public class MyProfilActivity extends AbstractProfileActivity implements View.On
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    // MyProfilActivity
+                    // MyProfileActivity
                     case 0:
                         myProfil();
                         break;
@@ -159,12 +159,12 @@ public class MyProfilActivity extends AbstractProfileActivity implements View.On
     }
 
     private void myProfil() {
-        Intent intent = new Intent(this, MyProfilActivity.class);
+        Intent intent = new Intent(this, MyProfileActivity.class);
         startActivity(intent);
     }
 
     private void searchProfil() {
-        Intent intent = new Intent(this, SearchProfilActivity.class);
+        Intent intent = new Intent(this, SearchProfileActivity.class);
         startActivity(intent);
     }
 
@@ -188,7 +188,7 @@ public class MyProfilActivity extends AbstractProfileActivity implements View.On
             int ty = (int) event.getY();
 
             if ((touchX - tx) > pixel) {
-                Intent intent = new Intent(this, MyProfilControlActivity.class);
+                Intent intent = new Intent(this, MyProfileControlActivity.class);
                 startActivity(intent);
 
             } else if ((touchX - tx) <= -pixel) {

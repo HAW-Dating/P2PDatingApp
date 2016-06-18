@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -44,7 +43,7 @@ public class FindYourLoveActivity extends Activity implements View.OnTouchListen
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
-                    // MyProfilActivity
+                    // MyProfileActivity
                     case 0:
                         myProfil();
                         break;
@@ -68,11 +67,11 @@ public class FindYourLoveActivity extends Activity implements View.OnTouchListen
         drawerList.setAdapter(adapter);
     }
     private void myProfil(){
-        Intent intent = new Intent(this, MyProfilActivity.class);
+        Intent intent = new Intent(this, MyProfileActivity.class);
         startActivity(intent);
     }
     private void searchProfil(){
-        Intent intent = new Intent(this, SearchProfilActivity.class);
+        Intent intent = new Intent(this, SearchProfileActivity.class);
         startActivity(intent);
     }
     private void findYourLove(){

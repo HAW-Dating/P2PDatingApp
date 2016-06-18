@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * Revision by Altrichter Daniel on 4.04.16.
@@ -42,7 +41,7 @@ public class MainActivity extends Activity implements View.OnTouchListener{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
-                    // MyProfilActivity
+                    // MyProfileActivity
                     case 0:
                         myProfil();
                         break;
@@ -66,11 +65,11 @@ public class MainActivity extends Activity implements View.OnTouchListener{
         drawerList.setAdapter(adapter);
     }
     private void myProfil(){
-        Intent intent = new Intent(this, MyProfilActivity.class);
+        Intent intent = new Intent(this, MyProfileActivity.class);
         startActivity(intent);
     }
     private void searchProfil(){
-        Intent intent = new Intent(this, SearchProfilActivity.class);
+        Intent intent = new Intent(this, SearchProfileActivity.class);
         startActivity(intent);
     }
     private void findYourLove(){

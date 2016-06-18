@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * Created by daniel on 27.11.15.
@@ -44,7 +43,7 @@ public class LoginActivity extends Activity implements View.OnTouchListener{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
-                    // MyProfilActivity
+                    // MyProfileActivity
                     case 0:
                         myProfil();
                         break;
@@ -68,11 +67,11 @@ public class LoginActivity extends Activity implements View.OnTouchListener{
         drawerList.setAdapter(adapter);
     }
     private void myProfil(){
-        Intent intent = new Intent(this, MyProfilActivity.class);
+        Intent intent = new Intent(this, MyProfileActivity.class);
         startActivity(intent);
     }
     private void searchProfil(){
-        Intent intent = new Intent(this, SearchProfilActivity.class);
+        Intent intent = new Intent(this, SearchProfileActivity.class);
         startActivity(intent);
     }
     private void findYourLove(){
@@ -108,7 +107,7 @@ public class LoginActivity extends Activity implements View.OnTouchListener{
 
             // Links, Rechts, Oben, Unten
             if((touchX - tx) > pixel){
-                Intent intent = new Intent(this, MyProfilActivity.class);
+                Intent intent = new Intent(this, MyProfileActivity.class);
                 startActivity(intent);
 
             } else if((touchX - tx) <= - pixel){

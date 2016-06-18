@@ -33,11 +33,11 @@ Eintragung der Activitys nach reihenfolge von Erstaufruf der App!
 
     <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.LoginActivity"></activity>
 
-    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.MyProfilActivity"></activity>
+    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.MyProfileActivity"></activity>
 
-    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.MyProfilControlActivity"></activity>
+    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.MyProfileControlActivity"></activity>
 
-    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.SearchProfilActivity"></activity>
+    <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.SearchProfileActivity"></activity>
 
     <activity android:name="de.haw_landshut.haw_dating.p2pdatingapp.FindYourLoveActivity"></activity>
 

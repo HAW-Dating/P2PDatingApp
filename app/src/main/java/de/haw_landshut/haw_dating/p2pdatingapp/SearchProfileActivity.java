@@ -40,7 +40,7 @@ import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
-public class SearchProfilActivity extends AbstractProfileActivity implements View
+public class SearchProfileActivity extends AbstractProfileActivity implements View
         .OnTouchListener, View
         .OnClickListener, FindYourLoveMessageListener {
 
@@ -51,7 +51,7 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             .search_interests, R.id.search_studie}};
     public static final Integer[] necessaryFields = new Integer[]{R.id.search_gender, R.id
             .search_university, R.id.search_sexual_preference, R.id.search_age};
-    private static final String TAG = SearchProfilActivity.class.getSimpleName();
+    private static final String TAG = SearchProfileActivity.class.getSimpleName();
 
     final private Map<Integer, String> profileData = new HashMap<>();
 
@@ -130,7 +130,7 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    // MyProfilActivity
+                    // MyProfileActivity
                     case 0:
                         myProfil();
                         break;
@@ -163,12 +163,12 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
     }
 
     private void myProfil() {
-        Intent intent = new Intent(this, MyProfilActivity.class);
+        Intent intent = new Intent(this, MyProfileActivity.class);
         startActivity(intent);
     }
 
     private void searchProfil() {
-        Intent intent = new Intent(this, SearchProfilActivity.class);
+        Intent intent = new Intent(this, SearchProfileActivity.class);
         startActivity(intent);
     }
 
