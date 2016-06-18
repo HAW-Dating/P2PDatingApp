@@ -10,14 +10,14 @@ Eintragung der Activitys nach reihenfolge von Erstaufruf der App!
     Permissions added by David und Tobi
     -->
     <uses-permission
-        android:required="true"
-        android:name="android.permission.ACCESS_WIFI_STATE"/>
+        android:name="android.permission.ACCESS_WIFI_STATE"
+        android:required="true" />
     <uses-permission
-        android:required="true"
-        android:name="android.permission.CHANGE_WIFI_STATE"/>
+        android:name="android.permission.CHANGE_WIFI_STATE"
+        android:required="true" />
     <uses-permission
-        android:required="true"
-        android:name="android.permission.INTERNET"/>
+        android:name="android.permission.INTERNET"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -40,12 +40,13 @@ Eintragung der Activitys nach reihenfolge von Erstaufruf der App!
         <activity android:name=".MyProfilControlActivity" />
         <activity android:name=".SearchProfilActivity" />
         <activity android:name=".FindYourLoveActivity" />
+        <activity android:name=".ChatActivity" />
 
-    <!--
-        <service
-            android:name="de.haw_landshut.de.p2pdatingapp.P2pIntentService"
-            android:exported="false"></service>
-    -->
+        <!--
+            <service
+                android:name="de.haw_landshut.de.p2pdatingapp.P2pIntentService"
+                android:exported="false"></service>
+        -->
 
-</application>
+    </application>
 </manifest>

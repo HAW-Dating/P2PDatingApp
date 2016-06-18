@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,12 +31,12 @@ import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
 
 /**
  * Created by daniel on 08.12.15.
- * <p>
+ * <p/>
  * Revision by Altrichter Daniel on 15.03.16.
- * <p>
+ * <p/>
  * Implements OnTouchListener
  * wird gebraucht für die Wischfunktionen.
- * <p>
+ * <p/>
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
@@ -50,7 +51,7 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             .search_interests, R.id.search_studie}};
     public static final Integer[] necessaryFields = new Integer[]{R.id.search_gender, R.id
             .search_university, R.id.search_sexual_preference, R.id.search_age};
-    private static final String TAG = SearchProfilActivity.class.getName();
+    private static final String TAG = SearchProfilActivity.class.getSimpleName();
 
     final private Map<Integer, String> profileData = new HashMap<>();
 
@@ -60,13 +61,13 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
     private Button searchButton;
     /**
      * Created by daniel on 15.03.16.
-     * <p>
+     * <p/>
      * Positionen erkennen und berechnung von Wischereignissen.
      * Dies Funktioniert nur in den Richtungen die kein Scrollingview besitzen.
      * Hier nach links bzw. rechts
-     * <p>
+     * <p/>
      * Pixelangaben müssen evtl noch angepasst werden
-     * <p>
+     * <p/>
      * Beim wischen nach links wird Activity siehe Code (-> XYZ.class) aufgerufen!
      */
 
@@ -84,6 +85,14 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
 
         searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
+
+        Button debug = (Button) findViewById(R.id.debug_button);
+        debug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterChatActivity("hallo");
+            }
+        });
 
 
 
@@ -251,7 +260,10 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             if (wifiMessage != null) {
                 try {
                     final String chatRoom = tryDecode(wifiMessage);
-                    Log.d(TAG, "onLoveMessageReceive: " + chatRoom);
+                    Log.d(TAG, "onLoveMessageReceive: decoded " + chatRoom);
+                    if (chatRoom != null) {
+                        enterChatActivity(chatRoom);
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -287,5 +299,22 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             }
         }
         return null;
+    }
+
+    public void enterChatActivity(final String chatRoom) {
+
+        final Intent intent = new Intent(this, ChatActivity.class);
+
+        final ArrayList<String> data = new ArrayList<String>();
+        final String ip = getString(R.string.server_name);
+        final String roomID = chatRoom;
+        data.add(ip);
+        data.add(roomID);
+
+        final Bundle bundle = new Bundle();
+        bundle.putStringArrayList("data", data);
+        intent.putExtra(FindYourLoveActivity.CHAT_MESSAGE, bundle);
+        startActivity(intent);
+
     }
 }
