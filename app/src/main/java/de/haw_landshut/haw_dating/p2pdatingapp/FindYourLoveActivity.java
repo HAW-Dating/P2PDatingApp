@@ -1,15 +1,11 @@
 package de.haw_landshut.haw_dating.p2pdatingapp;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -64,7 +60,7 @@ public class FindYourLoveActivity extends AbstractP2pDatingActivity implements V
 
             if((touchX - tx) > pixel){
 
-                Intent intent = new Intent(this, MatchingsActivity.class);
+                Intent intent = new Intent(this, MatchesActivity.class);
                 startActivity(intent);
 
             } else if((touchX - tx) <= - pixel){

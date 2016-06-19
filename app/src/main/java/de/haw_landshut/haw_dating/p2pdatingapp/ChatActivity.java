@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -82,7 +81,7 @@ public class ChatActivity extends AbstractP2pDatingActivity implements ChatNameD
         String ip = data.get(0);
         roomId = data.get(1);
 
-        chatListView = (ListView) findViewById(R.id.listView);
+        chatListView = (ListView) findViewById(R.id.chatActivityListView);
         chatBubbleAdapter = new ChatBubbleAdapter(chatBubbleList);
         chatListView.setAdapter(chatBubbleAdapter);
 

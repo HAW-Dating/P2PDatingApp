@@ -6,12 +6,11 @@
 
 package de.haw_landshut.haw_dating.p2pdatingapp;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,15 +18,20 @@ import android.widget.ListView;
 /**
  * Created by Altrichter Daniel on 10.05.16.
  */
-public class MatchingsActivity extends AbstractP2pDatingActivity implements View.OnTouchListener{
+public class MatchesActivity extends AbstractP2pDatingActivity implements View.OnTouchListener{
 
-    private ListView drawerList;
-    private ArrayAdapter<String> adapter;
+private static Context context;
+
+    public static Context getContext() {
+        return context;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.matchings_main);
+        setContentView(R.layout.matches_main);
+
+        context = this.getApplicationContext();
 
         LinearLayout bildschirm = (LinearLayout) findViewById(R.id.matchings_main_linear_layout);
         bildschirm.setOnTouchListener(this);
