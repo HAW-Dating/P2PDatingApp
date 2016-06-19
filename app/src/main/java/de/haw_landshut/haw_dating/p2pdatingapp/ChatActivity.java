@@ -14,13 +14,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import net.sf.xenqtt.client.AsyncClientListener;
-import net.sf.xenqtt.client.AsyncMqttClient;
-import net.sf.xenqtt.client.MqttClient;
-import net.sf.xenqtt.client.PublishMessage;
-import net.sf.xenqtt.client.Subscription;
-import net.sf.xenqtt.message.ConnectReturnCode;
-import net.sf.xenqtt.message.QoS;
+import net.xenqtt.client.AsyncClientListener;
+import net.xenqtt.client.AsyncMqttClient;
+import net.xenqtt.client.MqttClient;
+import net.xenqtt.client.PublishMessage;
+import net.xenqtt.client.Subscription;
+import net.xenqtt.message.ConnectReturnCode;
+import net.xenqtt.message.QoS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +33,7 @@ import de.haw_landshut.haw_dating.p2pdatingapp.chat.ChatBubble;
 import de.haw_landshut.haw_dating.p2pdatingapp.chat.ChatBubbleAdapter;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.ChatMessage;
 
-public class ChatActivity extends AppCompatActivity implements ChatNameDialog.Communicator {
+public class ChatActivity extends AbstractP2pDatingActivity implements ChatNameDialog.Communicator {
     private AsyncMqttClient mqttClient;
     private ListView chatListView;
     private String clientId;
@@ -149,6 +149,7 @@ public class ChatActivity extends AppCompatActivity implements ChatNameDialog.Co
                 List<Subscription> subscriptions = new ArrayList<>();
                 subscriptions.add(new Subscription(roomId, QoS.AT_MOST_ONCE));
                 mqttClient.subscribe(subscriptions);
+
             }
         } catch (Exception e) {
             e.printStackTrace();

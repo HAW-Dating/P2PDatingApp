@@ -19,7 +19,7 @@ import android.widget.ListView;
 /**
  * Created by Altrichter Daniel on 10.05.16.
  */
-public class MatchingsActivity extends Activity implements View.OnTouchListener{
+public class MatchingsActivity extends AbstractP2pDatingActivity implements View.OnTouchListener{
 
     private ListView drawerList;
     private ArrayAdapter<String> adapter;
@@ -32,50 +32,6 @@ public class MatchingsActivity extends Activity implements View.OnTouchListener{
         LinearLayout bildschirm = (LinearLayout) findViewById(R.id.matchings_main_linear_layout);
         bildschirm.setOnTouchListener(this);
 
-
-        // Navigations Drawer
-        drawerList = (ListView) findViewById(R.id.matchings_main_lv_menu);
-        addDrawerItems();
-
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    // MyProfileActivity
-                    case 0:
-                        myProfil();
-                        break;
-                    // SuchProfil
-                    case 1:
-                        searchProfil();
-                        break;
-                    // FindYourLove
-                    case 2:
-                        findYourLove();
-                        break;
-                    // Wenn noch Zeit dann Einstellungen hinzufügen!!!
-                    default:
-                        break;
-                }
-            }
-        });
-    }
-
-    private void addDrawerItems(){
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, (getResources().getStringArray(R.array.drawer_list_menu_array)));
-        drawerList.setAdapter(adapter);
-    }
-    private void myProfil(){
-        Intent intent = new Intent(this, MyProfileActivity.class);
-        startActivity(intent);
-    }
-    private void searchProfil(){
-        Intent intent = new Intent(this, SearchProfileActivity.class);
-        startActivity(intent);
-    }
-    private void findYourLove(){
-        Intent intent = new Intent(this, FindYourLoveActivity.class);
-        startActivity(intent);
     }
 
     /** Created by daniel on 15.03.16.

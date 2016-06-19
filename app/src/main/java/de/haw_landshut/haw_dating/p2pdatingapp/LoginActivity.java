@@ -21,7 +21,7 @@ import android.widget.ListView;
  * einfügen eines Navigation Drawers.
  *
  */
-public class LoginActivity extends Activity implements View.OnTouchListener{
+public class LoginActivity extends AbstractP2pDatingActivity implements View.OnTouchListener{
 
     private ListView drawerList;
     private ArrayAdapter<String> adapter;
@@ -62,6 +62,7 @@ public class LoginActivity extends Activity implements View.OnTouchListener{
             }
         });
     }
+
     private void addDrawerItems(){
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, (getResources().getStringArray(R.array.drawer_list_menu_array)));
         drawerList.setAdapter(adapter);
