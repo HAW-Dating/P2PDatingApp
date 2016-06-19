@@ -2,6 +2,7 @@ package de.haw_landshut.haw_dating.p2pdatingapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -24,6 +26,8 @@ import de.haw_landshut.haw_dating.p2pdatingapp.P2p.FindYourLoveMessageListener;
 import de.haw_landshut.haw_dating.p2pdatingapp.P2p.P2pInterface;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.StoredProfile;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.WifiMessage;
+import de.haw_landshut.haw_dating.p2pdatingapp.dataBase.DataBaseApplication;
+import de.haw_landshut.haw_dating.p2pdatingapp.dataBase.MessagesHelper;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleCryptoConstants;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleOpener;
@@ -74,6 +78,7 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
 
     private P2pInterface p2pInterface;
     private Button searchButton;
+    private MessagesHelper db;
     /**
      * Created by daniel on 15.03.16.
      * <p/>
@@ -94,6 +99,7 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_profil_main);
 
+        db = DataBaseApplication.getInstance().getDataBase();
 
         p2pInterface = new P2pInterface(this, this);
         p2pInterface.initiate();
@@ -211,11 +217,14 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
         bottle.fill().cork().seal();
         final MessageInABottle message = new MessageInABottle(bottle, "loveline", new String[]{"hint"}, 1);
         final String send = MessageInABottle.serialize(message);
+        final UUID secret = UUID.randomUUID();
         //final BottleOpener opener = new BottleOpener(message,bottle);
-        final WifiMessage wifiMessage = WifiMessage.createWifiMessage(send, bottle.getKeyAsAESSecretKey(), "hallo");
+        final WifiMessage wifiMessage = WifiMessage.createWifiMessage(send, bottle.getKeyAsAESSecretKey(), secret.toString());
 
         final String finalSendString = wifiMessage.serialize();
-        p2pInterface.sendProfile(finalSendString);
+        db.storeMessage(wifiMessage.getUuid().toString(), finalSendString, true, true, secret.toString());
+
+        //p2pInterface.sendProfile(finalSendString);
 
     }
 
