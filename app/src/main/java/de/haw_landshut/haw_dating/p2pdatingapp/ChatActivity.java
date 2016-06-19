@@ -14,13 +14,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import net.sf.xenqtt.client.AsyncClientListener;
-import net.sf.xenqtt.client.AsyncMqttClient;
-import net.sf.xenqtt.client.MqttClient;
-import net.sf.xenqtt.client.PublishMessage;
-import net.sf.xenqtt.client.Subscription;
-import net.sf.xenqtt.message.ConnectReturnCode;
-import net.sf.xenqtt.message.QoS;
+import net.xenqtt.client.AsyncClientListener;
+import net.xenqtt.client.AsyncMqttClient;
+import net.xenqtt.client.MqttClient;
+import net.xenqtt.client.PublishMessage;
+import net.xenqtt.client.Subscription;
+import net.xenqtt.message.ConnectReturnCode;
+import net.xenqtt.message.QoS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
