@@ -72,8 +72,6 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
 
     final private Map<Integer, String> profileData = new HashMap<>();
 
-    private ListView drawerList;
-    private ArrayAdapter<String> adapter;
     private P2pInterface p2pInterface;
     private Button searchButton;
     /**
@@ -140,58 +138,12 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
 
 
         // Navigations Drawer
-        drawerList = (ListView) findViewById(R.id.main_lv_menu);
-        addDrawerItems();
-
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    // MyProfileActivity
-                    case 0:
-                        myProfil();
-                        break;
-                    // SuchProfil
-                    case 1:
-                        searchProfil();
-                        break;
-                    // FindYourLove
-                    case 2:
-                        findYourLove();
-                        break;
-                    // Wenn noch Zeit dann Einstellungen hinzufügen!!!
-                    default:
-                        break;
-                }
-            }
-        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         p2pInterface.onPause();
-    }
-
-    private void addDrawerItems() {
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                (getResources().getStringArray(R.array.drawer_list_menu_array)));
-        drawerList.setAdapter(adapter);
-    }
-
-    private void myProfil() {
-        Intent intent = new Intent(this, MyProfileActivity.class);
-        startActivity(intent);
-    }
-
-    private void searchProfil() {
-        Intent intent = new Intent(this, SearchProfileActivity.class);
-        startActivity(intent);
-    }
-
-    private void findYourLove() {
-        Intent intent = new Intent(this, FindYourLoveActivity.class);
-        startActivity(intent);
     }
 
     public boolean onTouch(View v, MotionEvent event) {

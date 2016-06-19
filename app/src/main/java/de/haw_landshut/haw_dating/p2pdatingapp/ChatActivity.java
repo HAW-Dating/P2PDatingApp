@@ -33,7 +33,7 @@ import de.haw_landshut.haw_dating.p2pdatingapp.chat.ChatBubble;
 import de.haw_landshut.haw_dating.p2pdatingapp.chat.ChatBubbleAdapter;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.ChatMessage;
 
-public class ChatActivity extends AppCompatActivity implements ChatNameDialog.Communicator {
+public class ChatActivity extends AbstractP2pDatingActivity implements ChatNameDialog.Communicator {
     private AsyncMqttClient mqttClient;
     private ListView chatListView;
     private String clientId;
@@ -149,6 +149,7 @@ public class ChatActivity extends AppCompatActivity implements ChatNameDialog.Co
                 List<Subscription> subscriptions = new ArrayList<>();
                 subscriptions.add(new Subscription(roomId, QoS.AT_MOST_ONCE));
                 mqttClient.subscribe(subscriptions);
+
             }
         } catch (Exception e) {
             e.printStackTrace();

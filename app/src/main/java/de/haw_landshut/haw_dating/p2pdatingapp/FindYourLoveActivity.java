@@ -21,11 +21,8 @@ import java.util.ArrayList;
  * Implements OnTouchListener
  * wird gebraucht für die Wischfunktionen.
  */
-public class FindYourLoveActivity extends Activity implements View.OnTouchListener{
+public class FindYourLoveActivity extends AbstractP2pDatingActivity implements View.OnTouchListener{
     public final static String CHAT_MESSAGE = "com.example.haw_mobile.beaconchat.CHAT_MESSAGE";
-
-    private ListView drawerList;
-    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,49 +32,8 @@ public class FindYourLoveActivity extends Activity implements View.OnTouchListen
         LinearLayout bildschirm = (LinearLayout) findViewById(R.id.find_your_love_linear_layout);
         bildschirm.setOnTouchListener(this);
 
-        // Navigations Drawer
-        drawerList = (ListView) findViewById(R.id.main_lv_menu);
-        addDrawerItems();
+    }
 
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    // MyProfileActivity
-                    case 0:
-                        myProfil();
-                        break;
-                    // SuchProfil
-                    case 1:
-                        searchProfil();
-                        break;
-                    // FindYourLove
-                    case 2:
-                        findYourLove();
-                        break;
-                    // Wenn noch Zeit dann Einstellungen hinzufügen!!!
-                    default:
-                        break;
-                }
-            }
-        });
-    }
-    private void addDrawerItems(){
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, (getResources().getStringArray(R.array.drawer_list_menu_array)));
-        drawerList.setAdapter(adapter);
-    }
-    private void myProfil(){
-        Intent intent = new Intent(this, MyProfileActivity.class);
-        startActivity(intent);
-    }
-    private void searchProfil(){
-        Intent intent = new Intent(this, SearchProfileActivity.class);
-        startActivity(intent);
-    }
-    private void findYourLove(){
-        Intent intent = new Intent(this, FindYourLoveActivity.class);
-        startActivity(intent);
-    }
 
     /** Created by daniel on 15.03.16.
      *

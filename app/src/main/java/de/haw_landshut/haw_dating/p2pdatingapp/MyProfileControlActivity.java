@@ -38,8 +38,6 @@ public class MyProfileControlActivity extends AbstractProfileActivity implements
 
     private static final Map<Integer, Integer> translationMap = new HashMap<>();
 
-    private ListView drawerList;
-    private ArrayAdapter<String> adapter;
     /**
      * Created by daniel on 15.03.16.
      * <p/>
@@ -72,33 +70,6 @@ public class MyProfileControlActivity extends AbstractProfileActivity implements
 
         LinearLayout bildschirm = (LinearLayout) findViewById(R.id.my_profil_control_linear_layout);
         bildschirm.setOnTouchListener(this);
-
-        // Navigations Drawer
-        drawerList = (ListView) findViewById(R.id.main_lv_menu);
-        addDrawerItems();
-
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    // MyProfileActivity
-                    case 0:
-                        myProfil();
-                        break;
-                    // SuchProfil
-                    case 1:
-                        searchProfil();
-                        break;
-                    // FindYourLove
-                    case 2:
-                        findYourLove();
-                        break;
-                    // Wenn noch Zeit dann Einstellungen hinzufügen!!!
-                    default:
-                        break;
-                }
-            }
-        });
     }
 
 
@@ -117,27 +88,6 @@ public class MyProfileControlActivity extends AbstractProfileActivity implements
                 ((TextView) findViewById(id)).setText(data.get(translationMap.get(id)));
             }
         }
-    }
-
-    private void addDrawerItems() {
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                (getResources().getStringArray(R.array.drawer_list_menu_array)));
-        drawerList.setAdapter(adapter);
-    }
-
-    private void myProfil() {
-        Intent intent = new Intent(this, MyProfileActivity.class);
-        startActivity(intent);
-    }
-
-    private void searchProfil() {
-        Intent intent = new Intent(this, SearchProfileActivity.class);
-        startActivity(intent);
-    }
-
-    private void findYourLove() {
-        Intent intent = new Intent(this, FindYourLoveActivity.class);
-        startActivity(intent);
     }
 
     public boolean onTouch(View v, MotionEvent event) {
