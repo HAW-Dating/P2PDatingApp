@@ -10,6 +10,7 @@
         >
 h
             <TextView
+                style="@style/match_textviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="UUID:"
@@ -17,13 +18,16 @@ h
                 android:layout_column="0"/>
 
             <TextView
+                style="@style/match_textviews"
                 android:id="@+id/match_uuid_text_view"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_row="0"
-                android:layout_column="1" />
+                android:layout_column="1"
+                android:maxLength="5"/>
 
             <TextView
+                style="@style/match_textviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="0"
@@ -45,6 +49,7 @@ h
                 android:text="Connect"/>
 
             <TextView
+                style="@style/match_textviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Datum:"
@@ -52,6 +57,7 @@ h
                 android:layout_column="0"/>
 
             <TextView
+                style="@style/match_textviews"
                 android:id="@+id/match_date_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
