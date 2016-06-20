@@ -194,7 +194,7 @@ public class P2pInterface {
         mManager.requestPeers(mChannel, peerListListener);
     }
 
-    private void connect(){
+    synchronized private void connect(){
         Log.d(TAG, "connect()");
 
         if (peers.isEmpty()) {
