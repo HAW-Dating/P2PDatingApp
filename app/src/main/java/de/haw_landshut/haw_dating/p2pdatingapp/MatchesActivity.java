@@ -10,16 +10,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -60,6 +60,7 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
         setContentView(R.layout.matches_main);
 
         p2pInterface = new P2pInterface(this, this);
+        p2pInterface.initiate();
         context = this.getApplicationContext();
         matchList.addAll(db.getMatches(context));
 
@@ -75,13 +76,13 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
 
     /**
      * Created by daniel on 15.03.16.
-     * <p>
+     * <p/>
      * Positionen erkennen und berechnung von Wischereignissen.
      * Dies Funktioniert nur in den Richtungen die kein Scrollingview besitzen.
      * Hier nach links bzw. rechts
-     * <p>
+     * <p/>
      * Pixelangaben müssen evtl noch angepasst werden
-     * <p>
+     * <p/>
      * Beim wischen nach links wird Activity siehe Code (-> XYZ.class) aufgerufen!
      */
 
@@ -115,12 +116,28 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        p2pInterface.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        p2pInterface.onResume();
+    }
+
+    @Override
     public void onLoveMessageReceive(String message) {
         Log.d(TAG, "message received: " + message);
         if (!message.equals(P2pInterface.NOT_VALID_YET)) {
             final WifiMessage wifiMessage = WifiMessage.deserialize(message);
 
             if (wifiMessage != null) {
+                final Set<UUID> uuidSet = db.getStoredUUIDS();
+                if (uuidSet.contains(wifiMessage.getUuid())) {
+                    return;
+                }
                 try {
                     final String secret = tryDecode(wifiMessage);
                     Log.d(TAG, "onLoveMessageReceive: decoded " + secret);
@@ -169,7 +186,10 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
 
     @Override
     public void onPeersDiscovered(final P2pInterface p2pInterface) {
-        // p2pInterface.sendProfile();
+        final String sendProfile = db.getOwnSerializedSearchProfile();
+        if (sendProfile != null) {
+            p2pInterface.sendProfile(sendProfile);
+        }
     }
 }
 

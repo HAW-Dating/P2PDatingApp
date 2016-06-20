@@ -61,7 +61,12 @@ public class MessagesHelper extends SQLiteOpenHelper {
         if (decrypted && secret == null) {
             throw new IllegalArgumentException("decrypted = true && secret == null");
         }
+
         final SQLiteDatabase db = this.getWritableDatabase();
+        if (own) {
+            db.delete(TableData.Messages.TABLE_NAME, TableData.Messages.COLUMN_OWN + " = 1", null);
+        }
+
         final ContentValues contentValues = new ContentValues();
         contentValues.put(TableData.Messages.COLUMN_MESSAGE_UUID, messageUUID);
         contentValues.put(TableData.Messages.COLUMN_MESSAGE, serializedWifiMessage);
@@ -106,6 +111,24 @@ public class MessagesHelper extends SQLiteOpenHelper {
             }
         }
         return resultList;
+    }
+
+    public String getOwnSerializedSearchProfile() {
+        final SQLiteDatabase db = this.getReadableDatabase();
+        final Cursor cursor = db.query(
+                TableData.Messages.TABLE_NAME,
+                new String[]{
+                        TableData.Messages.COLUMN_MESSAGE},
+                TableData.Messages.COLUMN_OWN + " = 1",
+                null,
+                null,
+                null,
+                null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            return cursor.getString(0);
+        }
+        return null;
     }
 
     private Match makeMatch(
