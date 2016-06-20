@@ -222,7 +222,7 @@ public class P2pInterface {
                     public void onFailure(int reason) {
                         Log.d(TAG, "connect(): Failure: " + reason);
                         if (reason == mManager.BUSY){
-                            restart();
+                            //restart();
                         }
                     }
                 });
