@@ -73,7 +73,7 @@ public class MessagesHelper extends SQLiteOpenHelper {
         contentValues.put(TableData.Messages.COLUMN_DATE, date);
         contentValues.put(TableData.Messages.COLUMN_DECRYPTED, boolToInt(decrypted));
         contentValues.put(TableData.Messages.COLUMN_OWN, boolToInt(own));
-        if (decrypted) {
+        if (decrypted || secret == null) {
             contentValues.put(TableData.Messages.COLUMN_SECRET_UUID, secret);
         } else {
             contentValues.putNull(TableData.Messages.COLUMN_SECRET_UUID);
@@ -157,6 +157,7 @@ public class MessagesHelper extends SQLiteOpenHelper {
             while (cursor.moveToNext()) {
                 resultSet.add(UUID.fromString(cursor.getString(0)));
             }
+            return resultSet;
         }
         return new LinkedHashSet<>();
     }
