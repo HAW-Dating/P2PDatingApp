@@ -13,8 +13,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -46,12 +49,15 @@ public class P2pInterface {
     private boolean isConnected = false;
     public static final String NOT_VALID_YET = "Not valid yet";
     private static String profile = NOT_VALID_YET;
-
-    // TODO: 15.06.2016 Add in App
     private final FindYourLoveMessageListener loveMessagelistener;
-
-    // TODO: 15.06.2016 Add to App
     public static final int FAILURE_BUSY = 2;
+    public static final Random random = new Random();
+    //Name isn't allowed to be longer than 30 chars
+    private static final String MAGIC_DEVICE_NAME = "Hot Coffee Dating App";
+    private static final String changedWifiName = MAGIC_DEVICE_NAME + random.nextInt(10) + random.nextInt(10) + random.nextInt(10) + random.nextInt(10) + random.nextInt(10) + random.nextInt(10) + random.nextInt(10) + random.nextInt(10);
+    private String originalWifiName;
+    private boolean originalWifiNameSet = false;
+    private boolean waitForNextConnect = false;
 
     synchronized public static boolean isShouldDisconnect() {
         return shouldDisconnect;
@@ -132,8 +138,6 @@ public class P2pInterface {
         Log.d(TAG, "sendProfile()");
         P2pInterface.profile = profile;
         connect();
-
-        // TODO: 06.06.2016 full fill
     }
 
     public void initiate() {
@@ -188,31 +192,45 @@ public class P2pInterface {
         mManager.requestPeers(mChannel, peerListListener);
     }
 
-    private void connect() {
+    private void connect(){
         Log.d(TAG, "connect()");
-        // TODO: 10.06.2016 run through all peers
 
-        if (!peers.isEmpty()) {
+        if (peers.isEmpty()) {
+            Toast.makeText(activity, "There are no other hot lovers around.\nTry again later, you stinky bastard!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // TODO: 20.06.2016 test with multiple peers
+        for (int i = 0; i < peers.size(); i++) {
             setShouldDisconnect(false);
             final WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
-            final WifiP2pConfig config = new WifiP2pConfig();
-            config.deviceAddress = device.deviceAddress;
-            mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
-                @Override
-                public void onSuccess() {
-                    Log.d(TAG, "connect(): Success, deviceName: " + device.deviceName);
-                }
-
-                @Override
-                public void onFailure(int reason) {
-                    Log.d(TAG, "connect(): Failure: " + reason);
-                    if (reason == mManager.BUSY) {
-                        restart();
+            if (device.deviceName.contains(MAGIC_DEVICE_NAME)) {
+                final WifiP2pConfig config = new WifiP2pConfig();
+                config.deviceAddress = device.deviceAddress;
+                waitForNextConnect = true;
+                mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG, "connect(): Success, deviceName: " + device.deviceName);
                     }
-                }
-            });
-        } else if (peers.isEmpty()) {
-            Toast.makeText(activity, "There are no other hot lovers around.\nTry again later, you stinky bastard!", Toast.LENGTH_LONG).show();
+
+                    @Override
+                    public void onFailure(int reason) {
+                        Log.d(TAG, "connect(): Failure: " + reason);
+                        if (reason == mManager.BUSY){
+                            restart();
+                        }
+                    }
+                });
+                /*while(waitForNextConnect){
+                    try {
+                        wait(100);
+                        Log.d(TAG, "waiting in connect()!!!");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }*/
+            }
         }
     }
 
@@ -271,14 +289,16 @@ public class P2pInterface {
         Log.d(TAG, "onResume()");
         receiver = new P2pBroadcastReceiver(mManager, mChannel, this);
         activity.registerReceiver(receiver, intentFilter);
+        setDeviceName(changedWifiName);
         discover();
     }
 
     public void onPause() {
         Log.d(TAG, "onPause()");
-        if (isConnected) {
+        if(isConnected){
             disconnect();
         }
+        setDeviceName(originalWifiName);
         activity.unregisterReceiver(receiver);
     }
 
@@ -302,7 +322,6 @@ public class P2pInterface {
         this.isConnected = isConnected;
     }
 
-    // TODO: 10.06.2016 Add to app
 
 
     synchronized protected static void setProfile(String profile) {
@@ -339,11 +358,65 @@ public class P2pInterface {
             }
         });
         discover();
+        waitForNextConnect = false;
 
     }
 
     public void setIsGroupOwner(boolean isGroupOwner) {
         this.isGroupOwner = isGroupOwner;
+    }
+
+
+    public void setDeviceName(String devName) {
+        try {
+            Class[] paramTypes = new Class[3];
+            paramTypes[0] = WifiP2pManager.Channel.class;
+            paramTypes[1] = String.class;
+            paramTypes[2] = WifiP2pManager.ActionListener.class;
+            Method setDeviceName = mManager.getClass().getMethod(
+                    "setDeviceName", paramTypes);
+            setDeviceName.setAccessible(true);
+
+            Object arglist[] = new Object[3];
+            arglist[0] = mChannel;
+            arglist[1] = devName;
+            arglist[2] = new WifiP2pManager.ActionListener() {
+
+                @Override
+                public void onSuccess() {
+                    Log.d(TAG, "setDeviceName succeeded");
+                }
+
+                @Override
+                public void onFailure(int reason) {
+                    Log.d(TAG, "setDeviceName failed: " + reason);
+                }
+            };
+
+            setDeviceName.invoke(mManager, arglist);
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void setOriginalWifiName(String originalWifiName) {
+        this.originalWifiName = originalWifiName;
+    }
+
+    public boolean isOriginalWifiNameSet() {
+        return originalWifiNameSet;
+    }
+
+    public void setOriginalWifiNameSet(boolean originalWifiNameSet) {
+        this.originalWifiNameSet = originalWifiNameSet;
     }
 
 
