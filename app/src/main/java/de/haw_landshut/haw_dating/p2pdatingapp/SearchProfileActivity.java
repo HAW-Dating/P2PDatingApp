@@ -2,6 +2,7 @@ package de.haw_landshut.haw_dating.p2pdatingapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -12,18 +13,22 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
+import de.haw_landshut.haw_dating.p2pdatingapp.P2p.FindYourLoveMessageListener;
+import de.haw_landshut.haw_dating.p2pdatingapp.P2p.P2pInterface;
+import de.haw_landshut.haw_dating.p2pdatingapp.data.StoredProfile;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.WifiMessage;
+import de.haw_landshut.haw_dating.p2pdatingapp.dataBase.DataBaseApplication;
+import de.haw_landshut.haw_dating.p2pdatingapp.dataBase.MessagesHelper;
 import de.haw_landshut.haw_dating.sealedbottle.algorithm.Bottle;
-import de.haw_landshut.haw_dating.sealedbottle.algorithm.Corkscrew;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleCryptoConstants;
 import de.haw_landshut.haw_dating.sealedbottle.api.BottleOpener;
 import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
@@ -39,25 +44,41 @@ import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
-public class SearchProfilActivity extends AbstractProfileActivity implements View
-        .OnTouchListener, View
-        .OnClickListener, FindYourLoveMessageListener {
+public class SearchProfileActivity extends AbstractProfileActivity implements View.OnTouchListener, View.OnClickListener, FindYourLoveMessageListener {
 
-    public static final Integer[] profileFields = new Integer[]{R.id.search_age, R.id
-            .search_gender, R.id.search_hometown, R.id.search_interests, R.id.search_studie, R.id
-            .search_postal_code, R.id.search_sexual_preference, R.id.search_university};
-    public static final Integer[][] optionalFields = new Integer[][]{{R.id.search_hometown, R.id
-            .search_interests, R.id.search_studie}};
-    public static final Integer[] necessaryFields = new Integer[]{R.id.search_gender, R.id
-            .search_university, R.id.search_sexual_preference, R.id.search_age};
-    private static final String TAG = SearchProfilActivity.class.getName();
+    public static final Integer[] necessaryFields = new Integer[]{
+            R.id.search_gender,
+            R.id.search_university,
+            R.id.search_sexual_preference,
+            R.id.search_age};
+
+    public static final Integer[][] optionalFields = new Integer[][]{{
+            R.id.search_hometown,
+            R.id.search_interests_1,
+            R.id.search_interests_2,
+            R.id.search_interests_3,
+            R.id.search_studies}
+    };
+
+    public static final Integer[] profileFields = new Integer[]{
+            R.id.search_age,
+            R.id.search_gender,
+            R.id.search_hometown,
+            R.id.search_interests_1,
+            R.id.search_interests_2,
+            R.id.search_interests_3,
+            R.id.search_studies,
+            R.id.search_postal_code,
+            R.id.search_sexual_preference,
+            R.id.search_university};
+
+    private static final String TAG = SearchProfileActivity.class.getSimpleName();
 
     final private Map<Integer, String> profileData = new HashMap<>();
 
-    private ListView drawerList;
-    private ArrayAdapter<String> adapter;
     private P2pInterface p2pInterface;
     private Button searchButton;
+    private MessagesHelper db;
     /**
      * Created by daniel on 15.03.16.
      * <p>
@@ -78,12 +99,21 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_profil_main);
 
+        db = DataBaseApplication.getInstance().getDataBase();
 
         p2pInterface = new P2pInterface(this, this);
         p2pInterface.initiate();
 
         searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
+
+        Button debug = (Button) findViewById(R.id.debug_button);
+        debug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterChatActivity("hallo");
+            }
+        });
 
 
 
@@ -114,58 +144,12 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
 
 
         // Navigations Drawer
-        drawerList = (ListView) findViewById(R.id.main_lv_menu);
-        addDrawerItems();
-
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    // MyProfilActivity
-                    case 0:
-                        myProfil();
-                        break;
-                    // SuchProfil
-                    case 1:
-                        searchProfil();
-                        break;
-                    // FindYourLove
-                    case 2:
-                        findYourLove();
-                        break;
-                    // Wenn noch Zeit dann Einstellungen hinzufügen!!!
-                    default:
-                        break;
-                }
-            }
-        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         p2pInterface.onPause();
-    }
-
-    private void addDrawerItems() {
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                (getResources().getStringArray(R.array.drawer_list_menu_array)));
-        drawerList.setAdapter(adapter);
-    }
-
-    private void myProfil() {
-        Intent intent = new Intent(this, MyProfilActivity.class);
-        startActivity(intent);
-    }
-
-    private void searchProfil() {
-        Intent intent = new Intent(this, SearchProfilActivity.class);
-        startActivity(intent);
-    }
-
-    private void findYourLove() {
-        Intent intent = new Intent(this, FindYourLoveActivity.class);
-        startActivity(intent);
     }
 
     public boolean onTouch(View v, MotionEvent event) {
@@ -204,7 +188,7 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
                 R.string.shared_preference_search_profile), STRING_DEF_VALUE);
         Log.d("stored search profile", serializedProfile);
         if (serializedProfile != STRING_DEF_VALUE) {
-            final StorageProfile storedProfile = StorageProfile.deSerialize(serializedProfile);
+            final StoredProfile storedProfile = StoredProfile.deSerialize(serializedProfile);
             for (final int id : storedProfile.getProfileFields()) {
                 restoreInput(id, storedProfile.getProfileData().get(id));
             }
@@ -219,26 +203,28 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             profileData.put(attributeId, getStringDataById(attributeId));
 
         }
-        StorageProfile myProfile = new StorageProfile(profileData, profileFields,
-                necessaryFields, optionalFields);
+        final StoredProfile myProfile = new StoredProfile(profileData, profileFields, necessaryFields, optionalFields);
         // SharedPreferences Datei öffnen
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         // Editorklasse initialisieren
-        SharedPreferences.Editor preferenceEditor = preferences.edit();
+        final SharedPreferences.Editor preferenceEditor = preferences.edit();
         // Text mit Schlüsselattribut holen und in Editorklasse schreiben
         preferenceEditor.putString(getStringDataById(R.string.shared_preference_search_profile),
                 myProfile.serialize());
-        preferenceEditor.commit();
+        preferenceEditor.apply();
 
         final Bottle bottle = new Bottle(myProfile);
         bottle.fill().cork().seal();
         final MessageInABottle message = new MessageInABottle(bottle, "loveline", new String[]{"hint"}, 1);
         final String send = MessageInABottle.serialize(message);
+        final UUID secret = UUID.randomUUID();
         //final BottleOpener opener = new BottleOpener(message,bottle);
-        final WifiMessage wifiMessage = WifiMessage.createWifiMessage(send, bottle.getKeyasAESSecretKey(), "hallo");
+        final WifiMessage wifiMessage = WifiMessage.createWifiMessage(send, bottle.getKeyAsAESSecretKey(), secret.toString());
 
         final String finalSendString = wifiMessage.serialize();
-        p2pInterface.sendProfile(finalSendString);
+        db.storeMessage(wifiMessage.getUuid().toString(), finalSendString, wifiMessage.getDate(), true, true, secret.toString());
+
+        //p2pInterface.sendProfile(finalSendString);
 
     }
 
@@ -250,23 +236,32 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
 
             if (wifiMessage != null) {
                 try {
-                    final String chatRoom = tryDecode(wifiMessage);
-                    Log.d(TAG, "onLoveMessageReceive: " + chatRoom);
+                    final String secret = tryDecode(wifiMessage);
+                    Log.d(TAG, "onLoveMessageReceive: decoded " + secret);
+                    if (secret != null) {
+                        db.storeMessage(wifiMessage.getUuid().toString(), message, wifiMessage.getDate(), true, false, secret);
+                        //enterChatActivity(secret);
+                    } else {
+                        db.storeMessage(wifiMessage.getUuid().toString(), message, wifiMessage.getDate(), false, false, null);
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             } else {
                 Log.d(TAG, "onLoveMessageReceive: Could not deserialize" + message);
             }
+        } else {
+            Log.d(TAG, "onLoveMessageReceive: no Profile returned");
         }
+
     }
 
     private String tryDecode(final WifiMessage wifiMessage) throws Exception {
         final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         final String profileString = preferences.getString(getStringDataById(R.string.shared_preference_profile), STRING_DEF_VALUE);
         if (!STRING_DEF_VALUE.equals(profileString)) {
-            final StorageProfile storageProfile = StorageProfile.deSerialize(profileString);
-            final Bottle bottle = new Bottle(storageProfile);
+            final StoredProfile storedProfile = StoredProfile.deSerialize(profileString);
+            final Bottle bottle = new Bottle(storedProfile);
             bottle.fill();
             bottle.cork();
             bottle.seal();
@@ -284,5 +279,22 @@ public class SearchProfilActivity extends AbstractProfileActivity implements Vie
             }
         }
         return null;
+    }
+
+    public void enterChatActivity(final String chatRoom) {
+
+        final Intent intent = new Intent(this, ChatActivity.class);
+
+        final ArrayList<String> data = new ArrayList<String>();
+        final String ip = getString(R.string.server_name);
+        final String roomID = chatRoom;
+        data.add(ip);
+        data.add(roomID);
+
+        final Bundle bundle = new Bundle();
+        bundle.putStringArrayList("data", data);
+        intent.putExtra(FindYourLoveActivity.CHAT_MESSAGE, bundle);
+        startActivity(intent);
+
     }
 }

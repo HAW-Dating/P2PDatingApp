@@ -12,7 +12,7 @@ import android.widget.Spinner;
  * <p/>
  * 6/10/16 by s-gheldd
  */
-public abstract class AbstractProfileActivity extends Activity{
+public abstract class AbstractProfileActivity extends AbstractP2pDatingActivity{
     public static final String STRING_DEF_VALUE = "";
 
 

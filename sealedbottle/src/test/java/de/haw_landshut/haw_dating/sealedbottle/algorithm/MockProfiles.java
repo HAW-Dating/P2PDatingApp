@@ -93,6 +93,8 @@ public abstract class MockProfiles implements Bottlable {
     public static class Match extends MockProfiles {
         public Match() {
             super();
+            this.necessaryAttributes = new LinkedList<>(Arrays.asList("männlich", "ledig","Student",
+                    "Landshut", "HaW Landshut"));
             optionalAttributes.add(new LinkedList<>(Arrays.asList("Programmieren", "Basketball",
                     "Bauklötze", "Sex", "Pfadfinder")));
             optionalAttributes.add(new LinkedList<String>(Arrays.asList("27", "28",

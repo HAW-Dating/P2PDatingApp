@@ -14,10 +14,10 @@ import de.haw_landshut.haw_dating.sealedbottle.api.Bottlable;
 /**
  * Created by daniel on 02.06.16.
  */
-public class StorageProfile implements Bottlable {
+public class StoredProfile implements Bottlable {
 
-    public static int[] similarityThresholds = new int[]{3};
-    private static Gson gson = new Gson();
+    public static final int[] similarityThresholds = new int[]{3};
+    private static final Gson gson = new Gson();
     private final Map<Integer, String> profileData;
     private final Integer[] profileFields;
     private final Integer[] necessaryFields;
@@ -26,16 +26,19 @@ public class StorageProfile implements Bottlable {
     private Queue<String>[] optionalQueue = new Queue[getNumberOfOptionalAttributeFields()];
 
 
-    public StorageProfile(final Map<Integer, String> profileData, final Integer[] profileFields,
-                          final Integer[] necessaryFields, final Integer[][] optionalFields) {
+    public StoredProfile(
+            final Map<Integer, String> profileData,
+            final Integer[] profileFields,
+            final Integer[] necessaryFields,
+            final Integer[][] optionalFields) {
         this.necessaryFields = necessaryFields;
         this.optionalFields = optionalFields;
         this.profileData = profileData;
         this.profileFields = profileFields;
     }
 
-    public static StorageProfile deSerialize(String json) {
-        return gson.fromJson(json, StorageProfile.class);
+    public static StoredProfile deSerialize(String json) {
+        return gson.fromJson(json, StoredProfile.class);
     }
 
     public String serialize() {
@@ -61,8 +64,7 @@ public class StorageProfile implements Bottlable {
 
         for (final Integer attributeId : necessaryFields) {
             final String attributeString = profileData.get(attributeId);
-            final String[] attributeStringArray = attributeString.split(",");
-            necessaryQueue.addAll(Arrays.asList(attributeStringArray));
+            necessaryQueue.add(attributeString);
         }
         return necessaryQueue.size();
     }
@@ -73,8 +75,7 @@ public class StorageProfile implements Bottlable {
 
         for (final Integer attributeId : optionalFields[field]) {
             final String attributeString = profileData.get(attributeId);
-            final String[] attributeStringArray = attributeString.split(",");
-            optionalQueue[field].addAll(Arrays.asList(attributeStringArray));
+            optionalQueue[field].add(attributeString);
         }
 
         return optionalQueue[field].size();

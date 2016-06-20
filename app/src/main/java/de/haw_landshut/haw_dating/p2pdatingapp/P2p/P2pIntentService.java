@@ -4,17 +4,15 @@
  *
  */
 
-package de.haw_landshut.haw_dating.p2pdatingapp;
+package de.haw_landshut.haw_dating.p2pdatingapp.P2p;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
-import android.net.nsd.NsdServiceInfo;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo;
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.HashMap;

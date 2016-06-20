@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
+import de.haw_landshut.haw_dating.p2pdatingapp.data.StoredProfile;
 
 /**
  * Created by daniel on 28.11.15.
@@ -29,21 +29,41 @@ import de.haw_landshut.haw_dating.p2pdatingapp.data.StorageProfile;
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
-public class MyProfilActivity extends AbstractProfileActivity implements View.OnTouchListener, View
-        .OnClickListener {
+public class MyProfileActivity extends AbstractProfileActivity implements View.OnTouchListener, View.OnClickListener {
 
 
-    public static final Integer[] necessaryFields = new Integer[]{R.id.gender, R.id.university, R.id
-            .sexual_preference, R.id.profil_age};
-    public static final Integer[][] optionalFields = new Integer[][]{{R.id.profil_hometown, R.id
-            .profil_interests, R.id.profil_studie}};
-    public static final Integer[] profileFields = new Integer[]{R.id.gender, R.id.university, R.id
-            .sexual_preference, R.id.profil_name, R.id.profil_age, R.id.profil_studie, R.id
-            .profil_interests, R.id.profil_hometown, R.id.profil_postal_code};
-    EditText editTextName, editTextAge, editTextStudie, editTextInterests, editTextHometown,
+    public static final Integer[] necessaryFields = new Integer[]{
+            R.id.profile_gender,
+            R.id.profile_university,
+            R.id.profile_sexual_preference,
+            R.id.profile_age};
+
+    public static final Integer[][] optionalFields = new Integer[][]{{
+            R.id.profile_hometown,
+            R.id.profile_interests_1,
+            R.id.profile_interests_2,
+            R.id.profile_interests_3,
+            R.id.profile_studies}
+    };
+
+    public static final Integer[] profileFields = new Integer[]{
+            R.id.profile_gender,
+            R.id.profile_university,
+            R.id.profile_sexual_preference,
+            R.id.profil_name,
+            R.id.profile_age,
+            R.id.profile_studies,
+            R.id.profile_interests_1,
+            R.id.profile_interests_2,
+            R.id.profile_interests_3,
+            R.id.profile_hometown,
+            R.id.profil_postal_code};
+
+
+    private EditText editTextName, editTextAge, editTextStudie, editTextInterests, editTextHometown,
             editTextPostal_code;
-    int selectedPosition;
-    Spinner university, gender, searchSexual_preference;
+    private int selectedPosition;
+    private Spinner university, gender, searchSexual_preference;
     private ListView drawerList;
     private ArrayAdapter<String> adapter;
     /**
@@ -68,21 +88,21 @@ public class MyProfilActivity extends AbstractProfileActivity implements View.On
 
 
         /* Fuer Spinner Geschlecht */
-        gender = (Spinner) findViewById(R.id.gender);
+        gender = (Spinner) findViewById(R.id.profile_gender);
         ArrayAdapter<String> adapterGender =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources
                         ().getStringArray(R.array.sexual_spinner));
         gender.setAdapter(adapterGender);
 
         /* Fuer Spinner Universität */
-        university = (Spinner) findViewById(R.id.university);
+        university = (Spinner) findViewById(R.id.profile_university);
         ArrayAdapter<String> adapterUniversity =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources
                         ().getStringArray(R.array.university_spinner));
         university.setAdapter(adapterUniversity);
 
         /* Fuer Spinner Suche-Geschlecht */
-        searchSexual_preference = (Spinner) findViewById(R.id.sexual_preference);
+        searchSexual_preference = (Spinner) findViewById(R.id.profile_sexual_preference);
         ArrayAdapter<String> adapterSearchGender =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources
                         ().getStringArray(R.array.sexual_spinner));
@@ -94,83 +114,17 @@ public class MyProfilActivity extends AbstractProfileActivity implements View.On
 
 
         // SharedPreferences Datei öffnen
-        SharedPreferences preferences = getSharedPreferences("Profildata", 0);
         // Editorklasse initialisieren
         editTextName = (EditText) findViewById(R.id.profil_name);
-        editTextAge = (EditText) findViewById(R.id.profil_age);
-        editTextStudie = (EditText) findViewById(R.id.profil_studie);
-        editTextInterests = (EditText) findViewById(R.id.profil_interests);
-        editTextHometown = (EditText) findViewById(R.id.profil_hometown);
+        editTextAge = (EditText) findViewById(R.id.profile_age);
+        editTextStudie = (EditText) findViewById(R.id.profile_studies);
+        editTextInterests = (EditText) findViewById(R.id.profile_interests_1);
+        editTextHometown = (EditText) findViewById(R.id.profile_hometown);
         editTextPostal_code = (EditText) findViewById(R.id.profil_postal_code);
 
-
-
-    /*
-        // Schlüsselwerte aus der Datei lesen und in Textfelder schreiben
-        editTextName.setText(preferences.getString("name", "Huber Sepp"));
-        editTextStudie.setText(preferences.getString("studie", "Soziale Arbeit"));
-        editTextInterests.setText(preferences.getString("intrests", "Fliegen"));
-        editTextHometown.setText(preferences.getString("hometown", "Hamburg"));
-        editTextPostal_code.setText(preferences.getString("postal_code", "22113"));
-
-        // Spinner
-        gender.setSelection(preferences.getInt("gender", 0));
-        university.setSelection(preferences.getInt("university", 0));
-        searchSexual_preference.setSelection(preferences.getInt("searchSexual_preference",0));
-*/
-
         //Button klicken
-        Button button = (Button) findViewById(R.id.profil_button);
+        final Button button = (Button) findViewById(R.id.profil_button);
         button.setOnClickListener(this);
-
-
-        // Navigations Drawer
-        drawerList = (ListView) findViewById(R.id.main_lv_menu);
-        addDrawerItems();
-
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    // MyProfilActivity
-                    case 0:
-                        myProfil();
-                        break;
-                    // SuchProfil
-                    case 1:
-                        searchProfil();
-                        break;
-                    // FindYourLove
-                    case 2:
-                        findYourLove();
-                        break;
-                    // Wenn noch Zeit dann Einstellungen hinzufügen!!!
-                    default:
-                        break;
-                }
-            }
-        });
-    }
-
-    private void addDrawerItems() {
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                (getResources().getStringArray(R.array.drawer_list_menu_array)));
-        drawerList.setAdapter(adapter);
-    }
-
-    private void myProfil() {
-        Intent intent = new Intent(this, MyProfilActivity.class);
-        startActivity(intent);
-    }
-
-    private void searchProfil() {
-        Intent intent = new Intent(this, SearchProfilActivity.class);
-        startActivity(intent);
-    }
-
-    private void findYourLove() {
-        Intent intent = new Intent(this, FindYourLoveActivity.class);
-        startActivity(intent);
     }
 
     public boolean onTouch(View v, MotionEvent event) {
@@ -188,7 +142,7 @@ public class MyProfilActivity extends AbstractProfileActivity implements View.On
             int ty = (int) event.getY();
 
             if ((touchX - tx) > pixel) {
-                Intent intent = new Intent(this, MyProfilControlActivity.class);
+                Intent intent = new Intent(this, MyProfileControlActivity.class);
                 startActivity(intent);
 
             } else if ((touchX - tx) <= -pixel) {
@@ -206,7 +160,7 @@ public class MyProfilActivity extends AbstractProfileActivity implements View.On
                 R.string.shared_preference_profile), STRING_DEF_VALUE);
         Log.d("stored profile", serializedProfile);
         if (serializedProfile != STRING_DEF_VALUE) {
-            final StorageProfile storedProfile = StorageProfile.deSerialize(serializedProfile);
+            final StoredProfile storedProfile = StoredProfile.deSerialize(serializedProfile);
             for (final int id : storedProfile.getProfileFields()) {
                 restoreInput(id, storedProfile.getProfileData().get(id));
             }
@@ -225,7 +179,7 @@ public class MyProfilActivity extends AbstractProfileActivity implements View.On
         }
 
 
-        StorageProfile myProfile = new StorageProfile(profileData, profileFields,
+        StoredProfile myProfile = new StoredProfile(profileData, profileFields,
                 necessaryFields, optionalFields);
 
 
@@ -236,6 +190,6 @@ public class MyProfilActivity extends AbstractProfileActivity implements View.On
         // Text mit Schlüsselattribut holen und in Editorklasse schreiben
         preferenceEditor.putString(getStringDataById(R.string.shared_preference_profile),
                 myProfile.serialize());
-        preferenceEditor.commit();
+        preferenceEditor.apply();
     }
 }

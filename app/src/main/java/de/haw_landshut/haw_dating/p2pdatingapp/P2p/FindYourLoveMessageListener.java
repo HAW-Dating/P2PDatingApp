@@ -1,4 +1,4 @@
-package de.haw_landshut.haw_dating.p2pdatingapp;
+package de.haw_landshut.haw_dating.p2pdatingapp.P2p;
 
 /**
  * Created during the students project "FH-Tinder" at HaW-Landshut, University of Applied Sciences.

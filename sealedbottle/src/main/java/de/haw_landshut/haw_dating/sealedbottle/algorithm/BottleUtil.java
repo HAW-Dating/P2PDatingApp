@@ -22,6 +22,7 @@ import java.text.StringCharacterIterator;
 public class BottleUtil {
 
     public static String normalize(String input) {
+        input = input.trim();
         final StringCharacterIterator iterator = new StringCharacterIterator(Normalizer.normalize(input, Normalizer.Form.NFKC));
         final StringBuilder builder = new StringBuilder();
         for (char c = iterator.first(); c != CharacterIterator.DONE; c = iterator.next()) {

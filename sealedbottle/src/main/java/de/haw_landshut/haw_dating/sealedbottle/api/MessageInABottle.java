@@ -105,7 +105,7 @@ public class MessageInABottle {
                     hintMatrixes[i][row] = hintMatrix[row].clone();
                 }
             }
-            cipher.init(Cipher.ENCRYPT_MODE, bottle.getKeyasAESSecretKey(), BottleCryptoConstants
+            cipher.init(Cipher.ENCRYPT_MODE, bottle.getKeyAsAESSecretKey(), BottleCryptoConstants
                     .IV_PARAMETER_SPEC);
             encryptedSafeWord = cipher.doFinal(safeWord.getBytes(BottleCryptoConstants.CHARSET));
 

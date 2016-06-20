@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,170 +10,173 @@
     Einfügen eines Drawers.
     -->
 
-<!--
-Revision by Altrichter Daniel on 15.03.16.
--->
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    <!--
+    Revision by Altrichter Daniel on 15.03.16.
+    -->
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:padding="18dp"
-    android:id="@+id/search_profil_activity_linear_layout"
-    >
-
-    <TextView
-        android:text="@string/search_profil"
-        style="@style/profile_headings"
-        />
-
-    <TableLayout
-        style="@style/profile_table_layout"
-        >
-
-<!-- Zeile 1  -->
-        <TableRow
-            style="@style/profile_table_row">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/search_profil_activity_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="18dp">
 
             <TextView
-                android:text="@string/age"
-                style="@style/profile_textviews"
-                />
+                style="@style/profile_headings"
+                android:text="@string/search_profil" />
 
-            <EditText
-                android:id="@+id/search_age"
-                style="@style/profile_age"
-                />
+            <TableLayout style="@style/profile_table_layout">
 
-        </TableRow>
-<!-- Zeile 2 -->
-        <TableRow
-            style="@style/profile_table_row">
+                <!-- Zeile 1  -->
+                <TableRow style="@style/profile_table_row">
 
-            <TextView
-                android:text="@string/gender"
-                style="@style/profile_textviews"
-                />
+                    <TextView
+                        style="@style/profile_textviews"
+                        android:text="@string/age" />
 
-            <Spinner
-                style="@style/profile_spinner_sexual"
-                android:id="@+id/search_gender"
-                />
-        </TableRow>
-<!-- Zeile 3 -->
-        <TableRow
-            style="@style/profile_table_row">
+                    <EditText
+                        android:id="@+id/search_age"
+                        style="@style/profile_age" />
 
-            <TextView
-                android:text="@string/studie"
-                style="@style/profile_textviews"
-                />
+                </TableRow>
+                <!-- Zeile 2 -->
+                <TableRow style="@style/profile_table_row">
 
-            <EditText
-                android:id="@+id/search_studie"
-                style="@style/profile_edittext"
-                />
-        </TableRow>
+                    <TextView
+                        style="@style/profile_textviews"
+                        android:text="@string/gender" />
 
-<!-- Zeile 4 -->
-        <TableRow
-            style="@style/profile_table_row">
+                    <Spinner
+                        android:id="@+id/search_gender"
+                        style="@style/profile_spinner_sexual" />
+                </TableRow>
+                <!-- Zeile 3 -->
+                <TableRow style="@style/profile_table_row">
 
-            <TextView
-                android:text="@string/university"
-                style="@style/profile_textviews"
-                />
+                    <TextView
+                        style="@style/profile_textviews"
+                        android:text="@string/studie" />
 
-            <Spinner
-                style="@style/profile_spinner_university"
-                android:id="@+id/search_university"
-                />
-        </TableRow>
-<!-- Zeile 5 -->
-        <TableRow
-            style="@style/profile_table_row">
+                    <EditText
+                        android:id="@+id/search_studies"
+                        style="@style/profile_edittext" />
+                </TableRow>
 
-            <TextView
-                android:text="@string/sexual_preference"
-                style="@style/profile_textviews"
-                />
+                <!-- Zeile 4 -->
+                <TableRow style="@style/profile_table_row">
 
-            <Spinner
-                style="@style/profile_spinner_sexual"
-                android:id="@+id/search_sexual_preference"
-                />
-        </TableRow>
-<!-- Zeile 6  -->
-        <TableRow
-            style="@style/profile_table_row">
+                    <TextView
+                        style="@style/profile_textviews"
+                        android:text="@string/university" />
 
-            <TextView
-                android:text="@string/hometown"
-                style="@style/profile_textviews"
-                />
+                    <Spinner
+                        android:id="@+id/search_university"
+                        style="@style/profile_spinner_university" />
+                </TableRow>
+                <!-- Zeile 5 -->
 
-            <EditText
-                android:id="@+id/search_hometown"
-                style="@style/profile_edittext"
-                />
-        </TableRow>
+                <!-- Zeile 6  -->
+                <TableRow style="@style/profile_table_row">
 
- <!-- Zeile 7  -->
-        <TableRow
-            style="@style/profile_table_row">
+                    <TextView
+                        style="@style/profile_textviews"
+                        android:text="@string/hometown" />
 
-        <TextView
-            android:text="@string/postal_code"
-            style="@style/profile_textviews"
-            />
+                    <EditText
+                        android:id="@+id/search_hometown"
+                        style="@style/profile_edittext" />
+                </TableRow>
 
-        <EditText
-            android:id="@+id/search_postal_code"
-            style="@style/profile_edit_plz"
-                />
+                <!-- Zeile 7  -->
+                <TableRow style="@style/profile_table_row">
 
-        </TableRow>
- <!-- Zeile 8  -->
-        <TableRow
-            style="@style/profile_table_row">
+                    <TextView
+                        style="@style/profile_textviews"
+                        android:text="@string/postal_code" />
 
-            <TextView
-                android:text="@string/interests"
-                style="@style/profile_textviews"
-                />
+                    <EditText
+                        android:id="@+id/search_postal_code"
+                        style="@style/profile_edit_plz" />
 
-            <EditText
-                android:id="@+id/search_interests"
-                style="@style/profile_edittext"
-                />
-        </TableRow>
-    </TableLayout>
+                </TableRow>
+                <!-- Zeile 8  -->
+                <TableRow style="@style/profile_table_row">
 
-    <Button
-        android:text="@string/search_button"
-        style="@style/profile_button_confirm"
-        android:id="@+id/search_button"
-        />
+                    <TextView
+                        style="@style/profile_textviews"
+                        android:text="@string/sexual_preference" />
 
-</LinearLayout>
+                    <Spinner
+                        android:id="@+id/search_sexual_preference"
+                        style="@style/profile_spinner_sexual" />
+                </TableRow>
 
- </ScrollView>
+                <TableRow style="@style/profile_table_row">
+
+                    <TextView
+                        style="@style/profile_textviews"
+                        android:text="@string/interests" />
+
+                    <EditText
+                        android:id="@+id/search_interests_1"
+                        style="@style/profile_edittext" />
+                </TableRow>
+
+                <TableRow style="@style/profile_table_row">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/search_interests_2"
+                        style="@style/profile_edittext" />
+                </TableRow>
+
+                <TableRow style="@style/profile_table_row">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/search_interests_3"
+                        style="@style/profile_edittext" />
+                </TableRow>
+            </TableLayout>
+
+            <Button
+                android:id="@+id/search_button"
+                style="@style/profile_button_confirm"
+                android:text="@string/search_button" />
+
+            <Button
+                android:id="@+id/debug_button"
+                style="@style/profile_button_confirm"
+                android:text="Debug" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <ListView
         android:id="@+id/main_lv_menu"
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_gravity="left|start"
-        android:background="@color/white"
-        >
-    </ListView>
+        android:background="@color/white"></ListView>
 
 
 </android.support.v4.widget.DrawerLayout>
