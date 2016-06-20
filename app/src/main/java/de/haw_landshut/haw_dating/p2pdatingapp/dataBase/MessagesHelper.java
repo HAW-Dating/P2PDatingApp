@@ -48,6 +48,12 @@ public class MessagesHelper extends SQLiteOpenHelper {
 
     }
 
+    public void drop(){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DROP TABLE " + TableData.Messages.TABLE_NAME + TableData.SEMI_COLON);
+        onCreate(db);
+    }
+
     public void storeMessage(
             final String messageUUID,
             final String serializedWifiMessage,
