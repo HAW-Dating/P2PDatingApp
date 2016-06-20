@@ -17,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +37,8 @@ import java.util.concurrent.TimeoutException;
  */
 // TODO: 07.06.2016 Better Exceptionhandling and User-information
 public class P2pInterface {
+
+    private static Object moonitor = new Object();
 
     private static final String TAG = "P2pInterface";
     private Activity activity;
@@ -99,31 +102,33 @@ public class P2pInterface {
     private WifiP2pManager.ConnectionInfoListener connectionInfoListener = new WifiP2pManager.ConnectionInfoListener() {
         @Override
         public void onConnectionInfoAvailable(WifiP2pInfo info) {
-            if (isShouldDisconnect()) {
-                Log.d(TAG, "ConnectionInfoListener: should disconnect");
-                //isGroupOwner = false;
-                //disconnect();
-                //discover();
-                return;
-            } else {
-                // InetAddress from WifiP2pInfo struct.
-                groupOwnerAdress = info.groupOwnerAddress.getHostAddress();
-                // After the group negotiation, we can determine the group owner.
-                if (info.groupFormed && info.isGroupOwner) {
-                    // Do whatever tasks are specific to the group owner.
-                    // One common case is creating a server thread and accepting
-                    // incoming connections.
-                    isGroupOwner = true;
-                    Log.d(TAG, "ConnectionInfoListener: You are the GroupOwner");
-                    writeMessage(profile);
+            synchronized (moonitor) {
+                if (isShouldDisconnect()) {
+                    Log.d(TAG, "ConnectionInfoListener: should disconnect");
+                    //isGroupOwner = false;
+                    //disconnect();
+                    //discover();
+                    return;
+                } else {
+                    // InetAddress from WifiP2pInfo struct.
+                    groupOwnerAdress = info.groupOwnerAddress.getHostAddress();
+                    // After the group negotiation, we can determine the group owner.
+                    if (info.groupFormed && info.isGroupOwner) {
+                        // Do whatever tasks are specific to the group owner.
+                        // One common case is creating a server thread and accepting
+                        // incoming connections.
+                        isGroupOwner = true;
+                        Log.d(TAG, "ConnectionInfoListener: You are the GroupOwner");
+                        writeMessage(profile);
 
-                } else if (info.groupFormed && info.groupOwnerAddress != null) {
-                    // The other device acts as the client. In this case,
-                    // you'll want to create a client thread that connects to the group
-                    // owner.
-                    isGroupOwner = false;
-                    Log.d(TAG, "ConnectionInfoListener: You are not the GroupOwner");
-                    writeMessage(profile);
+                    } else if (info.groupFormed && info.groupOwnerAddress != null) {
+                        // The other device acts as the client. In this case,
+                        // you'll want to create a client thread that connects to the group
+                        // owner.
+                        isGroupOwner = false;
+                        Log.d(TAG, "ConnectionInfoListener: You are not the GroupOwner");
+                        writeMessage(profile);
+                    }
                 }
             }
 
@@ -194,7 +199,8 @@ public class P2pInterface {
         mManager.requestPeers(mChannel, peerListListener);
     }
 
-    synchronized private void connect(){
+    private void connect(){
+        synchronized (moonitor){
         Log.d(TAG, "connect()");
 
         if (peers.isEmpty()) {
@@ -236,56 +242,61 @@ public class P2pInterface {
                 }*/
             }
         }
+        }
     }
 
     private void writeMessage(String s) {
-        Log.d(TAG, "writeMessage()");
-        AsyncTask<String, Void, String> asyncTask = new ConnectionAsyncTask(this).execute();
-        //connectionAsyncTask.doInBackground(null);
-        try {
-            String message = asyncTask.get(5, TimeUnit.SECONDS);
-            Log.d(TAG, "writeMessage(): Nachricht erhalten: " + message);
-            loveMessagelistener.onLoveMessageReceive(message);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            Log.d(TAG, "writeMessage(): asyncTask TimeOut");
-            setShouldDisconnect(true);
-            if (!asyncTask.cancel(true)) {
-                Log.d(TAG, "writeMessage(): asyncTask couldn't be canceled");
+        synchronized (moonitor) {
+            Log.d(TAG, "writeMessage()");
+            AsyncTask<String, Void, String> asyncTask = new ConnectionAsyncTask(this).execute();
+            //connectionAsyncTask.doInBackground(null);
+            try {
+                String message = asyncTask.get(5, TimeUnit.SECONDS);
+                Log.d(TAG, "writeMessage(): Nachricht erhalten: " + message);
+                loveMessagelistener.onLoveMessageReceive(message);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                Log.d(TAG, "writeMessage(): asyncTask TimeOut");
+                setShouldDisconnect(true);
+                if (!asyncTask.cancel(true)) {
+                    Log.d(TAG, "writeMessage(): asyncTask couldn't be canceled");
+                }
             }
+            disconnect();
         }
-        disconnect();
         //restart();
     }
 
     public void disconnect() {
-        Log.d(TAG, "disconnect()");
-        if (mManager != null && mChannel != null) {
-            mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
-                @Override
-                public void onGroupInfoAvailable(WifiP2pGroup group) {
-                    if (group != null && mManager != null && mChannel != null
-                            /*&& group.isGroupOwner()*/) {
-                        mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
+        synchronized (moonitor) {
+            Log.d(TAG, "disconnect()");
+            if (mManager != null && mChannel != null) {
+                mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
+                    @Override
+                    public void onGroupInfoAvailable(WifiP2pGroup group) {
+                        if (group != null && mManager != null && mChannel != null
+                                /*&& group.isGroupOwner()*/) {
+                            mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
 
-                            @Override
-                            public void onSuccess() {
-                                setIsConnected(false);
-                                Log.d(TAG, "disconnect: removeGroup onSuccess -");
-                            }
+                                @Override
+                                public void onSuccess() {
+                                    setIsConnected(false);
+                                    Log.d(TAG, "disconnect: removeGroup onSuccess -");
+                                }
 
-                            @Override
-                            public void onFailure(int reason) {
-                                Log.d(TAG, "disconnect(): removeGroup onFailure -" + reason);
-                            }
-                        });
-                        restart();
+                                @Override
+                                public void onFailure(int reason) {
+                                    Log.d(TAG, "disconnect(): removeGroup onFailure -" + reason);
+                                }
+                            });
+                            restart();
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
