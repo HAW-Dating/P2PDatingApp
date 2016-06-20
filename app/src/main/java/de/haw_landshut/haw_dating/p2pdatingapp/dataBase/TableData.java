@@ -23,6 +23,8 @@ public class TableData {
         public static final String COLUMN_MESSAGE_UUID = "MESSAGE_UUID";
         public static final String COLUMN_MESSAGE_UUID_TYPE = TEXT_TYPE;
         public static final String COLUMN_MESSAGE = "MESSAGE";
+        public static final String COLUMN_DATE = "DATE";
+        public static final String COLUMN_DATE_TYPE = INTEGER_TYPE;
         public static final String COLUMN_MESSAGE_TYPE = TEXT_TYPE;
         public static final String COLUMN_DECRYPTED = "DECRYPTED";
         public static final String COLUMN_DECRYPTED_TYPE = INTEGER_TYPE;

@@ -6,7 +6,7 @@ import android.app.Application;
  * Created by Georg on 19.06.2016.
  */
 public class DataBaseApplication extends Application {
-    private static Application instance;
+    private static DataBaseApplication instance;
     private MessagesHelper dataBase;
 
     @Override
@@ -15,7 +15,7 @@ public class DataBaseApplication extends Application {
         instance = this;
     }
 
-    public static Application getInstance() {
+    public static DataBaseApplication getInstance() {
         return instance;
     }
 
