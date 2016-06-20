@@ -96,13 +96,13 @@ public class MessagesHelper extends SQLiteOpenHelper {
                 null);
         final int rows = cursor.getCount();
         if (rows > 0) {
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 final WifiMessage wifiMessage = WifiMessage.deserialize(cursor.getString(0));
                 final String secret = cursor.getString(1);
                 final long date = cursor.getLong(2);
                 final boolean own = intToBool(cursor.getInt(3));
 
-                resultList.add(makeMatch(wifiMessage,secret,date,own,context));
+                resultList.add(makeMatch(wifiMessage, secret, date, own, context));
             }
         }
         return resultList;
@@ -131,9 +131,9 @@ public class MessagesHelper extends SQLiteOpenHelper {
         final int rows = cursor.getCount();
         if (rows != 0) {
             final Set<UUID> resultSet = new LinkedHashSet<>(rows);
-            do {
+            while (cursor.moveToNext()) {
                 resultSet.add(UUID.fromString(cursor.getString(0)));
-            } while (cursor.moveToNext());
+            }
         }
         return new LinkedHashSet<>();
     }

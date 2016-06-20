@@ -41,7 +41,7 @@ import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
-public class SearchProfileActivity extends AbstractProfileActivity implements View.OnTouchListener, View.OnClickListener, FindYourLoveMessageListener {
+public class SearchProfileActivity extends AbstractProfileActivity implements View.OnTouchListener, View.OnClickListener {
 
     public static final Integer[] necessaryFields = new Integer[]{
             R.id.search_gender,
@@ -73,7 +73,6 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
 
     final private Map<Integer, String> profileData = new HashMap<>();
 
-    private P2pInterface p2pInterface;
     private Button searchButton;
     private MessagesHelper db;
     /**
@@ -98,8 +97,7 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
 
         db = DataBaseApplication.getInstance().getDataBase();
 
-        p2pInterface = new P2pInterface(this, this);
-        p2pInterface.initiate();
+
 
         searchButton = (Button) findViewById(R.id.search_button);
         searchButton.setOnClickListener(this);
@@ -146,7 +144,6 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
     @Override
     protected void onPause() {
         super.onPause();
-        p2pInterface.onPause();
     }
 
     public boolean onTouch(View v, MotionEvent event) {
@@ -179,7 +176,6 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
     @Override
     protected void onResume() {
         super.onResume();
-        p2pInterface.onResume();
         final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         final String serializedProfile = preferences.getString(getStringDataById(
                 R.string.shared_preference_search_profile), STRING_DEF_VALUE);
@@ -225,7 +221,7 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
 
     }
 
-    @Override
+
     public void onLoveMessageReceive(String message) {
         Log.d(TAG, "message received: " + message);
         if (!message.equals(P2pInterface.NOT_VALID_YET)) {
