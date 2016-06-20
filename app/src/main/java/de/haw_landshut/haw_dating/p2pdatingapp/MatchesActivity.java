@@ -147,6 +147,7 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
                     Log.d(TAG, "onLoveMessageReceive: decoded " + secret);
                     if (secret != null) {
                         db.storeMessage(wifiMessage.getUuid().toString(), message, wifiMessage.getDate(), true, false, secret);
+                        matchAdapter.addMatch(MatchAdapter.makeMatch(wifiMessage, secret, wifiMessage.getDate(), false, this));
                         //enterChatActivity(secret);
                     } else {
                         db.storeMessage(wifiMessage.getUuid().toString(), message, wifiMessage.getDate(), false, false, null);
