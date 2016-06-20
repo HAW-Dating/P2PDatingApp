@@ -138,7 +138,7 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
             if (wifiMessage != null) {
                 final Set<UUID> uuidSet = db.getStoredUUIDS();
                 if (uuidSet.contains(wifiMessage.getUuid())) {
-                 //   return;
+                    return;
                 }
                 try {
                     final String secret = tryDecode(wifiMessage);
