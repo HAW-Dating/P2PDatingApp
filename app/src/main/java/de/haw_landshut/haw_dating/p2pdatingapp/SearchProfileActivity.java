@@ -35,12 +35,12 @@ import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
 
 /**
  * Created by daniel on 08.12.15.
- * <p/>
+ * <p>
  * Revision by Altrichter Daniel on 15.03.16.
- * <p/>
+ * <p>
  * Implements OnTouchListener
  * wird gebraucht für die Wischfunktionen.
- * <p/>
+ * <p>
  * Revision by Altrichter Daniel on 4.04.16.
  * einfügen eines Navigation Drawers.
  */
@@ -81,13 +81,13 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
     private MessagesHelper db;
     /**
      * Created by daniel on 15.03.16.
-     * <p/>
+     * <p>
      * Positionen erkennen und berechnung von Wischereignissen.
      * Dies Funktioniert nur in den Richtungen die kein Scrollingview besitzen.
      * Hier nach links bzw. rechts
-     * <p/>
+     * <p>
      * Pixelangaben müssen evtl noch angepasst werden
-     * <p/>
+     * <p>
      * Beim wischen nach links wird Activity siehe Code (-> XYZ.class) aufgerufen!
      */
 
@@ -222,7 +222,7 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
         final WifiMessage wifiMessage = WifiMessage.createWifiMessage(send, bottle.getKeyAsAESSecretKey(), secret.toString());
 
         final String finalSendString = wifiMessage.serialize();
-        db.storeMessage(wifiMessage.getUuid().toString(), finalSendString, true, true, secret.toString());
+        db.storeMessage(wifiMessage.getUuid().toString(), finalSendString, wifiMessage.getDate(), true, true, secret.toString());
 
         //p2pInterface.sendProfile(finalSendString);
 
@@ -236,10 +236,13 @@ public class SearchProfileActivity extends AbstractProfileActivity implements Vi
 
             if (wifiMessage != null) {
                 try {
-                    final String chatRoom = tryDecode(wifiMessage);
-                    Log.d(TAG, "onLoveMessageReceive: decoded " + chatRoom);
-                    if (chatRoom != null) {
-                        enterChatActivity(chatRoom);
+                    final String secret = tryDecode(wifiMessage);
+                    Log.d(TAG, "onLoveMessageReceive: decoded " + secret);
+                    if (secret != null) {
+                        db.storeMessage(wifiMessage.getUuid().toString(), message, wifiMessage.getDate(), true, false, secret);
+                        //enterChatActivity(secret);
+                    } else {
+                        db.storeMessage(wifiMessage.getUuid().toString(), message, wifiMessage.getDate(), false, false, null);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();

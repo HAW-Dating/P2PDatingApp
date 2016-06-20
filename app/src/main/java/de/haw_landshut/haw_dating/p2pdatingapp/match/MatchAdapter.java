@@ -24,6 +24,11 @@ import de.haw_landshut.haw_dating.p2pdatingapp.R;
 public class MatchAdapter extends BaseAdapter {
     final private List<Match> matchList;
 
+    public synchronized void addMatch(final Match match) {
+        matchList.add(match);
+        this.notifyDataSetChanged();
+    }
+
     public MatchAdapter(List<Match> matchList) {
         this.matchList = matchList;
     }

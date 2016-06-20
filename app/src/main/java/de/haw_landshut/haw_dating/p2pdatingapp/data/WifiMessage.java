@@ -17,6 +17,7 @@ public class WifiMessage {
     private static final Gson gson = new Gson();
     private final String serializedMessageInABottle;
     private final UUID uuid;
+    private final long date;
     private byte[] encryptedMessage;
 
     public static WifiMessage createWifiMessage(String serializedMessageInABottle, SecretKeySpec aesKey, String message) {
@@ -37,6 +38,7 @@ public class WifiMessage {
     private WifiMessage(String serializedMessageInABottle) {
 
         uuid = UUID.randomUUID();
+        date = System.currentTimeMillis();
         this.serializedMessageInABottle = serializedMessageInABottle;
     }
 
@@ -46,6 +48,10 @@ public class WifiMessage {
 
     public UUID getUuid() {
         return uuid;
+    }
+
+    public long getDate() {
+        return date;
     }
 
     public byte[] getEncryptedMessage() {
