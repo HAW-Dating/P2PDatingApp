@@ -253,7 +253,11 @@ public class P2pInterface {
             try {
                 String message = asyncTask.get(5, TimeUnit.SECONDS);
                 Log.d(TAG, "writeMessage(): Nachricht erhalten: " + message);
-                loveMessagelistener.onLoveMessageReceive(message);
+                if (message != null) {
+                    loveMessagelistener.onLoveMessageReceive(message);
+                } else {
+                    loveMessagelistener.onLoveMessageReceive(NOT_VALID_YET);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -264,9 +268,9 @@ public class P2pInterface {
                 if (!asyncTask.cancel(true)) {
                     Log.d(TAG, "writeMessage(): asyncTask couldn't be canceled");
                 }
-            }
+            }}
             disconnect();
-        }
+
         //restart();
     }
 
