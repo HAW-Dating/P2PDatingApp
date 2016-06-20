@@ -41,6 +41,9 @@ public abstract class AbstractP2pDatingActivity extends AppCompatActivity {
                     case 2:
                         findYourLove();
                         break;
+                    case 3:
+                        matchesActivity();
+                        break;
                     // Wenn noch Zeit dann Einstellungen hinzufügen!!!
                     default:
                         break;
@@ -49,7 +52,6 @@ public abstract class AbstractP2pDatingActivity extends AppCompatActivity {
         });
 
     }
-
 
     private void addDrawerItems() {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, (getResources().getStringArray(R.array.drawer_list_menu_array)));
@@ -70,4 +72,9 @@ public abstract class AbstractP2pDatingActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FindYourLoveActivity.class);
         startActivity(intent);
     }
+    private void matchesActivity() {
+        final Intent intent = new Intent(this, MatchesActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -53,6 +53,7 @@ Einstellungmenü eingefügt
     <string-array name="drawer_list_menu_array">
         <item>Eigenes Profil</item>
         <item>Suchprofil</item>
+        <item>FindYourLove</item>
         <item>Matchings</item>
     </string-array>
 

@@ -83,6 +83,7 @@ public class MatchAdapter extends BaseAdapter {
     public void enterChatActivity(final String chatRoom) {
 
         final Intent intent = new Intent(MatchesActivity.getContext(), ChatActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         final ArrayList<String> data = new ArrayList<String>();
         final String ip = MatchesActivity.getContext().getString(R.string.server_name);

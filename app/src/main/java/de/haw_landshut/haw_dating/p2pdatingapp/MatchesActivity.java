@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.haw_landshut.haw_dating.p2pdatingapp.data.WifiMessage;
+import de.haw_landshut.haw_dating.p2pdatingapp.dataBase.DataBaseApplication;
+import de.haw_landshut.haw_dating.p2pdatingapp.dataBase.MessagesHelper;
 import de.haw_landshut.haw_dating.p2pdatingapp.match.Match;
 import de.haw_landshut.haw_dating.p2pdatingapp.match.MatchAdapter;
 
@@ -32,6 +34,7 @@ public class MatchesActivity extends AbstractP2pDatingActivity implements View.O
     private List<Match> matchList = new ArrayList<>();
     private MatchAdapter matchAdapter;
     private ListView matchListView;
+    private final MessagesHelper db = DataBaseApplication.getInstance().getDataBase();
 
     public static Context getContext() {
         return context;
@@ -43,26 +46,27 @@ public class MatchesActivity extends AbstractP2pDatingActivity implements View.O
         setContentView(R.layout.matches_main);
 
         context = this.getApplicationContext();
+        matchList.addAll(db.getMatches(context));
+
 
         matchAdapter = new MatchAdapter(matchList);
         matchListView = (ListView) findViewById(R.id.matchesActivityListView);
         matchListView.setAdapter(matchAdapter);
 
 
-        LinearLayout bildschirm = (LinearLayout) findViewById(R.id.matchings_main_linear_layout);
+        LinearLayout bildschirm = (LinearLayout) findViewById(R.id.mathesLinearLayout);
         bildschirm.setOnTouchListener(this);
-
     }
 
     /**
      * Created by daniel on 15.03.16.
-     * <p>
+     * <p/>
      * Positionen erkennen und berechnung von Wischereignissen.
      * Dies Funktioniert nur in den Richtungen die kein Scrollingview besitzen.
      * Hier nach links bzw. rechts
-     * <p>
+     * <p/>
      * Pixelangaben müssen evtl noch angepasst werden
-     * <p>
+     * <p/>
      * Beim wischen nach links wird Activity siehe Code (-> XYZ.class) aufgerufen!
      */
 

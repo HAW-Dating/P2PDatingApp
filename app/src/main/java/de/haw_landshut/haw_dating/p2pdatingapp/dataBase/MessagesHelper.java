@@ -84,8 +84,28 @@ public class MessagesHelper extends SQLiteOpenHelper {
         final SQLiteDatabase db = this.getReadableDatabase();
         final Cursor cursor = db.query(
                 TableData.Messages.TABLE_NAME,
+                new String[]{
+                        TableData.Messages.COLUMN_MESSAGE,
+                        TableData.Messages.COLUMN_SECRET_UUID,
+                        TableData.Messages.COLUMN_DATE,
+                        TableData.Messages.COLUMN_OWN},
+                TableData.Messages.COLUMN_DECRYPTED + " = 1",
+                null,
+                null,
+                null,
+                null);
+        final int rows = cursor.getCount();
+        if (rows > 0) {
+            while (cursor.moveToNext()){
+                final WifiMessage wifiMessage = WifiMessage.deserialize(cursor.getString(0));
+                final String secret = cursor.getString(1);
+                final long date = cursor.getLong(2);
+                final boolean own = intToBool(cursor.getInt(3));
 
-                )
+                resultList.add(makeMatch(wifiMessage,secret,date,own,context));
+            }
+        }
+        return resultList;
     }
 
     private Match makeMatch(
