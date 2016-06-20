@@ -58,6 +58,8 @@ public class P2pInterface {
     private String originalWifiName;
     private boolean originalWifiNameSet = false;
     private boolean waitForNextConnect = false;
+    private List<String> connectedPeers = new ArrayList<String>();
+    private boolean initiatedSendingMessage = false;
 
     synchronized public static boolean isShouldDisconnect() {
         return shouldDisconnect;
@@ -85,7 +87,7 @@ public class P2pInterface {
                 //Log.d(WiFiDirectActivity.TAG, "No devices found");
                 return;
             } else {
-
+                loveMessagelistener.onPeersDiscovered(getThis());
                 WifiP2pDevice p2pDevice = (WifiP2pDevice) peers.get(0);
                 Log.d(TAG, "PeerListListener: found " + peers.size() + " peers, top peer: " + p2pDevice.deviceName);
             }
@@ -204,7 +206,7 @@ public class P2pInterface {
         for (int i = 0; i < peers.size(); i++) {
             setShouldDisconnect(false);
             final WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
-            if (device.deviceName.contains(MAGIC_DEVICE_NAME)) {
+            if (device.deviceName.contains(MAGIC_DEVICE_NAME) && !connectedPeers.contains(device.deviceName)) {
                 final WifiP2pConfig config = new WifiP2pConfig();
                 config.deviceAddress = device.deviceAddress;
                 waitForNextConnect = true;
@@ -212,6 +214,7 @@ public class P2pInterface {
                     @Override
                     public void onSuccess() {
                         Log.d(TAG, "connect(): Success, deviceName: " + device.deviceName);
+                        connectedPeers.add(device.deviceName);
                     }
 
                     @Override
@@ -420,4 +423,7 @@ public class P2pInterface {
     }
 
 
+    public P2pInterface getThis() {
+        return this;
+    }
 }
