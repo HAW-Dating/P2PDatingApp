@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.NetworkInfo;
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.util.Log;
 
@@ -89,6 +90,11 @@ public class P2pBroadcastReceiver extends BroadcastReceiver {
             //fragment.updateThisDevice((WifiP2pDevice) intent.getParcelableExtra(
             //        WifiP2pManager.EXTRA_WIFI_P2P_DEVICE));
             Log.d(TAG, "WIFI_P2P_THIS_DEVICE_CHANGED_ACTION: changed");
+            WifiP2pDevice device = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
+            if (!p2pInterface.isOriginalWifiNameSet()) {
+                p2pInterface.setOriginalWifiNameSet(true);
+                p2pInterface.setOriginalWifiName(device.deviceName);
+            }
 
             // Request available peers from the wifi p2p manager. This is an
             // asynchronous call and the calling activity is notified with a
