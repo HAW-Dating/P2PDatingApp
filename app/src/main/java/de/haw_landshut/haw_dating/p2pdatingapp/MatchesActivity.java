@@ -64,6 +64,8 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
         context = this.getApplicationContext();
         matchList.addAll(db.getMatches(context));
 
+        //onLoveMessageReceive(db.getOwnSerializedSearchProfile());
+
 
         matchAdapter = new MatchAdapter(matchList);
         matchListView = (ListView) findViewById(R.id.matchesActivityListView);
@@ -136,7 +138,7 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
             if (wifiMessage != null) {
                 final Set<UUID> uuidSet = db.getStoredUUIDS();
                 if (uuidSet.contains(wifiMessage.getUuid())) {
-                    return;
+                 //   return;
                 }
                 try {
                     final String secret = tryDecode(wifiMessage);
@@ -159,7 +161,7 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
     }
 
     private String tryDecode(final WifiMessage wifiMessage) throws Exception {
-        final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        final SharedPreferences preferences = getSharedPreferences("key", MODE_PRIVATE);
         final String profileString = preferences.getString(getStringDataById(R.string.shared_preference_profile), STRING_DEF_VALUE);
         if (!STRING_DEF_VALUE.equals(profileString)) {
             final StoredProfile storedProfile = StoredProfile.deSerialize(profileString);

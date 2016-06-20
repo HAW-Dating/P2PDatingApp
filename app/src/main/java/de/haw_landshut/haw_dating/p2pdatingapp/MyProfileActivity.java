@@ -155,7 +155,7 @@ public class MyProfileActivity extends AbstractProfileActivity implements View.O
     @Override
     protected void onResume() {
         super.onResume();
-        final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        final SharedPreferences preferences = getSharedPreferences("key", MODE_PRIVATE);
         final String serializedProfile = preferences.getString(getStringDataById(
                 R.string.shared_preference_profile), STRING_DEF_VALUE);
         Log.d("stored profile", serializedProfile);
@@ -184,7 +184,7 @@ public class MyProfileActivity extends AbstractProfileActivity implements View.O
 
 
         // SharedPreferences Datei öffnen
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("key", MODE_PRIVATE);
         // Editorklasse initialisieren
         SharedPreferences.Editor preferenceEditor = preferences.edit();
         // Text mit Schlüsselattribut holen und in Editorklasse schreiben
