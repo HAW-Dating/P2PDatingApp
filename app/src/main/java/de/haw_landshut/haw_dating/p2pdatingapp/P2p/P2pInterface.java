@@ -207,6 +207,7 @@ public class P2pInterface {
             setShouldDisconnect(false);
             final WifiP2pDevice device = (WifiP2pDevice) peers.get(0);
             if (device.deviceName.contains(MAGIC_DEVICE_NAME) && !connectedPeers.contains(device.deviceName)) {
+                Log.d(TAG, "connect(): try to connect to: " + device.deviceName);
                 final WifiP2pConfig config = new WifiP2pConfig();
                 config.deviceAddress = device.deviceAddress;
                 waitForNextConnect = true;
