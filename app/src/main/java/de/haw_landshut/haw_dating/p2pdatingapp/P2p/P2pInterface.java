@@ -102,7 +102,7 @@ public class P2pInterface {
     private WifiP2pManager.ConnectionInfoListener connectionInfoListener = new WifiP2pManager.ConnectionInfoListener() {
         @Override
         public void onConnectionInfoAvailable(WifiP2pInfo info) {
-            synchronized (moonitor) {
+            //synchronized (moonitor) {
                 if (isShouldDisconnect()) {
                     Log.d(TAG, "ConnectionInfoListener: should disconnect");
                     //isGroupOwner = false;
@@ -132,7 +132,7 @@ public class P2pInterface {
                 }
             }
 
-        }
+        //}
     };
 
     public P2pInterface(Activity activity, FindYourLoveMessageListener listener) {

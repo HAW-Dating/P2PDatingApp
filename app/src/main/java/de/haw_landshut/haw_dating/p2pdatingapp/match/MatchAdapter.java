@@ -1,7 +1,9 @@
 package de.haw_landshut.haw_dating.p2pdatingapp.match;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +19,26 @@ import de.haw_landshut.haw_dating.p2pdatingapp.ChatActivity;
 import de.haw_landshut.haw_dating.p2pdatingapp.FindYourLoveActivity;
 import de.haw_landshut.haw_dating.p2pdatingapp.MatchesActivity;
 import de.haw_landshut.haw_dating.p2pdatingapp.R;
+import de.haw_landshut.haw_dating.p2pdatingapp.data.WifiMessage;
 
 /**
  * Created by s-gheldd on 19.06.16.
  */
 public class MatchAdapter extends BaseAdapter {
     final private List<Match> matchList;
+
+    public static Match makeMatch(
+            final WifiMessage wifiMessage,
+            final String secret,
+            final long date,
+            final boolean own,
+            final Context context) {
+        return new Match(
+                wifiMessage.getUuid().toString(),
+                DateUtils.formatDateTime(context, date, 0),
+                secret,
+                own);
+    }
 
     public synchronized void addMatch(final Match match) {
         matchList.add(match);

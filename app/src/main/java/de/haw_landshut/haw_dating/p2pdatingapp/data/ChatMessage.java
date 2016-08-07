@@ -20,10 +20,6 @@ public class ChatMessage {
         this.senderUUID = senderUUID;
     }
 
-    public ChatMessage(){
-        super();
-    }
-
     public static ChatMessage chatMessageFromJson(String json){
         return gson.fromJson(json, ChatMessage.class);
     }
@@ -42,30 +38,13 @@ public class ChatMessage {
         return sender;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public static Gson getGson() {
-        return gson;
-    }
-
-    public static void setGson(Gson gson) {
-        ChatMessage.gson = gson;
-    }
-
     public String getSenderUUID() {
         return senderUUID;
-    }
-
-    public void setSenderUUID(String senderUUID) {
-        this.senderUUID = senderUUID;
     }
 
     public String toJson(){
         return gson.toJson(this);
     }
-
 
     @Override
     public boolean equals(Object o) {

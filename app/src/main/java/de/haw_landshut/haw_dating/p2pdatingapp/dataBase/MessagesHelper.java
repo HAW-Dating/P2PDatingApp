@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.format.DateUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -14,9 +13,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import de.haw_landshut.haw_dating.p2pdatingapp.MatchesActivity;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.WifiMessage;
 import de.haw_landshut.haw_dating.p2pdatingapp.match.Match;
+import de.haw_landshut.haw_dating.p2pdatingapp.match.MatchAdapter;
 
 /**
  * Created by Georg on 19.06.2016.
@@ -46,6 +45,12 @@ public class MessagesHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public void drop(){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DROP TABLE " + TableData.Messages.TABLE_NAME + TableData.SEMI_COLON);
+        onCreate(db);
     }
 
     public void storeMessage(
@@ -107,7 +112,7 @@ public class MessagesHelper extends SQLiteOpenHelper {
                 final long date = cursor.getLong(2);
                 final boolean own = intToBool(cursor.getInt(3));
 
-                resultList.add(makeMatch(wifiMessage, secret, date, own, context));
+                resultList.add(MatchAdapter.makeMatch(wifiMessage, secret, date, own, context));
             }
         }
         return resultList;
@@ -129,19 +134,6 @@ public class MessagesHelper extends SQLiteOpenHelper {
             return cursor.getString(0);
         }
         return null;
-    }
-
-    private Match makeMatch(
-            final WifiMessage wifiMessage,
-            final String secret,
-            final long date,
-            final boolean own,
-            final Context context) {
-        return new Match(
-                wifiMessage.getUuid().toString(),
-                DateUtils.formatDateTime(context, date, 0),
-                secret,
-                own);
     }
 
     public Set<UUID> getStoredUUIDS() {

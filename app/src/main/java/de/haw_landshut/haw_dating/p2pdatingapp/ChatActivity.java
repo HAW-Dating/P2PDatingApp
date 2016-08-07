@@ -21,6 +21,7 @@ import net.xenqtt.client.Subscription;
 import net.xenqtt.message.ConnectReturnCode;
 import net.xenqtt.message.QoS;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import de.haw_landshut.haw_dating.p2pdatingapp.chat.ChatBubble;
 import de.haw_landshut.haw_dating.p2pdatingapp.chat.ChatBubbleAdapter;
+import de.haw_landshut.haw_dating.p2pdatingapp.chat.ChatMessageCrypter;
 import de.haw_landshut.haw_dating.p2pdatingapp.data.ChatMessage;
+import de.haw_landshut.haw_dating.p2pdatingapp.data.EncryptedChatMessage;
+import de.haw_landshut.haw_dating.sealedbottle.api.BottleCryptoConstants;
 
 public class ChatActivity extends AbstractP2pDatingActivity implements ChatNameDialog.Communicator {
     private AsyncMqttClient mqttClient;
@@ -40,9 +44,11 @@ public class ChatActivity extends AbstractP2pDatingActivity implements ChatNameD
 
     private ArrayList<ChatBubble> chatBubbleList = new ArrayList<>();
     private ChatBubbleAdapter chatBubbleAdapter;
-    private String roomId;
+    private String hashedRoomId;
     private String userName;
     private final String userUUID = UUID.randomUUID().toString();
+    private ChatMessageCrypter crypter;
+    private String roomId;
 
     public static final String PREF_NAME = "chatActivityPrefs";
 
@@ -80,6 +86,17 @@ public class ChatActivity extends AbstractP2pDatingActivity implements ChatNameD
 
         String ip = data.get(0);
         roomId = data.get(1);
+        crypter = new ChatMessageCrypter(roomId);
+        try {
+            final MessageDigest digest = MessageDigest.getInstance(BottleCryptoConstants.HASH_ALGORITHM);
+            byte[] bytes = roomId.getBytes(BottleCryptoConstants.CHARSET);
+            for (int i = 0; i < 5; i++) {
+                bytes = digest.digest(bytes);
+            }
+            hashedRoomId = Arrays.toString(bytes);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
 
         chatListView = (ListView) findViewById(R.id.chatActivityListView);
         chatBubbleAdapter = new ChatBubbleAdapter(chatBubbleList);
@@ -95,7 +112,7 @@ public class ChatActivity extends AbstractP2pDatingActivity implements ChatNameD
             @Override
             public void publishReceived(MqttClient client, PublishMessage mqttMessage) {
                 String payload = mqttMessage.getPayloadString();
-                ChatMessage chatMessage = ChatMessage.chatMessageFromJson(payload);
+                ChatMessage chatMessage = crypter.decrypt(EncryptedChatMessage.deSerialize(payload));
                 Log.d("Message recieved:", payload);
                 if (!userUUID.equals(chatMessage.getSenderUUID())) {
                     addToListView(chatMessage, 0);
@@ -144,9 +161,9 @@ public class ChatActivity extends AbstractP2pDatingActivity implements ChatNameD
                 System.out.println("Unable to connect to the MQTT broker. Reason: " + returnCode);
                 addToListView(new ChatMessage("unable to connect to broker. please restart activity", "", ""), 2);
             } else {
-                addToListView(new ChatMessage("Connected to " + roomId, "", ""), 2);
+                addToListView(new ChatMessage("Connected to " + hashedRoomId, "", ""), 2);
                 List<Subscription> subscriptions = new ArrayList<>();
-                subscriptions.add(new Subscription(roomId, QoS.AT_MOST_ONCE));
+                subscriptions.add(new Subscription(hashedRoomId, QoS.AT_MOST_ONCE));
                 mqttClient.subscribe(subscriptions);
 
             }
@@ -171,11 +188,12 @@ public class ChatActivity extends AbstractP2pDatingActivity implements ChatNameD
         EditText ETmessage = (EditText) findViewById(R.id.ETmessage);
         String messageString;
         if (!(messageString = ETmessage.getText().toString().trim()).equals("")) {
-            ChatMessage message = new ChatMessage(messageString, userName, userUUID);
+            final ChatMessage message = new ChatMessage(messageString, userName, userUUID);
+            final EncryptedChatMessage encryptedChatMessage = crypter.encrypt(message);
 
             addToListView(message, 1);
 
-            mqttClient.publish(new PublishMessage(roomId, QoS.AT_MOST_ONCE, message.toJson()));
+            mqttClient.publish(new PublishMessage(hashedRoomId, QoS.AT_MOST_ONCE, encryptedChatMessage.serialize()));
             Log.d("Message sent:", message.toJson());
             // reset textfield
             ETmessage.setText("");

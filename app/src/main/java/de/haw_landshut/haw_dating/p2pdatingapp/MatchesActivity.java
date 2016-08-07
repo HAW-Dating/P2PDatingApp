@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -40,7 +41,7 @@ import de.haw_landshut.haw_dating.sealedbottle.api.MessageInABottle;
 /**
  * Created by Altrichter Daniel on 10.05.16.
  */
-public class MatchesActivity extends AbstractProfileActivity implements View.OnTouchListener, FindYourLoveMessageListener {
+public class MatchesActivity extends AbstractProfileActivity implements View.OnTouchListener, FindYourLoveMessageListener, View.OnClickListener {
 
     private static final String TAG = MatchesActivity.class.getName();
     private static Context context;
@@ -71,6 +72,7 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
         matchListView = (ListView) findViewById(R.id.matchesActivityListView);
         matchListView.setAdapter(matchAdapter);
 
+        ((Button) findViewById(R.id.matches_activity_send_button)).setOnClickListener(this);
 
         LinearLayout bildschirm = (LinearLayout) findViewById(R.id.mathesLinearLayout);
         bildschirm.setOnTouchListener(this);
@@ -145,6 +147,7 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
                     Log.d(TAG, "onLoveMessageReceive: decoded " + secret);
                     if (secret != null) {
                         db.storeMessage(wifiMessage.getUuid().toString(), message, wifiMessage.getDate(), true, false, secret);
+                        matchAdapter.addMatch(MatchAdapter.makeMatch(wifiMessage, secret, wifiMessage.getDate(), false, this));
                         //enterChatActivity(secret);
                     } else {
                         db.storeMessage(wifiMessage.getUuid().toString(), message, wifiMessage.getDate(), false, false, null);
@@ -188,6 +191,14 @@ public class MatchesActivity extends AbstractProfileActivity implements View.OnT
 
     @Override
     public void onPeersDiscovered(final P2pInterface p2pInterface) {
+       /* final String sendProfile = db.getOwnSerializedSearchProfile();
+        if (sendProfile != null) {
+            p2pInterface.sendProfile(sendProfile);
+        }*/
+    }
+
+    @Override
+    public void onClick(View v) {
         final String sendProfile = db.getOwnSerializedSearchProfile();
         if (sendProfile != null) {
             p2pInterface.sendProfile(sendProfile);
