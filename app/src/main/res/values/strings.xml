@@ -79,6 +79,6 @@ Einstellungmenü eingefügt
 <!--
      <string name="server_name">tcp://broker.hivemq.com:1883</string>
 -->
-    <string name="server_name">tcp://192.168.1.237:1883</string>
+    <string name="server_name">tcp://192.168.178.42:1883</string>
 
 </resources>
